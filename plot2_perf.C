@@ -26,21 +26,21 @@ bool logy=0;
  TGraphAsymmErrors *gr0, *gr1, *gr2, *gr3, *gr4;
  TGraphAsymmErrors *gr00, *gr10, *gr20, *gr30, *gr40;
  
- f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
- f2 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
+//  f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
+//  f2 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
 
 //  f1 = new TFile("../output/TTJets_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_55nPUtrue76_DeepCSV.root");
 //  f2 = new TFile("../output/TTJets_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_55nPUtrue76_DeepJet.root");
 //  f1 = new TFile("../output/TTbar_14TeV_TuneCP5_Pythia8_Run3Summer19MiniAOD-106X_mcRun3_2024_realistic_v4_DeepCSV.root");
 //  f2 = new TFile("../output/TTbar_14TeV_TuneCP5_Pythia8_Run3Summer19MiniAOD-106X_mcRun3_2024_realistic_v4_DeepJet.root");
 
-//  f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau70_smu250_snu200.root");
-//  f2 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau50_smu275_snu225.root");
+ f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau70_smu250_snu200.root");
+ f2 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau50_smu275_snu225.root");
 //  f3 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau30_smu300_snu250.root");
 //  f4 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
 
 //$$
- int nfiles = 2;
+ int nfiles = 1;
 //$$
 
  int color1 = kBlack; 
@@ -416,11 +416,12 @@ TString htitle4 = "hTkOth_drSig";
   gr2->Draw("P"); 
 
 //#########################f2###########################//
+if (nfiles == 2){
 f2->cd();//f2 == second parameter is studied
   
-  float B3, EBD3, EBU3; 
-  if ( nfiles == 3 ) {//>=
-  f3->cd();
+//  float B3, EBD3, EBU3; 
+//  if ( nfiles == 3 ) {//>=
+  // f3->cd();
 // number of equivalent events
   h7 = (TH1F*)gROOT->FindObject(htitle);
   float nequf3 = h7->Integral(0,nbin+1);
@@ -437,10 +438,10 @@ f2->cd();//f2 == second parameter is studied
   }  
 
   L = 100.; 
-  B3 = 0.; EBD3 = 0.; EBU3 = 0.; 
+  float B3 = 0., EBD3 = 0., EBU3 = 0.; 
   bwp = 0.; bwpd = 10.; bwpu = -10.; 
   BWP = 0.; EBWPD = 0.; EBWPU = 0.; 
-  nwp = 0;
+  int nwp = 0;
 
   h9 = (TH1F*)gROOT->FindObject(htitle2);
   float nequf3bis = h9->Integral(0,nbin+1);
@@ -476,28 +477,6 @@ f2->cd();//f2 == second parameter is studied
   EBD3 = EBWPD;
   EBU3 = EBWPU;
 
-  // h10 = (TH1F*)gROOT->FindObject("hCFlav_PosTagger_etaLT25");
-  // cont(0) = h1->Integral(0,nbin+1);
-  // for (Int_t k=1; k<nbin+1; k++) {
-  //   cont(k) = cont(k-1) - h1->GetBinContent(k);
-  //   ceff(k) = cont(k) / nequCFlav;
-  //   y2[k] = 0.00005;
-  //   if ( ceff(k) < 0.001 ) continue;
-  //   y2[k] = ceff(k);
-  //   ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequCFlav);
-  //   ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, false);
-  //   ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, true);
-  // }  
-
-
-  // gr30 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  // gr30->SetLineColor(color3);
-  // gr30->SetLineWidth(1);
-  // gr30->SetMarkerColor(color3);
-  // gr30->SetMarkerStyle(markc3);
-  // gr30->SetMarkerSize(1.0);
-  // gr30->Draw("P"); 
-
   gr3 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
   gr3->SetLineColor(color3);
   gr3->SetLineWidth(1);
@@ -505,15 +484,15 @@ f2->cd();//f2 == second parameter is studied
   gr3->SetMarkerStyle(mark3);
   gr3->SetMarkerSize(1.0);
   gr3->Draw("P"); 
-  }
+  //}
 
 /////////////////
 
-  if ( nfiles == 4 ) {
-  f4->cd();
+ //if ( nfiles == 4 ) {
+  //f4->cd();
 // number of equivalent events
 
-  h12 = (TH1F*)gROOT->FindObject(htitle);
+  h12 = (TH1F*)gROOT->FindObject(htitle3);
   float nequf4 = h12->Integral(0,nbin+1);
   cont(0) = h12->Integral(0,nbin+1);
   for (Int_t k=1; k<nbin+1; k++) {
@@ -525,7 +504,7 @@ f2->cd();//f2 == second parameter is studied
     ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequf4, cont(k), 0.683, true);
   }  
 
-  h13 = (TH1F*)gROOT->FindObject(htitle2);
+  h13 = (TH1F*)gROOT->FindObject(htitle4);
   float nequf4bis = h13->Integral(0,nbin+1);
   cont(0) = h13->Integral(0,nbin+1);
   for (Int_t k=1; k<nbin+1; k++) {
@@ -538,27 +517,6 @@ f2->cd();//f2 == second parameter is studied
     ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequf4bis, cont(k), 0.683, false);
     ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequf4bis, cont(k), 0.683, true);
   }  
-
-  // h14 = (TH1F*)gROOT->FindObject("hCFlav_PosTagger_etaLT25");
-  // cont(0) = h14->Integral(0,nbin+1);
-  // for (Int_t k=1; k<nbin+1; k++) {
-  //   cont(k) = cont(k-1) - h14->GetBinContent(k);
-  //   ceff(k) = cont(k) / nequCFlav;
-  //   y2[k] = 0.00005;
-  //   if ( ceff(k) < 0.001 ) continue;
-  //   y2[k] = ceff(k);
-  //   ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequCFlav);
-  //   ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, false);
-  //   ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, true);
-  // }  
-
-  // gr40 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  // gr40->SetLineColor(color4);
-  // gr40->SetLineWidth(1);
-  // gr40->SetMarkerColor(color4);
-  // gr40->SetMarkerStyle(markc4);
-  // gr40->SetMarkerSize(1.0);
-  // gr40->Draw("P"); 
 
   gr4 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
   gr4->SetLineColor(color4);
@@ -577,9 +535,8 @@ f2->cd();//f2 == second parameter is studied
   leg->SetFillColor(kWhite);
   leg->SetTextFont(42);
   leg->SetTextSize(0.038);
-//   leg->SetHeader("TTbar, jet p_{T}>30 etaLT25");
   leg->SetHeader(hAllpt+"+"+hAlleta);
-//   leg->SetHeader("Phase-2 TTbar, jet p_{T}>30 etaLT25, DeepCSV");
+
   leg->Draw();
    
   if ( nfiles != 2 ) leg = new TLegend(0.62,0.14,0.85,0.30);
@@ -595,6 +552,8 @@ f2->cd();//f2 == second parameter is studied
   leg->SetHeader("Data");
   leg->AddEntry(gr1,"dr tau70","P");
   leg->AddEntry(gr2,"drSig tau70","P");
+  leg->AddEntry(gr3,"dr tau50","P");
+  leg->AddEntry(gr4,"drSig tau50","P");
   // leg->AddEntry(gr10,"dr not","P");
   // leg->AddEntry(gr20,"drSig not","P");
 
