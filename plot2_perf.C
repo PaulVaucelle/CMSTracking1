@@ -13,7 +13,7 @@
 #include "TMath.h" 
 #include "TGraph.h"
 
-
+///############Toujours changer le nombre de bins(nbin et nptin),noms des histos,, ATTENTION au FILE PATH###############//
 void plot()
 {
 float WP = 0.01;
@@ -157,8 +157,8 @@ gStyle->SetOptFit(0);
 // TString htitle3 = "hTkSim_eta";
 // TString htitle4 = "hTkOth_eta";
 
-// // TString hAllpt = "hTk_dr";//nbin = 199
-// // TString hAlleta = "hTk_drSig";//nptbin= 199
+TString hAllpt = "hTk_dr";//nbin = 199
+TString hAlleta = "hTk_drSig";//nptbin= 199
 TString htitle = "hTkSim_dr";
 TString htitle2 = "hTkOth_dr";
 TString htitle3 = "hTkSim_drSig";
@@ -269,11 +269,7 @@ TString htitle4 = "hTkOth_drSig";
 // TString htitle3 = "hTkSim_eta";
 // TString htitle4 = "hTkOth_eta";
 
-// number of equivalent events
-
-  TH1F* h0 = (TH1F*)gROOT->FindObject(htitle);//hAllpt
-  float nequpt1 = h0->Integral(0,nbin+1);//nptbin
-  
+// number of equivalent events 
   TH1F* h1 = (TH1F*)gROOT->FindObject(htitle);//hAllpt
   float nequpt2 = h1->Integral(0,nbin+1);
   cont(0) = h1->Integral(0,nbin+1);
@@ -338,33 +334,7 @@ TString htitle4 = "hTkOth_drSig";
     B1 =  BWP;
   EBD1 = EBWPD;
   EBU1 = EBWPU;
-
-
-  h3 = (TH1F*)gROOT->FindObject(htitle2);//htitle2
-  cont(0) = h3->Integral(0,nbin+1);
-  float nequpt4 = h3->Integral(0,nbin+1);
-  for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h3->GetBinContent(k);
-    ceff(k) = cont(k) / nequpt4;
-    y2[k] = 0.00005;
-    if ( ceff(k) < 0.001 ) continue;
-    y2[k] = ceff(k);
-    ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequpt4);//ne sert à rien acuellement
-    //std::cout<<"3k = "<< k<< " \\ bool = false "<<"\\ nequpt4 = "<<nequpt4<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h3->GetBinContent(k)<<std::endl;
-    ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequpt4, cont(k), 0.683, false);
-    //std::cout<<"3k = "<< k<< " \\ bool = true "<<"\\ nequpt4 = "<<nequpt4<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h3->GetBinContent(k)<<std::endl;
-    ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequpt4, cont(k), 0.683, true);
-  }  
-
-//   gr10 = new TGraphErrors(nbin,x1,y2,ex1,ey2);
-  // gr10 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  // gr10->SetLineColor(color1);
-  // gr10->SetLineWidth(1);
-  // gr10->SetMarkerColor(color1);
-  // gr10->SetMarkerStyle(markc1);
-  // gr10->SetMarkerSize(1.0);
-  // gr10->Draw("P"); 
-
+  // }  
 //   gr1 = new TGraphErrors(nbin,x1,y1,ex1,ey1);
   gr1 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
   gr1->SetLineColor(5);//color1
@@ -374,17 +344,10 @@ TString htitle4 = "hTkOth_drSig";
   gr1->SetMarkerSize(1.0);
   gr1->Draw("P");
   
-
-//#########################f2###########################//
-  //f2->cd();//f2 == second parameter is studied
 // number of equivalent events
-  h3bis = (TH1F*)gROOT->FindObject(htitle3);//hAlleta
-  float nequeta = h3bis->Integral(0,nptbin+1);//nptbin
-
-
   h4 = (TH1F*)gROOT->FindObject(htitle3);//hAlleta
   cont(0) = h4->Integral(0,nptbin+1);
-  float nequeta1 = h4->Integral(0,nbin+1);//comme nbin est plus grand que nptbin, ça marche mais attention
+  float nequeta1 = h4->Integral(0,nptbin+1);//comme nbin est plus grand que nptbin, ça marche mais attention
 
   for (Int_t k=1; k<nptbin+1; k++) {
     cont(k) = cont(k-1) - h4->GetBinContent(k);
@@ -407,7 +370,7 @@ TString htitle4 = "hTkOth_drSig";
 
   h5 = (TH1F*)gROOT->FindObject(htitle4);//htitle3
   cont(0) = h5->Integral(0,nptbin+1);
-  float nequeta2 = h5->Integral(0,nbin+1);
+  float nequeta2 = h5->Integral(0,nptbin+1);
 
   for (Int_t k=1; k<nptbin+1; k++) {
     cont(k) = cont(k-1) - h5->GetBinContent(k);
@@ -441,32 +404,7 @@ TString htitle4 = "hTkOth_drSig";
   }
     B2 =  BWP;
   EBD2 = EBWPD;
-  EBU2 = EBWPU;
-
-  h6 = (TH1F*)gROOT->FindObject(htitle4);//htitle4
-  cont(0) = h6->Integral(0,nptbin+1);
-  float nequeta3 = h6->Integral(0,nbin+1);
-  for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h6->GetBinContent(k);
-    ceff(k) = cont(k) / nequeta3;
-    y2[k] = 0.00005;
-    if ( ceff(k) < 0.001 ) continue;
-    y2[k] = ceff(k);
-    ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequeta3);//ne sert à rien acuellement
-    //std::cout<<"6k = "<< k<< " \\ bool = false "<<"\\ nequeta3 = "<<nequeta3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h6->GetBinContent(k)<<std::endl;
-    ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequeta3, cont(k), 0.683, false);
-    //std::cout<<"6k = "<< k<< " \\ bool = false "<<"\\ nequeta3 = "<<nequeta3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h6->GetBinContent(k)<<std::endl;
-    ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequeta3, cont(k), 0.683, true);
-  }  
-
-//   gr20 = new TGraphErrors(nbin,x1,y2,ex1,ey2);
-  // gr20 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  // gr20->SetLineColor(color2);
-  // gr20->SetLineWidth(1);
-  // gr20->SetMarkerColor(color2);
-  // gr20->SetMarkerStyle(markc2);
-  // gr20->SetMarkerSize(1.0);
-  // gr20->Draw("P"); 
+  EBU2 = EBWPU; 
 
 //   gr2 = new TGraphErrors(nbin,x1,y1,ex1,ey1);
   gr2 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
@@ -477,29 +415,25 @@ TString htitle4 = "hTkOth_drSig";
   gr2->SetMarkerSize(1.0);
   gr2->Draw("P"); 
 
-//#################################End of my scope : 2 files######################################################///
-/////////////////
-/*
+//#########################f2###########################//
+f2->cd();//f2 == second parameter is studied
+  
   float B3, EBD3, EBU3; 
   if ( nfiles == 3 ) {//>=
   f3->cd();
 // number of equivalent events
-  h0 = (TH1F*)gROOT->FindObject("hBFlav_JetPt_etaLT25");
-  nequBFlav = h0->Integral(0,nptbin+1);
-  h0 = (TH1F*)gROOT->FindObject("hLightFlav_JetPt_etaLT25");
-  nequLightFlav = h0->Integral(0,nptbin+1);
-  h0 = (TH1F*)gROOT->FindObject("hCFlav_JetPt_etaLT25");
-  nequCFlav = h0->Integral(0,nptbin+1);
+  h7 = (TH1F*)gROOT->FindObject(htitle);
+  float nequf3 = h7->Integral(0,nbin+1);
 
-  h1 = (TH1F*)gROOT->FindObject("hBFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
+  h8 = (TH1F*)gROOT->FindObject(htitle);
+  cont(0) = h8->Integral(0,nbin+1);
   for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    beff(k) = cont(k) / nequBFlav;
+    cont(k) = cont(k-1) - h8->GetBinContent(k);
+    beff(k) = cont(k) / nequf3;
     x1[k] = beff(k);
-    ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequBFlav);
-    ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequBFlav, cont(k), 0.683, false);
-    ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequBFlav, cont(k), 0.683, true);
+    ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequf3);//ne sert à rien dans cette version
+    ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequf3, cont(k), 0.683, false);
+    ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequf3, cont(k), 0.683, true);
   }  
 
   L = 100.; 
@@ -507,17 +441,19 @@ TString htitle4 = "hTkOth_drSig";
   bwp = 0.; bwpd = 10.; bwpu = -10.; 
   BWP = 0.; EBWPD = 0.; EBWPU = 0.; 
   nwp = 0;
-  h1 = (TH1F*)gROOT->FindObject("hLightFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
+
+  h9 = (TH1F*)gROOT->FindObject(htitle2);
+  float nequf3bis = h9->Integral(0,nbin+1);
+  cont(0) = h9->Integral(0,nbin+1);
   for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    leff(k) = cont(k) / nequLightFlav;
+    cont(k) = cont(k-1) - h9->GetBinContent(k);
+    leff(k) = cont(k) / nequf3bis;
     y1[k] = 0.00005;
     if ( leff(k) < 0.0005 ) continue;
     y1[k] = leff(k);
-    ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequLightFlav);
-    ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequLightFlav, cont(k), 0.683, false);
-    ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequLightFlav, cont(k), 0.683, true);
+    ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequf3bis);//ne sert à rien dans cette version
+    ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequf3bis, cont(k), 0.683, false);
+    ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequf3bis, cont(k), 0.683, true);
     if ( TMath::Abs(leff(k) - WP) < TMath::Abs(L - WP) ) {
       L = leff(k);
         BWP = x1[k] - (x1[k]-x1[k-1]) / (L-y1[k-1]) * (L-WP);
@@ -540,26 +476,27 @@ TString htitle4 = "hTkOth_drSig";
   EBD3 = EBWPD;
   EBU3 = EBWPU;
 
-  h1 = (TH1F*)gROOT->FindObject("hCFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
-  for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    ceff(k) = cont(k) / nequCFlav;
-    y2[k] = 0.00005;
-    if ( ceff(k) < 0.001 ) continue;
-    y2[k] = ceff(k);
-    ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequCFlav);
-    ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, false);
-    ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, true);
-  }  
+  // h10 = (TH1F*)gROOT->FindObject("hCFlav_PosTagger_etaLT25");
+  // cont(0) = h1->Integral(0,nbin+1);
+  // for (Int_t k=1; k<nbin+1; k++) {
+  //   cont(k) = cont(k-1) - h1->GetBinContent(k);
+  //   ceff(k) = cont(k) / nequCFlav;
+  //   y2[k] = 0.00005;
+  //   if ( ceff(k) < 0.001 ) continue;
+  //   y2[k] = ceff(k);
+  //   ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequCFlav);
+  //   ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, false);
+  //   ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, true);
+  // }  
 
-  gr30 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  gr30->SetLineColor(color3);
-  gr30->SetLineWidth(1);
-  gr30->SetMarkerColor(color3);
-  gr30->SetMarkerStyle(markc3);
-  gr30->SetMarkerSize(1.0);
-  gr30->Draw("P"); 
+
+  // gr30 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
+  // gr30->SetLineColor(color3);
+  // gr30->SetLineWidth(1);
+  // gr30->SetMarkerColor(color3);
+  // gr30->SetMarkerStyle(markc3);
+  // gr30->SetMarkerSize(1.0);
+  // gr30->Draw("P"); 
 
   gr3 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
   gr3->SetLineColor(color3);
@@ -575,57 +512,53 @@ TString htitle4 = "hTkOth_drSig";
   if ( nfiles == 4 ) {
   f4->cd();
 // number of equivalent events
-  h0 = (TH1F*)gROOT->FindObject("hBFlav_JetPt_etaLT25");
-  nequBFlav = h0->Integral(0,nptbin+1);
-  h0 = (TH1F*)gROOT->FindObject("hLightFlav_JetPt_etaLT25");
-  nequLightFlav = h0->Integral(0,nptbin+1);
-  h0 = (TH1F*)gROOT->FindObject("hCFlav_JetPt_etaLT25");
-  nequCFlav = h0->Integral(0,nptbin+1);
 
-  h1 = (TH1F*)gROOT->FindObject("hBFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
+  h12 = (TH1F*)gROOT->FindObject(htitle);
+  float nequf4 = h12->Integral(0,nbin+1);
+  cont(0) = h12->Integral(0,nbin+1);
   for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    beff(k) = cont(k) / nequBFlav;
+    cont(k) = cont(k-1) - h12->GetBinContent(k);
+    beff(k) = cont(k) / nequf4;
     x1[k] = beff(k);
-    ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequBFlav);
-    ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequBFlav, cont(k), 0.683, false);
-    ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequBFlav, cont(k), 0.683, true);
+    ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequf4);//ne sert à rien dans cette version
+    ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequf4, cont(k), 0.683, false);
+    ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequf4, cont(k), 0.683, true);
   }  
 
-  h1 = (TH1F*)gROOT->FindObject("hLightFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
+  h13 = (TH1F*)gROOT->FindObject(htitle2);
+  float nequf4bis = h13->Integral(0,nbin+1);
+  cont(0) = h13->Integral(0,nbin+1);
   for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    leff(k) = cont(k) / nequLightFlav;
+    cont(k) = cont(k-1) - h13->GetBinContent(k);
+    leff(k) = cont(k) / nequf4bis;
     y1[k] = 0.00005;
     if ( leff(k) < 0.0005 ) continue;
     y1[k] = leff(k);
-    ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequLightFlav);
-    ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequLightFlav, cont(k), 0.683, false);
-    ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequLightFlav, cont(k), 0.683, true);
+    ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequf4bis);//ne sert à rien dans cette version
+    ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequf4bis, cont(k), 0.683, false);
+    ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequf4bis, cont(k), 0.683, true);
   }  
 
-  h1 = (TH1F*)gROOT->FindObject("hCFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
-  for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    ceff(k) = cont(k) / nequCFlav;
-    y2[k] = 0.00005;
-    if ( ceff(k) < 0.001 ) continue;
-    y2[k] = ceff(k);
-    ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequCFlav);
-    ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, false);
-    ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, true);
-  }  
+  // h14 = (TH1F*)gROOT->FindObject("hCFlav_PosTagger_etaLT25");
+  // cont(0) = h14->Integral(0,nbin+1);
+  // for (Int_t k=1; k<nbin+1; k++) {
+  //   cont(k) = cont(k-1) - h14->GetBinContent(k);
+  //   ceff(k) = cont(k) / nequCFlav;
+  //   y2[k] = 0.00005;
+  //   if ( ceff(k) < 0.001 ) continue;
+  //   y2[k] = ceff(k);
+  //   ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequCFlav);
+  //   ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, false);
+  //   ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, true);
+  // }  
 
-  gr40 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  gr40->SetLineColor(color4);
-  gr40->SetLineWidth(1);
-  gr40->SetMarkerColor(color4);
-  gr40->SetMarkerStyle(markc4);
-  gr40->SetMarkerSize(1.0);
-  gr40->Draw("P"); 
+  // gr40 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
+  // gr40->SetLineColor(color4);
+  // gr40->SetLineWidth(1);
+  // gr40->SetMarkerColor(color4);
+  // gr40->SetMarkerStyle(markc4);
+  // gr40->SetMarkerSize(1.0);
+  // gr40->Draw("P"); 
 
   gr4 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
   gr4->SetLineColor(color4);
@@ -635,7 +568,7 @@ TString htitle4 = "hTkOth_drSig";
   gr4->SetMarkerSize(1.0);
   gr4->Draw("P"); 
   }
-*/
+
 /////////////////
 
   TLegend* leg = new TLegend(0.10,0.90,0.72,0.95);
@@ -645,21 +578,10 @@ TString htitle4 = "hTkOth_drSig";
   leg->SetTextFont(42);
   leg->SetTextSize(0.038);
 //   leg->SetHeader("TTbar, jet p_{T}>30 etaLT25");
-  leg->SetHeader("pt >= 1. && chi2 <= 5. && drSig >= 5.");
+  leg->SetHeader(hAllpt+"+"+hAlleta);
 //   leg->SetHeader("Phase-2 TTbar, jet p_{T}>30 etaLT25, DeepCSV");
   leg->Draw();
-  
-//   leg = new TLegend(0.15,0.75,0.40,0.85);
-//   leg->SetBorderSize(0);
-//   leg->SetFillColor(kWhite);
-//   leg->SetTextFont(42);
-//   leg->SetTextSize(0.028);
-//   if ( nfiles == 2 ) leg->SetTextSize(0.032);
-// //   leg->SetHeader("");
-//   leg->AddEntry(gr00,"c-jet misid.","P");
-//   leg->AddEntry(gr0,"udsg-jet misid.","P");
-//   leg->Draw();
-  
+   
   if ( nfiles != 2 ) leg = new TLegend(0.62,0.14,0.85,0.30);
   else               leg = new TLegend(0.62,0.14,0.85,0.26);
   leg->SetBorderSize(0);
@@ -671,15 +593,11 @@ TString htitle4 = "hTkOth_drSig";
 //   leg->AddEntry(gr2,"DeepJet","P");
 //   if ( nfiles >= 3 ) leg->AddEntry(gr3,"2018","P");
   leg->SetHeader("Data");
-  leg->AddEntry(gr1,"dr","P");
-  leg->AddEntry(gr2,"drSig","P");
+  leg->AddEntry(gr1,"dr tau70","P");
+  leg->AddEntry(gr2,"drSig tau70","P");
   // leg->AddEntry(gr10,"dr not","P");
   // leg->AddEntry(gr20,"drSig not","P");
-  if ( nfiles >= 3 ) leg->AddEntry(gr3,"Run3 2023","P");
-  if ( nfiles >= 4 ) leg->AddEntry(gr4,"Run3 2024","P");
-//   leg->SetHeader("DeepJet 2018");
-//   leg->AddEntry(gr1,"<PU>=35","P");
-//   leg->AddEntry(gr2,"<PU>=59","P");
+
   leg->Draw();
 /*  
   float EB1 = (EBD1+EBU1)/2.;
