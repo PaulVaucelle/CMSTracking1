@@ -70,6 +70,12 @@ TH1F* hTopFromNeutralino = new TH1F("hTopFromNeutralino","GenTop From Neutralino
 TH1F* hQuarksFromTops = new TH1F("hQuarksFromTops","GenQuarksFromNeutralino",9,-5,5);
 TH1F* hTracksCharge = new TH1F("hTracksCharge","TracksCharge",9,-5,5);
 TH1F* hIsFromLLPid = new TH1F("hIsFromLLPid","hIsFromLLPid",39,-20,20);
+TH1F* hr1_etasup1_5 = new TH1F("hr1_etasup1_5","r1_etasup1_5",200,0.,100.);
+TH1F* hz1_etainf1_5 = new TH1F("hz1_etainf1_5","z1_etainf1_5",200,0.,100.);
+TH2F* hr1_f_z1= new TH2F("hr1_f_z1","hr1_f_z1",200,0.,100.,200,0.,100.);
+TH3F* h_x1_y1_z1 = new TH3F("h_x1_y1_z1","h_x1_y1_z1",200,0.,100.,200,0.,100.,200,0.,100.);
+
+
 ////////////////////////////////
 
  TH1F* hDataAll_nZMu     = new TH1F("hDataAll_nZMu","",11,-0.5,10.5);
@@ -211,7 +217,26 @@ TH1F* hIsFromLLPid = new TH1F("hIsFromLLPid","hIsFromLLPid",39,-20,20);
  TH1F* hTkSim_at20       = new TH1F("hTkSim_at20","",101,-0.5,100.5);
  TH1F* hTkSim_at30       = new TH1F("hTkSim_at30","",101,-0.5,100.5);
  TH1F* hTkSim_at40       = new TH1F("hTkSim_at40","",101,-0.5,100.5);
-
+//plot added by paul
+TH1F* hTk_eta        = new TH1F("hTk_eta","",50,-2.5,2.5);
+TH1F* hTk_pt         = new TH1F("hTk_pt","",100,0.,100.);
+TH1F* hTk_dr         = new TH1F("hTk_dr","",200,0.,10.);
+TH1F* hTk_dz         = new TH1F("hTk_dz","",200,0.,50.);
+TH1F* hTk_dd         = new TH1F("hTk_dd","",200,0.,50.);
+TH1F* hTk_drSig      = new TH1F("hTk_drSig","",200,0.,1000.);
+TH1F* hTk_dzSig      = new TH1F("hTk_dzSig","",200,0.,1000.);
+TH1F* hTk_ddSig      = new TH1F("hTk_ddSig","",200,0.,1000.);
+TH1F* hTk_inJet      = new TH1F("hTk_inJet","",2,-0.5,1.5);
+TH1F* hTk_pix        = new TH1F("hTk_pix","",30,-0.5,29.5);
+TH1F* hTk_hit        = new TH1F("hTk_hit","",30,-0.5,29.5);
+TH1F* hTk_chi        = new TH1F("hTk_chi","",50,0.,50.);
+TH1F* hTk_r1         = new TH1F("hTk_r1","",200,0.,100.);
+TH1F* hTk_z1         = new TH1F("hTk_z1","",200,0.,100.);
+TH1F* hTk_at10       = new TH1F("hTk_at10","",101,-0.5,100.5);
+TH1F* hTk_at20       = new TH1F("hTk_at20","",101,-0.5,100.5);
+TH1F* hTk_at30       = new TH1F("hTk_at30","",101,-0.5,100.5);
+TH1F* hTk_at40       = new TH1F("hTk_at40","",101,-0.5,100.5);
+//
  TH1F* hTkOth            = new TH1F("hTkOth","",101,-0.5,100.5);
  TH1F* hTkOth_pt	 = new TH1F("hTkOth_pt","",100,0.,100.);
  TH1F* hTkOth_eta        = new TH1F("hTkOth_eta","",50,-2.5,2.5);
@@ -975,6 +1000,25 @@ TH1F* hIsFromLLPid = new TH1F("hIsFromLLPid","hIsFromLLPid",39,-20,20);
        if ( dist < 40. ) ntrk40++;//used in BDT, peut �tre une variable discriminante
      }  // end Loop on other Tracks
 
+    //added by Paul
+    hTk_eta->Fill(eta);
+    hTk_pt->Fill(pt);
+    hTk_dr         ->Fill(dr);
+    hTk_dz         ->Fill(dz);
+    hTk_dd         ->Fill(dd);
+    hTk_drSig      ->Fill(drSig);
+    hTk_dzSig      ->Fill(dzSig);
+    hTk_ddSig      ->Fill(ddSig);
+    hTk_inJet      ->Fill(inJet);
+    hTk_pix        ->Fill(pix);
+    hTk_hit        ->Fill(hit);
+    hTk_chi        ->Fill(chi);
+    hTk_r1         ->Fill(r1);
+    hTk_z1         ->Fill(z1);
+    hTk_at10       ->Fill(ntrk10);
+    hTk_at20       ->Fill(ntrk20);
+    hTk_at30       ->Fill(ntrk30);
+    hTk_at40       ->Fill(ntrk40);
      if ( track_isfromLLP[i] > 0 ) {
      //Dans cette partie, les tracks simul�es sont associ�es � des tracks reconstruites qui sont potentiellement de tracks secondaires qui viennent d'un neutralino
        nTkSim++;
@@ -999,8 +1043,14 @@ TH1F* hIsFromLLPid = new TH1F("hIsFromLLPid","hIsFromLLPid",39,-20,20);
        hTkSim_at20->Fill( ntrk20 );
        hTkSim_at30->Fill( ntrk30 );
        hTkSim_at40->Fill( ntrk40 );
-       
+       ///Implémentation Paul
+       hr1_f_z1->Fill(r1,z1);
+       h_x1_y1_z1->Fill(x1,y1,z1);
        hTracksCharge->Fill(q);
+       if (eta>1.5)
+        {hr1_etasup1_5->Fill(r1);}
+       else
+        {hz1_etainf1_5->Fill(z1);}
      }
 //BDT, prend en entr�e les variables discriminantes, rend une proba d'�tre d'un neutralino ou non
      else {

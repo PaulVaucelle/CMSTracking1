@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "LLTopAna.C": "cpp",
-        "LLTopAna_Run.C": "cpp"
+        "LLTopAna_Run.C": "cpp",
+        "plot1_test.C": "cpp",
+        "plot2_perf.C": "cpp",
+        "plot3_compare-rap_eta.C": "cpp",
+        "plot3_compareIsFromLLP.C": "cpp",
+        "plot3_compareNotFromLLP.C": "cpp"
     }
 }

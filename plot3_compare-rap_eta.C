@@ -22,12 +22,15 @@ bool logy=0;
  
  f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau70_smu250_snu200.root");
  f2 = new  TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau70_smu250_snu200.root");
- //f3 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau70_smu250_snu200.root");
+ 
+//  f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau50_smu275_snu225.root");
+//  f2 = new  TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau50_smu275_snu225.root");
+ 
+//  f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau30_smu300_snu250.root");
+//  f2 = new  TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau30_smu300_snu250.root");
 
-//  f1 = new TFile("../outputUP/TT_TuneCP5_14TeV-powheg-pythia8_Phase2HLTTDRSummer20ReRECOMiniAOD-PU200_111X_mcRun4_realistic_T15_v1_nt_PVok_ptGT15_JP.root");
-//  f2 = new TFile("../outputUP/TTbar_TuneCP5_14TeV-pythia8_Phase2Spring21DRMiniAOD-PU200Phase2D76_113X_mcRun4_realistic_v7_nt_PVok_ptGT15_JP.root");
-//  f3 = new TFile("../outputUP/TTbar_TuneCP5_14TeV-pythia8_Phase2Spring21DRMiniAOD-PU200Phase2D80_113X_mcRun4_realistic_T25_nt_PVok_ptGT15_JP.root");
-//  f4 = new TFile("../outputUP/TTbar_TuneCP5_14TeV-pythia8_Phase2Spring21DRMiniAOD-PU200Phase2D81_113X_mcRun4_realistic_T26_nt_PVok_ptGT15_JP.root");
+//  f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
+//  f2 = new  TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
 
 //$$
  int nfiles = 2;
@@ -61,162 +64,164 @@ bool logy=0;
  //TString htflav = "hCFlav";  
 
 //##################BDT VARIABLES######################## 
-TString htitle = "hTkSim_pt";
-TString htitle2 = "hTkOth_pt";  
-TString xtitle = "track p_T [GeV]"; 
-int nbin = 100; 
-float xmin =  0.;
-float xmax = 100.;
-float ymin = 0.; 
-float ymax = 1.; 
+// TString htitle = "hTkOth_pt";  
+// TString htitle2 = "hTkSim_pt";
+// TString xtitle = "track p_T [GeV]"; 
+// int nbin = 100; 
+// float xmin =  0.;
+// float xmax = 100.;
+// float ymin = 0.00001; 
+// float ymax = 2.; // logy
 
-//  TString htitle = "hTkSim_eta";
-//  TString htitle2 = "hTkOth_eta"; 
+//  TString htitle = "hTkOth_eta"; 
+//  TString htitle2 = "hTkSim_eta";
 //  TString xtitle = "eta"; 
 //  int nbin = 50; 
 //  float xmin = -2.5;
 //  float xmax = 2.5;
-//  float ymin = 0.; 
-//  float ymax = 0.1; 
+//  float ymin = 0.00001; // logy
+//  float ymax = 0.045; 
 
-//  TString htitle = "hTkSim_dr";
-//  TString htitle2 = "hTkOth_dr"; 
+ 
+//  TString htitle = "hTkOth_dr";
+//  TString htitle2= "hTkSim_dr";
 //  TString xtitle = "dr"; 
 //  int nbin = 200; 
 //  float xmin = 0;
 //  float xmax = 10;
-//  float ymin = 0.; 
-//  float ymax = 0.08; 
+//  float ymin = 0.0006; 
+//  float ymax = 0.08; //logy
 
-//  TString htitle = "hTkSim_dz";
-//  TString htitle2 = "hTkOth_dz";
+//  TString htitle = "hTkOth_dz";
+//  TString htitle2 = "hTkSim_dz";
 //  TString xtitle = "dz"; 
 //  int nbin = 200; 
 //  float xmin = 0;
 //  float xmax = 50;
-//  float ymin = 0.; 
-//  float ymax = 0.07; 
-
-//  TString htitle = "hTkSim_dd";
-//  TString htitle2 = "hTkOth_dd";
+//  float ymin = 0.00001; 
+//  float ymax = 0.07; //,log x and log y (everything works for it)
+ 
+//  TString htitle = "hTkOth_dd";
+//  TString htitle2 = "hTkSim_dd";
 //  TString xtitle = "dd"; 
 //  int nbin = 200; 
 //  float xmin = 0;
 //  float xmax = 50;
 //  float ymin = 0.; 
-//  float ymax = 0.07; 
+//  float ymax = 0.07;  // logy and not log x 
 
-//  TString htitle = "hTkSim_drSig";
-//  TString htitle2 = "hTkOth_drSig";
+ 
+//  TString htitle = "hTkOth_drSig";
+//  TString htitle2 = "hTkSim_drSig";
 //  TString xtitle = "drSig"; 
 //  int nbin = 200; 
 //  float xmin = 0;
 //  float xmax = 1000;
 //  float ymin = 0.; 
-//  float ymax = 0.1; 
+//  float ymax = 0.1; //not ymin not ymax, logy and not log x 
 
-//  TString htitle = "hTkSim_dzSig";
-//  TString htitle2 = "hTkOth_dzSig";
+
+//  TString htitle = "hTkOth_dzSig";
+//  TString htitle2 = "hTkSim_dzSig";
 //  TString xtitle = "dzSig"; 
 //  int nbin = 200; 
 //  float xmin = 0;
 //  float xmax = 1000;
 //  float ymin = 0.; 
-//  float ymax = 0.1;
-
-//  TString htitle = "hTkSim_ddSig";
-//  TString htitle2 = "hTkOth_ddSig";
+//  float ymax = 0.1;//not ymin not ymax, logy and not log x 
+ 
+//  TString htitle = "hTkOth_ddSig";
+//  TString htitle2 = "hTkSim_ddSig";
 //  TString xtitle = "ddSig"; 
 //  int nbin = 200; 
 //  float xmin = 0;
 //  float xmax = 1000;
 //  float ymin = 0.; 
-//  float ymax = 0.07;
+//  float ymax = 0.07;//not ymin not ymax, logy and not log x 
 
-//  TString htitle = "hTkSim_inJet";
-//  TString htitle2 = "hTkOth_inJet";
-//  TString xtitle = "inJet"; 
-//  int nbin = 2; 
-//  float xmin = -0.5;
-//  float xmax = 1.5;
-//  float ymin = 0.; 
-//  float ymax = 1;
-
-//  TString htitle = "hTkSim_pix";
-//  TString htitle2 = "hTkOth_pix";
+ TString htitle = "hTkOth_inJet";
+ TString htitle2 = "hTkSim_inJet";
+ TString xtitle = "inJet"; 
+ int nbin = 2; 
+ float xmin = -0.5;
+ float xmax = 1.5;
+ float ymin = 0.; 
+ float ymax = 1;//not ymin not ymax, not logy and not log x
+ 
+//  TString htitle = "hTkOth_pix";
+//  TString htitle2 = "hTkSim_pix";
 //  TString xtitle = "pix"; 
 //  int nbin = 30; 
 //  float xmin = -0.5;
 //  float xmax = 25;
 //  float ymin = 0.; 
-//  float ymax = 0.5;
-
-
-//  TString htitle = "hTkSim_hit";
-//  TString htitle2 = "hTkOth_hit";
-//  TString xtitle = "hit"; 
+//  float ymax = 0.5;//not ymin not ymax,  logy and not log x
+ 
+//  TString htitle = "hTkOth_hit";
+//  TString htitle2 = "hTkSim_hit";
+//   TString xtitle = "hit"; 
 //  int nbin = 30; 
 //  float xmin = -0.5;
 //  float xmax = 29.5;
 //  float ymin = 0.; 
-//  float ymax = 0.2;
-
-//  TString htitle = "hTkSim_chi";
-//  TString htitle2 = "hTkOth_chi";
+//  float ymax = 0.2;//not ymin not ymax,  logy and not log x
+ 
+//  TString htitle = "hTkOth_chi";
+//  TString htitle2 = "hTkSim_chi";
 //  TString xtitle = "chi"; 
 //  int nbin = 50; 
 //  float xmin = 0.;
 //  float xmax = 10.;
 //  float ymin = 0.; 
-//  float ymax = 0.65;
-
-//  TString htitle = "hTkSim_r1";
-//  TString htitle2 = "hTkOth_r1";
+//  float ymax = 0.65;//not ymin not ymax,  logy and not log x
+ 
+//  TString htitle = "hTkOth_r1";
+//  TString htitle2 = "hTkSim_r1";
 //  TString xtitle = "r1"; 
 //  int nbin = 200; 
 //  float xmin = 0.;
 //  float xmax = 100.;
 //  float ymin = 0.; 
-//  float ymax = 0.07;
-
-//  TString htitle = "hTkSim_z1";
-//  TString htitle2 = "hTkOth_z1";
+//  float ymax = 0.07;// logy and not log x
+ 
+//  TString htitle = "hTkOth_z1";
+//  TString htitle2 = "hTkSim_z1";
 //  TString xtitle = "z1"; 
 //  int nbin = 200; 
 //  float xmin = 0;
 //  float xmax = 100;
 //  float ymin = 0.; 
-//  float ymax = 0.07;
-
-//  TString htitle = "hTkSim_at10";
-//  TString htitle2 = "hTkOth_at10";
+//  float ymax = 0.07;// logy and not log x
+ 
+//  TString htitle = "hTkOth_at10";  
+//  TString htitle2 = "hTkSim_at10";
 //  TString xtitle = "at10"; 
 //  int nbin = 101; 
 //  float xmin = -0.5;
 //  float xmax = 100.5;
 //  float ymin = 0.; 
-//  float ymax = 0.07;
-
-//  TString htitle = "hTkSim_at20";
-//  TString htitle2 = "hTkOth_at20";
+//  float ymax = 0.07;// logy and not log x
+ 
+//  TString htitle = "hTkOth_at20";
+//  TString htitle2 = "hTkSim_at20";
 //  TString xtitle = "at20"; 
 //  int nbin = 101; 
 //  float xmin = -0.5;
 //  float xmax = 100.5;
 //  float ymin = 0.; 
-//  float ymax = 0.07;
-
-//  TString htitle = "hTkSim_at30";
-//  TString htitle2 = "hTkOth_at30";
+//  float ymax = 0.07;// logy and not log x 
+ 
+//  TString htitle = "hTkOth_at30";
+//  TString htitle2 = "hTkSim_at30";
 //  TString xtitle = "at30"; 
 //  int nbin = 101; 
 //  float xmin = -0.5;
 //  float xmax = 100.5;
 //  float ymin = 0.; 
-//  float ymax = 0.07;
-
-//  TString htitle = "hTkSim_at40";
-//  TString htitle2 = "hTkOth_at40";
+//  float ymax = 0.07;// logy and not log x 
+ 
+//  TString htitle = "hTkOth_at40";
+//  TString htitle2 = "hTkSim_at40";
 //  TString xtitle = "at40"; 
 //  int nbin = 101; 
 //  float xmin = -0.5;
@@ -236,7 +241,7 @@ float ymax = 1.;
  c1->SetBorderSize(2);
 
 TPad* pad1 = new TPad("pad1","This is pad1",0.03,0.28,0.75,0.96,21);
-TPad* pad2 = new TPad("pad2","This is pad2",0.8,0.28,0.89,0.96,21);
+TPad* pad2 = new TPad("pad2","This is pad2",0.85,0.28,0.89,0.96,21);
 TPad* pad3 = new TPad("pad3","This is pad3",0.9,0.28,0.99,0.96,21);
 
 TPad* rap1 = new TPad("rap1","This is rap1",0.03,0.04,0.75,0.28,21);
@@ -370,8 +375,8 @@ gStyle->SetOptStat(stati);
        h1->GetYaxis()->SetTitleColor(1);
        h1->GetYaxis()->SetNdivisions(509);
        h1->SetNdivisions(509,"XYZ");
-       h1->SetMinimum(ymin); 
-       h1->SetMaximum(ymax); 
+       //  h1->SetMinimum(ymin); 
+       //  h1->SetMaximum(ymax); 
 
        f2->cd();
  TH1F* g2 = (TH1F*)gROOT->FindObject(htitle2);
@@ -417,7 +422,7 @@ gStyle->SetOptStat(stati);
   
   TLegend* leg;
   
-  leg = new TLegend(0.16,0.90,0.60,0.95);
+  leg = new TLegend(0.16,0.20,0.25,0.25);
   leg->SetBorderSize(0);
   leg->SetFillColor(kWhite);
   leg->SetTextFont(42);
@@ -425,22 +430,22 @@ gStyle->SetOptStat(stati);
   leg->SetHeader("Reco Track");
   leg->Draw();
   
-  leg = new TLegend(0.16,0.83,0.62,0.88);
+  leg = new TLegend(0.16,0.15,0.40,0.20);
   leg->SetBorderSize(0);
-  leg->SetFillColor(kWhite);
+  //leg->SetFillColor(kWhite);
   leg->SetTextFont(42);
   leg->SetTextSize(0.05);
-  leg->SetHeader("pt2 >= 1. && chi2 <= 5. && drSig2 >= 5.");
+  leg->SetHeader("pt >= 1. && chi2 <= 5. && drSig >= 5.");
   leg->Draw();
 
-  leg = new TLegend(0.72,0.55,0.94,0.80);
+  leg = new TLegend(0.8,0.74,0.99,0.95);
   leg->SetBorderSize(0);
   leg->SetFillColor(kWhite);
   leg->SetTextFont(42);
   leg->SetTextSize(0.05);
-  leg->SetHeader("Tracks Differenciation LLP & !LLP");
-  leg->AddEntry(h1," isFromLLP","P");
-  leg->AddEntry(h2," Not FromLLP","P");
+  leg->SetHeader(" LLP // !LLP");
+  leg->AddEntry(h1," notFromLLP","P");
+  leg->AddEntry(h2," isFromLLP","P");
   
 // leg->AddEntry(h3," D81 (T26)","P");
 //   leg->AddEntry(h1," 111X T15","P");
@@ -453,7 +458,7 @@ gStyle->SetOptStat(stati);
  rap1->cd();
 
  TH1F* r2= new TH1F("r2","",nbin,xmin,xmax);
-       r2->Divide(h2,h1,1,1);//notFromLLP / isFromLLP
+       r2->Divide(h2,h1,1,1);//isFromLLP / notFromLLP
        r2->Draw("E"); 
        r2->SetLineColor(color2);
        r2->SetLineStyle(1);
@@ -471,12 +476,12 @@ gStyle->SetOptStat(stati);
        r2->SetTitleOffset(0.4,"XYZ");
        r2->GetXaxis()->SetTitleColor(1);
        r2->GetXaxis()->SetNdivisions(509);
-       r2->GetYaxis()->SetTitle("!LLP / LLP");
+       r2->GetYaxis()->SetTitle("LLP / !LLP");
        r2->GetYaxis()->SetTitleColor(1);
        r2->GetYaxis()->SetNdivisions(509);
        r2->SetNdivisions(509,"XYZ");
        r2->SetMinimum(0.); 
-       r2->SetMaximum(4.);  
+       //r2->SetMaximum(4.);  
 /*
  TH1F* r3= new TH1F("r3","",nbin,xmin,xmax);
        r3->Divide(h3,h1,1,1);
