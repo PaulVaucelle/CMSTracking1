@@ -13,7 +13,7 @@
 #include "TMath.h" 
 #include "TGraph.h"
 
-
+///############Toujours changer le nombre de bins,noms des histos,, ATTENTION au FILE PATH###############//
 void plot()
 {
 float WP = 0.01;
@@ -25,6 +25,7 @@ bool logy=0;
  TFile *f1, *f2, *f3, *f4;
  TGraphAsymmErrors *gr0, *gr1, *gr2, *gr3, *gr4;
  TGraphAsymmErrors *gr00, *gr10, *gr20, *gr30, *gr40;
+ double Inte0, Inte1, Inte2, Inte3;
  
 //  f1 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
 //  f2 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
@@ -40,7 +41,7 @@ bool logy=0;
  f4 = new TFile("/opt/sbg/cms/ui2_data1/pvaucell/LLTopAna/output/h_UDD_bgctau10_smu250_snu200.root");
 
 //$$
- int nfiles = 2;
+ int nfiles = 4;
 //$$
 
  int color1 = kBlack; 
@@ -95,12 +96,9 @@ gStyle->SetTitleFillColor(10);
 gStyle->SetTitleFontSize(0.05);
 gStyle->SetTitleW(0.4);
 gStyle->SetTitleH(0.09);
-// gStyle->SetTitleX(0); // Set the position of the title box
-// gStyle->SetTitleY(0.985); // Set the position of the title box
-// gStyle->SetTitleStyle(Style_t style = 1001);
-// gStyle->SetTitleBorderSize(2);
 gStyle->SetOptStat(stati);
 gStyle->SetPadTickX(1); gStyle->SetPadTickY(1);
+
 // gStyle->SetPadGridX(true); gStyle->SetPadGridY(true);
 
 if (fit) {
@@ -113,19 +111,22 @@ gStyle->SetStatH(0.2);
 gStyle->SetOptFit(0);
 }
 //always check for the bin number when changing the variable
-  int nbin = 199;//999
-  int nptbin = 199;//199 //Mettre à 99 si pt, 49 pour eta
+   int nbin =200;
+  //int nptbin = 199;//199 //Mettre à 99 si pt, 49 pour eta
   //Sachant que nptbin est associé à h0==pt, nptbin=99 et nbin=49
   
   TVectorD cont(nbin+1);
   TVectorD beff(nbin+1);
   TVectorD ceff(nbin+1);
   TVectorD leff(nbin+1);
-  float x1[1000], ex1[1000], ex1d[1000], ex1u[1000];
+  float x1[1000], ex1[1000], ex1d[1000], ex1u[1000];//1000
   float y1[1000], ey1[1000], ey1d[1000], ey1u[1000];
   float x2[1000], ex2[1000], ex2d[1000], ex2u[1000];
   float y2[1000], ey2[1000], ey2d[1000], ey2u[1000];
-
+  // ex1d[0]=0.;
+  // ex1u[0]=0.;
+  // ey1d[0]=0.;
+  // ey1u[0]=0.;
   TEfficiency *EfficiencyUtil = new TEfficiency();
 
 // *****************************************************************************
@@ -150,126 +151,204 @@ gStyle->SetOptFit(0);
   
 ///////histogram used//////////
    f1->cd();
-// // // TString hAllpt = "hTk_pt";//nbin = 99
-// // // TString hAlleta = "hTk_eta";//nptbin = 49
+// TString hAllpt = "hTk_pt";//nbin = 99
+// // // // TString hAlleta = "hTk_eta";//nptbin = 49
 // TString htitle = "hTkSim_pt";
 // TString htitle2 = "hTkOth_pt";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // TString hAllpt = "hTk_dr";//nbin = 199
+// TString hAllpt = "hTk_eta";//nbin = 49
+// TString htitle = "hTkSim_eta";
+// TString htitle2 = "hTkOth_eta";
+
+// TString hAllpt = "hTk_dr";//nbin = 199
 // // TString hAlleta = "hTk_drSig";//nptbin= 199
 // TString htitle = "hTkSim_dr";
 // TString htitle2 = "hTkOth_dr";
-// TString htitle3 = "hTkSim_drSig";
-// TString htitle4 = "hTkOth_drSig";
 
-// // // TString hAllpt = "hTk_dz";//nbin = 199
-// // // TString hAlleta = "hTk_eta";
+//  TString hAllpt = "hTk_dz";//nbin = 199
+// // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_dz";
 // TString htitle2 = "hTkOth_dz";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_dd";//nbin = 199
-// // // TString hAlleta = "hTk_eta";
+
+// TString hAllpt = "hTk_dd";//nbin = 199
+// // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_dd";
 // TString htitle2 = "hTkOth_dd";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_drSig";//nbin = 199
-// // // TString hAlleta = "hTk_eta";
-TString htitle = "hTkSim_drSig";
-TString htitle2 = "hTkOth_drSig";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_dzSig";//nbin = 199
-// // // TString hAlleta = "hTk_eta";
+// TString hAllpt = "hTk_drSig";//nbin = 199
+// // TString hAlleta = "hTk_eta";
+// TString htitle = "hTkSim_drSig";
+// TString htitle2 = "hTkOth_drSig";
+
+
+// TString hAllpt = "hTk_dzSig";//nbin = 199
+// // // TString hAlleta = "hTk_dzSig";
 // TString htitle = "hTkSim_dzSig";
 // TString htitle2 = "hTkOth_dzSig";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_ddSig";//nbin = 199
+
+// TString hAllpt = "hTk_ddSig";//nbin = 199
 // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_ddSig";
 // TString htitle2 = "hTkOth_ddSig";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_inJet";//nbin = 1
+// TString hAllpt = "hTk_inJet";//nbin = 1
 // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_inJet";
 // TString htitle2 = "hTkOth_inJet";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_pix";//nbin = 29
+// TString hAllpt = "hTk_pix";//nbin = 29
 // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_pix";
 // TString htitle2 = "hTkOth_pix";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_hit";//nbin = 29
+//  TString hAllpt = "hTk_hit";//nbin = 29
 // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_hit";
 // TString htitle2 = "hTkOth_hit";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_chi";//nbin = 49
+//  TString hAllpt = "hTk_chi";//nbin = 49
 // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_chi";
 // TString htitle2 = "hTkOth_chi";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_r1";//nbin = 199
+//  TString hAllpt = "hTk_r1";//nbin = 199
 // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_r1";
 // TString htitle2 = "hTkOth_r1";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_z1";//nbin = 199
+// TString hAllpt = "hTk_z1";//nbin = 199
 // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_z1";
 // TString htitle2 = "hTkOth_z1";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // // TString hAllpt = "hTk_at10";//nbin = 100
+// TString hAllpt = "hTk_at10";//nbin = 100
 // // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_at10";
 // TString htitle2 = "hTkOth_at10";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // TString hAllpt = "hTk_at20";//nbin = 100
+// TString hAllpt = "hTk_at20";//nbin = 100
 // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_at20";
 // TString htitle2 = "hTkOth_at20";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // TString hAllpt = "hTk_at30";//nbin = 100
+// TString hAllpt = "hTk_at30";//nbin = 100
 // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_at30";
 // TString htitle2 = "hTkOth_at30";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// // TString hAllpt = "hTk_at40";//nbin = 100
+// TString hAllpt = "hTk_at40";//nbin = 100
 // // TString hAlleta = "hTk_eta";
 // TString htitle = "hTkSim_at40";
 // TString htitle2 = "hTkOth_at40";
-// TString htitle3 = "hTkSim_eta";
-// TString htitle4 = "hTkOth_eta";
 
-// number of equivalent events
+// TString hAllpt = "at1020";
+//  TString htitle2 = "hTkOth_at1020"; 
+//  TString htitle = "hTkSim_at1020";
+//  TString xtitle = "at1020"; 
+//  int nbin = 101; 
+
+// TString hAllpt = "at2030";
+//  TString htitle2 = "hTkOth_at2030"; 
+//  TString htitle = "hTkSim_at2030";
+//  TString xtitle = "at2030"; 
+//  int nbin = 101; 
+
+// TString hAllpt = "at3040";
+//  TString htitle2 = "hTkOth_at3040"; 
+//  TString htitle = "hTkSim_at3040";
+//  TString xtitle = "at3040"; 
+//  int nbin = 101; 
+
+// TString hAllpt = "at40XX";
+//  TString htitle2 = "hTkOth_at40XX"; 
+//  TString htitle = "hTkSim_at40XX";
+//  TString xtitle = "at40XX"; 
+//  int nbin = 101; 
+
+TString hAllpt = "r1_eta1_5";
+ TString htitle2 = "hr1_etasup1_5_NotFromLLP";
+ TString htitle = "hr1_etasup1_5_isFromLLP";
+ TString xtitle = "r1eta1.5"; 
+//  int nbin = 200;
+
+// TString hAllpt = "z1_eta1_5";
+//  TString htitle2 = "hz1_etainf1_5_NotFromLLP";
+//  TString htitle = "hz1_etainf1_5_isFromLLP";
+//  TString xtitle = "z1eta1.5"; 
+// //  int nbin = 200; 
+
+// TString hAllpt = "algo";
+//  TString htitle2 = "htree_track_algoNot";
+//  TString htitle = "htree_track_algoIs";
+//  TString xtitle = "algo"; 
+//  int nbin = 200; 
+
+// TString hAllpt = "Original algo";
+//  TString htitle2 = "htree_track_ogalgoNot";
+//  TString htitle = "htree_track_ogalgoIs";
+//  TString xtitle = "OG algo"; 
+//  int nbin = 200; 
+
+// TString hAllpt = "hValPixHit";//nbin =
+//  TString htitle2 = "hValPixHitNot";
+//  TString htitle = "hValPixHitIs";
+//   // int nbin = 15; 
+
+// TString hAllpt = "hValStripHit";
+//  TString htitle2 = "hValStripHitNot";
+//  TString htitle = "hValStripHitIs";
+//  //int nbin = 30;
+
+// TString hAllpt = "hValTIBHit";
+//  TString htitle2 = "hValTIBHitNot";
+//  TString htitle = "hValTIBHitIs";
+//  //int nbin = 15; 
+
+// TString hAllpt = "hValTIDHit";
+//  TString htitle2 = "hValTIDHitNot";
+//  TString htitle = "hValTIDHitIs";
+//  //int nbin = 15; 
+
+// TString hAllpt = "hValTOBHit";
+//  TString htitle2 = "hValTOBHitNot";
+//  TString htitle = "hValTOBHitIs";
+//  //int nbin = 20; 
+
+// TString hAllpt = "hValTECHHitIs";
+//  TString htitle2 = "hValTECHHitNot";
+//  TString htitle = "hValTECHHitIs";
+//  //int nbin = 25; 
+
+// TString hAllpt = "hValPixBarHit";
+//  TString htitle2 = "hValPixBarHitNot";
+//  TString htitle = "hValPixBarHitIs";
+//  //int nbin = 10;
+
+
+
+// TString hAllpt = "hValPixEndCHit";
+//  TString htitle2 = "hValPixEndCHitNot";
+//  TString htitle = "hValPixEndCHitIs";
+//int nbin = 10;
+
+// TString hAllpt = "hHQ";
+//  TString htitle2 = "hHQNot";
+//  TString htitle = "hHQIs";
+// //int nbin = 2;
+
+//No points for this one
+// TString hAllpt = "hLoose";
+//  TString htitle2 = "hLooseNot";
+//  TString htitle = "hLooseIs";
+// //int nbin = 3;
+
+// TString hAllpt = "hTight";
+//  TString htitle2 = "hTightNot";
+//  TString htitle = "hTightIs";
+//int nbin = 2;
 
   TH1F* h0 = (TH1F*)gROOT->FindObject(htitle);//hAllpt
   float nequpt1 = h0->Integral(0,nbin+1);//nptbin
@@ -277,19 +356,21 @@ TString htitle2 = "hTkOth_drSig";
   TH1F* h1 = (TH1F*)gROOT->FindObject(htitle);//hAllpt
   float nequpt2 = h1->Integral(0,nbin+1);
   cont(0) = h1->Integral(0,nbin+1);
-
+  
   for (Int_t k=1; k<nbin+1; k++) {
+    x1[0]=cont(0)/nequpt2;
     cont(k) = cont(k-1) - h1->GetBinContent(k);
     beff(k) = cont(k) / nequpt2;
     x1[k] = beff(k);
     ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequpt2);//ne sert à rien acuellement
-    //std::cout<<"1k = "<< k<< " \\ bool = false "<<"\\ nequpt2 = "<<nequpt2<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h1->GetBinContent(k)<<std::endl;
+    //std::<<"1k = "<< k<< " \\ bool = false "<<"\\ nequpt2 = "<<nequpt2<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h1->GetBinContent(k)<<std::endl;
     ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequpt2, cont(k), 0.683, false);
-    //std::cout<<"1k = "<< k<< " \\ bool = true "<<"\\ nequpt2 = "<<nequpt2<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h1->GetBinContent(k)<<std::endl;
+    //std::<<"1k = "<< k<< " \\ bool = true "<<"\\ nequpt2 = "<<nequpt2<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h1->GetBinContent(k)<<std::endl;
     ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequpt2, cont(k), 0.683, true);
+    //std::<< "x[0] = " << x1[0] << "//" <<std::endl;
     //ClopperPearson(total number of events,number of passed event, CL (1 sigma here),True (upper boundary is returned, false->lower))
   }  //erreur peut de  cont(k) qui serait plus frand que nequBFlav
-
+  
   ///////
   float L = 100.; 
   float B1 = 0., EBD1 = 0., EBU1 = 0.; 
@@ -299,11 +380,13 @@ TString htitle2 = "hTkOth_drSig";
   int kWP1 = 0;
   ////////
 
-  h2 = (TH1F*)gROOT->FindObject(htitle2);//htitle
+  TH1F* h2 = (TH1F*)gROOT->FindObject(htitle2);//htitle
 
   float nequpt3 = h2->Integral(0,nbin+1);
   cont(0) = h2->Integral(0,nbin+1);
+  
   for (Int_t k=1; k<nbin+1; k++) {
+    y1[0]=cont(0)/nequpt3;
     cont(k) = cont(k-1) - h2->GetBinContent(k);
     leff(k) = cont(k) / nequpt3;
     y1[k] = 0.00005;
@@ -312,8 +395,9 @@ TString htitle2 = "hTkOth_drSig";
     ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequpt3);//ne sert à rien acuellement
     //std::cout<<"2k = "<< k<< " \\ bool = false "<<"\\ nequpt3 = "<<nequpt3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h2->GetBinContent(k)<<std::endl;
     ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequpt3, cont(k), 0.683, false);
-    //std::cout<<"2k = "<< k<< " \\ bool = true "<<"\\ nequpt3 = "<<nequpt3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h2->GetBinContent(k)<<std::endl;
+    //std::<<"2k = "<< k<< " \\ bool = true "<<"\\ nequpt3 = "<<nequpt3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h2->GetBinContent(k)<<std::endl;
     ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequpt3, cont(k), 0.683, true);
+     //std::<< "y1[0] = " << y1[0] << "//" <<std::endl;
     if ( TMath::Abs(leff(k) - WP) < TMath::Abs(L - WP) ) {//WP==0.01: leff(k)>=0.0005: on veut des bins normalisés avec une valeur 
     //supérieure à ce seuil de 0.0005 et ici, 0.01 plus précisement
     //Toujours vérifié: à gauche on compare des grandeurs inférieures à 1, et à droite L=100
@@ -340,30 +424,8 @@ TString htitle2 = "hTkOth_drSig";
   EBU1 = EBWPU;
 
 
-  // h3 = (TH1F*)gROOT->FindObject(htitle2);//htitle2
-  // cont(0) = h3->Integral(0,nbin+1);
-  // float nequpt4 = h3->Integral(0,nbin+1);
-  // for (Int_t k=1; k<nbin+1; k++) {
-  //   cont(k) = cont(k-1) - h3->GetBinContent(k);
-  //   ceff(k) = cont(k) / nequpt4;
-  //   y2[k] = 0.00005;
-  //   if ( ceff(k) < 0.001 ) continue;
-  //   y2[k] = ceff(k);
-  //   ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequpt4);//ne sert à rien acuellement
-  //   //std::cout<<"3k = "<< k<< " \\ bool = false "<<"\\ nequpt4 = "<<nequpt4<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h3->GetBinContent(k)<<std::endl;
-  //   ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequpt4, cont(k), 0.683, false);
-  //   //std::cout<<"3k = "<< k<< " \\ bool = true "<<"\\ nequpt4 = "<<nequpt4<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h3->GetBinContent(k)<<std::endl;
-  //   ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequpt4, cont(k), 0.683, true);
-  }  
 
-//   gr10 = new TGraphErrors(nbin,x1,y2,ex1,ey2);
-  // gr10 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  // gr10->SetLineColor(color1);
-  // gr10->SetLineWidth(1);
-  // gr10->SetMarkerColor(color1);
-  // gr10->SetMarkerStyle(markc1);
-  // gr10->SetMarkerSize(1.0);
-  // gr10->Draw("P"); 
+
 
 //   gr1 = new TGraphErrors(nbin,x1,y1,ex1,ey1);
   gr1 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
@@ -372,28 +434,28 @@ TString htitle2 = "hTkOth_drSig";
   gr1->SetMarkerColor(5);//color1
   gr1->SetMarkerStyle(mark1);
   gr1->SetMarkerSize(1.0);
-  gr1->Draw("P");
-  
+  gr1->Draw("LP");
+  Inte0 = gr1->Integral();
 
 //#########################f2###########################//
   f2->cd();//f2 == second parameter is studied
 // number of equivalent events
-  h3bis = (TH1F*)gROOT->FindObject(htitle);//htitle3
-  float nequeta = h3bis->Integral(0,nptbin+1);//nptbin
+  TH1F* h3bis = (TH1F*)gROOT->FindObject(htitle);//htitle3
+  float nequeta = h3bis->Integral(0,nbin+1);//nptbin
 
-
-  h4 = (TH1F*)gROOT->FindObject(htitle);//htitle3
-  cont(0) = h4->Integral(0,nptbin+1);
-  float nequeta1 = h4->Integral(0,nbin+1);//comme nbin est plus grand que nptbin, ça marche mais attention
-
-  for (Int_t k=1; k<nptbin+1; k++) {
+  TH1F* h4 = (TH1F*)gROOT->FindObject(htitle);//htitle3
+  cont(0) = h4->Integral(0,nbin+1);
+  float nequeta1 = h4->Integral(0,nbin+1);
+  
+    for (Int_t k=1; k<nbin+1; k++) {
+    x1[0]=cont(0)/nequeta1;
     cont(k) = cont(k-1) - h4->GetBinContent(k);
     beff(k) = cont(k) / nequeta1;
     x1[k] = beff(k);
     ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequeta1);//ne sert à rien acuellement
-    //std::cout<<"4k = "<< k<< " \\ bool = false "<<"\\ nequeta1 = "<<nequeta1<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h4->GetBinContent(k)<<std::endl;
+    //std::<<"4k = "<< k<< " \\ bool = false "<<"\\ nequeta1 = "<<nequeta1<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h4->GetBinContent(k)<<std::endl;
     ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequeta1, cont(k), 0.683, false);
-    //std::cout<<"4k = "<< k<< " \\ bool = true "<<"\\ nequeta1 = "<<nequeta1<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h4->GetBinContent(k)<<std::endl;
+    //std::<<"4k = "<< k<< " \\ bool = true "<<"\\ nequeta1 = "<<nequeta1<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h4->GetBinContent(k)<<std::endl;
     ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequeta1, cont(k), 0.683, true);
   }  
 
@@ -405,20 +467,21 @@ TString htitle2 = "hTkOth_drSig";
   nwp = 0;
 
 
-  h5 = (TH1F*)gROOT->FindObject(htitle2);//htitle3
-  cont(0) = h5->Integral(0,nptbin+1);
+  TH1F* h5 = (TH1F*)gROOT->FindObject(htitle2);//htitle3
+  cont(0) = h5->Integral(0,nbin+1);
   float nequeta2 = h5->Integral(0,nbin+1);
-
-  for (Int_t k=1; k<nptbin+1; k++) {
+  
+  for (Int_t k=1; k<nbin+1; k++) {
+    y1[0]=cont(0)/nequeta2;
     cont(k) = cont(k-1) - h5->GetBinContent(k);
     leff(k) = cont(k) / nequeta2;
     y1[k] = 0.00005;
     if ( leff(k) < 0.0005 ) continue;//pour ça que ça s'arrête à 49 itérations contrairement à h4
     y1[k] = leff(k);
     ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequeta2);//ne sert à rien acuellement
-    //std::cout<<"5k = "<< k<< " \\ bool = false \\"<<"\\ nequeta2 = "<<nequeta2<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h5->GetBinContent(k)<<std::endl;
+    //std::<<"5k = "<< k<< " \\ bool = false \\"<<"\\ nequeta2 = "<<nequeta2<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h5->GetBinContent(k)<<std::endl;
     ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequeta2, cont(k), 0.683, false);
-    //std::cout<<"5k = "<< k<< " \\ bool = true "<<"\\ nequeta2 = "<<nequeta2<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h5->GetBinContent(k)<<std::endl;
+    //std::<<"5k = "<< k<< " \\ bool = true "<<"\\ nequeta2 = "<<nequeta2<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h5->GetBinContent(k)<<std::endl;
     ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequeta2, cont(k), 0.683, true);
     if ( TMath::Abs(leff(k) - WP) < TMath::Abs(L - WP) ) {
       L = leff(k);
@@ -443,30 +506,7 @@ TString htitle2 = "hTkOth_drSig";
   EBD2 = EBWPD;
   EBU2 = EBWPU;
 
-  h6 = (TH1F*)gROOT->FindObject(htitle4);//htitle4
-  cont(0) = h6->Integral(0,nptbin+1);
-  float nequeta3 = h6->Integral(0,nbin+1);
-  for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h6->GetBinContent(k);
-    ceff(k) = cont(k) / nequeta3;
-    y2[k] = 0.00005;
-    if ( ceff(k) < 0.001 ) continue;
-    y2[k] = ceff(k);
-    ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequeta3);//ne sert à rien acuellement
-    //std::cout<<"6k = "<< k<< " \\ bool = false "<<"\\ nequeta3 = "<<nequeta3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h6->GetBinContent(k)<<std::endl;
-    ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequeta3, cont(k), 0.683, false);
-    //std::cout<<"6k = "<< k<< " \\ bool = false "<<"\\ nequeta3 = "<<nequeta3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h6->GetBinContent(k)<<std::endl;
-    ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequeta3, cont(k), 0.683, true);
-  }  
-
-//   gr20 = new TGraphErrors(nbin,x1,y2,ex1,ey2);
-  // gr20 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  // gr20->SetLineColor(color2);
-  // gr20->SetLineWidth(1);
-  // gr20->SetMarkerColor(color2);
-  // gr20->SetMarkerStyle(markc2);
-  // gr20->SetMarkerSize(1.0);
-  // gr20->Draw("P"); 
+   
 
 //   gr2 = new TGraphErrors(nbin,x1,y1,ex1,ey1);
   gr2 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
@@ -475,31 +515,31 @@ TString htitle2 = "hTkOth_drSig";
   gr2->SetMarkerColor(6);//color2 6==purple
   gr2->SetMarkerStyle(mark2);
   gr2->SetMarkerSize(1.0);
-  gr2->Draw("P"); 
-
+  gr2->Draw("LP"); 
+  Inte1 = gr2->Integral();
 //#################################End of my scope : 2 files######################################################///
 /////////////////
-/*
+
   float B3, EBD3, EBU3; 
-  if ( nfiles == 3 ) {//>=
+  //if ( nfiles == 3 ) {//>=
   f3->cd();
 // number of equivalent events
-  h0 = (TH1F*)gROOT->FindObject("hBFlav_JetPt_etaLT25");
-  nequBFlav = h0->Integral(0,nptbin+1);
-  h0 = (TH1F*)gROOT->FindObject("hLightFlav_JetPt_etaLT25");
-  nequLightFlav = h0->Integral(0,nptbin+1);
-  h0 = (TH1F*)gROOT->FindObject("hCFlav_JetPt_etaLT25");
-  nequCFlav = h0->Integral(0,nptbin+1);
+  TH1F* h7 = (TH1F*)gROOT->FindObject(htitle);
+  float nequf3 = h7->Integral(0,nbin+1);
 
-  h1 = (TH1F*)gROOT->FindObject("hBFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
+  TH1F* h8 = (TH1F*)gROOT->FindObject(htitle);
+  cont(0) = h8->Integral(0,nbin+1);
+  
   for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    beff(k) = cont(k) / nequBFlav;
+    x1[0]=cont(0)/nequf3;
+    cont(k) = cont(k-1) - h8->GetBinContent(k);
+    beff(k) = cont(k) / nequf3;
     x1[k] = beff(k);
-    ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequBFlav);
-    ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequBFlav, cont(k), 0.683, false);
-    ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequBFlav, cont(k), 0.683, true);
+    ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequf3);//ne sert à rien dans cette version
+     //std::<<"6k = "<< k<< " \\ bool = true "<<"\\ nequf3 = "<<nequf3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h8->GetBinContent(k)<<std::endl;
+    ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequf3, cont(k), 0.683, false);
+     //std::<<"6k = "<< k<< " \\ bool = true "<<"\\ nequf3 = "<<nequf3<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h8->GetBinContent(k)<<std::endl;
+    ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequf3, cont(k), 0.683, true);
   }  
 
   L = 100.; 
@@ -507,17 +547,23 @@ TString htitle2 = "hTkOth_drSig";
   bwp = 0.; bwpd = 10.; bwpu = -10.; 
   BWP = 0.; EBWPD = 0.; EBWPU = 0.; 
   nwp = 0;
-  h1 = (TH1F*)gROOT->FindObject("hLightFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
+
+  TH1F* h9 = (TH1F*)gROOT->FindObject(htitle2);
+  float nequf3bis = h9->Integral(0,nbin+1);
+  cont(0) = h9->Integral(0,nbin+1);
+  
   for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    leff(k) = cont(k) / nequLightFlav;
+    y1[0]=cont(0)/nequf3bis;
+    cont(k) = cont(k-1) - h9->GetBinContent(k);
+    leff(k) = cont(k) / nequf3bis;
     y1[k] = 0.00005;
     if ( leff(k) < 0.0005 ) continue;
     y1[k] = leff(k);
-    ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequLightFlav);
-    ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequLightFlav, cont(k), 0.683, false);
-    ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequLightFlav, cont(k), 0.683, true);
+    ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequf3bis);//ne sert à rien dans cette version
+    //std::<<"7k = "<< k<< " \\ bool = true "<<"\\ nequf3bis = "<<nequf3bis<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h9->GetBinContent(k)<<std::endl;
+    ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequf3bis, cont(k), 0.683, false);
+    //std::<<"7k = "<< k<< " \\ bool = true "<<"\\ nequf3bis = "<<nequf3bis<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h9->GetBinContent(k)<<std::endl;
+    ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequf3bis, cont(k), 0.683, true);
     if ( TMath::Abs(leff(k) - WP) < TMath::Abs(L - WP) ) {
       L = leff(k);
         BWP = x1[k] - (x1[k]-x1[k-1]) / (L-y1[k-1]) * (L-WP);
@@ -540,26 +586,7 @@ TString htitle2 = "hTkOth_drSig";
   EBD3 = EBWPD;
   EBU3 = EBWPU;
 
-  h1 = (TH1F*)gROOT->FindObject("hCFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
-  for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    ceff(k) = cont(k) / nequCFlav;
-    y2[k] = 0.00005;
-    if ( ceff(k) < 0.001 ) continue;
-    y2[k] = ceff(k);
-    ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequCFlav);
-    ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, false);
-    ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, true);
-  }  
-
-  gr30 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  gr30->SetLineColor(color3);
-  gr30->SetLineWidth(1);
-  gr30->SetMarkerColor(color3);
-  gr30->SetMarkerStyle(markc3);
-  gr30->SetMarkerSize(1.0);
-  gr30->Draw("P"); 
+ 
 
   gr3 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
   gr3->SetLineColor(color3);
@@ -567,65 +594,51 @@ TString htitle2 = "hTkOth_drSig";
   gr3->SetMarkerColor(color3);
   gr3->SetMarkerStyle(mark3);
   gr3->SetMarkerSize(1.0);
-  gr3->Draw("P"); 
-  }
+  gr3->Draw("LP");
+  Inte2 = gr3->Integral();
+  
 
 /////////////////
 
-  if ( nfiles == 4 ) {
+  //if ( nfiles == 4 ) {
   f4->cd();
 // number of equivalent events
-  h0 = (TH1F*)gROOT->FindObject("hBFlav_JetPt_etaLT25");
-  nequBFlav = h0->Integral(0,nptbin+1);
-  h0 = (TH1F*)gROOT->FindObject("hLightFlav_JetPt_etaLT25");
-  nequLightFlav = h0->Integral(0,nptbin+1);
-  h0 = (TH1F*)gROOT->FindObject("hCFlav_JetPt_etaLT25");
-  nequCFlav = h0->Integral(0,nptbin+1);
 
-  h1 = (TH1F*)gROOT->FindObject("hBFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
+  TH1F* h12 = (TH1F*)gROOT->FindObject(htitle);
+  float nequf4 = h12->Integral(0,nbin+1);
+  cont(0) = h12->Integral(0,nbin+1);
+  
   for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    beff(k) = cont(k) / nequBFlav;
+    x1[0]=cont(0)/nequf4;
+    cont(k) = cont(k-1) - h12->GetBinContent(k);
+    beff(k) = cont(k) / nequf4;
     x1[k] = beff(k);
-    ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequBFlav);
-    ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequBFlav, cont(k), 0.683, false);
-    ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequBFlav, cont(k), 0.683, true);
+    ex1[k] = TMath::Sqrt(beff(k)*(1.-beff(k))/nequf4);//ne sert à rien dans cette version
+    //std::<<"8k = "<< k<< " \\ bool = true "<<"\\ nequf4 = "<<nequf4<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h12->GetBinContent(k)<<std::endl;
+    ex1d[k] =  x1[k] - EfficiencyUtil->ClopperPearson(nequf4, cont(k), 0.683, false);
+    //std::<<"8k = "<< k<< " \\ bool = true "<<"\\ nequf4 = "<<nequf4<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h12->GetBinContent(k)<<std::endl;
+    ex1u[k] = -x1[k] + EfficiencyUtil->ClopperPearson(nequf4, cont(k), 0.683, true);
   }  
 
-  h1 = (TH1F*)gROOT->FindObject("hLightFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
+  TH1F* h13 = (TH1F*)gROOT->FindObject(htitle2);
+  float nequf4bis = h13->Integral(0,nbin+1);
+  cont(0) = h13->Integral(0,nbin+1);
+  
   for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    leff(k) = cont(k) / nequLightFlav;
+    y1[0]=cont(0)/nequf4bis;
+    cont(k) = cont(k-1) - h13->GetBinContent(k);
+    leff(k) = cont(k) / nequf4bis;
     y1[k] = 0.00005;
     if ( leff(k) < 0.0005 ) continue;
     y1[k] = leff(k);
-    ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequLightFlav);
-    ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequLightFlav, cont(k), 0.683, false);
-    ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequLightFlav, cont(k), 0.683, true);
+    ey1[k] = TMath::Sqrt(leff(k)*(1.-leff(k))/nequf4bis);//ne sert à rien dans cette version
+    //std::<<"9k = "<< k<< " \\ bool = true "<<"\\ nequf4bis = "<<nequf4bis<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h13->GetBinContent(k)<<std::endl;
+    ey1d[k] =  y1[k] - EfficiencyUtil->ClopperPearson(nequf4bis, cont(k), 0.683, false);
+    //std::<<"9k = "<< k<< " \\ bool = true "<<"\\ nequf4bis = "<<nequf4bis<<"\\ cont(k) = "<<cont(k)<< "\\ bin content (k) = "<<h13->GetBinContent(k)<<std::endl;
+    ey1u[k] = -y1[k] + EfficiencyUtil->ClopperPearson(nequf4bis, cont(k), 0.683, true);
   }  
 
-  h1 = (TH1F*)gROOT->FindObject("hCFlav_PosTagger_etaLT25");
-  cont(0) = h1->Integral(0,nbin+1);
-  for (Int_t k=1; k<nbin+1; k++) {
-    cont(k) = cont(k-1) - h1->GetBinContent(k);
-    ceff(k) = cont(k) / nequCFlav;
-    y2[k] = 0.00005;
-    if ( ceff(k) < 0.001 ) continue;
-    y2[k] = ceff(k);
-    ey2[k] = TMath::Sqrt(ceff(k)*(1.-ceff(k))/nequCFlav);
-    ey2d[k] =  y2[k] - EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, false);
-    ey2u[k] = -y2[k] + EfficiencyUtil->ClopperPearson(nequCFlav, cont(k), 0.683, true);
-  }  
-
-  gr40 = new TGraphAsymmErrors(nbin,x1,y2,ex1d,ex1u,ey2d,ey2u);
-  gr40->SetLineColor(color4);
-  gr40->SetLineWidth(1);
-  gr40->SetMarkerColor(color4);
-  gr40->SetMarkerStyle(markc4);
-  gr40->SetMarkerSize(1.0);
-  gr40->Draw("P"); 
+  
 
   gr4 = new TGraphAsymmErrors(nbin,x1,y1,ex1d,ex1u,ey1d,ey1u);
   gr4->SetLineColor(color4);
@@ -633,86 +646,39 @@ TString htitle2 = "hTkOth_drSig";
   gr4->SetMarkerColor(color4);
   gr4->SetMarkerStyle(mark4);
   gr4->SetMarkerSize(1.0);
-  gr4->Draw("P"); 
-  }
-*/
+  gr4->Draw("LP"); 
+  Inte3 = gr4->Integral();
 /////////////////
-
+  std::cout<< "Inte0 = " << 0.5-Inte0 << "//" <<std::endl;
+  std::cout<< "Inte1 = " << 0.5-Inte1 << "//" <<std::endl;
+  std::cout<< "Inte2 = " << 0.5-Inte2 << "//" <<std::endl;
+  std::cout<< "Inte3 = " << 0.5-Inte3 << "//" <<std::endl;
+  /////////////////
   TLegend* leg = new TLegend(0.10,0.90,0.72,0.95);
 //   TLegend* leg = new TLegend(0.12,0.82,0.72,0.87);
   leg->SetBorderSize(0);
   leg->SetFillColor(kWhite);
   leg->SetTextFont(42);
   leg->SetTextSize(0.038);
-//   leg->SetHeader("TTbar, jet p_{T}>30 etaLT25");
-  leg->SetHeader("pt >= 1. && chi2 <= 5. && drSig >= 5.");
-//   leg->SetHeader("Phase-2 TTbar, jet p_{T}>30 etaLT25, DeepCSV");
+  leg->SetHeader(hAllpt);
   leg->Draw();
   
-//   leg = new TLegend(0.15,0.75,0.40,0.85);
-//   leg->SetBorderSize(0);
-//   leg->SetFillColor(kWhite);
-//   leg->SetTextFont(42);
-//   leg->SetTextSize(0.028);
-//   if ( nfiles == 2 ) leg->SetTextSize(0.032);
-// //   leg->SetHeader("");
-//   leg->AddEntry(gr00,"c-jet misid.","P");
-//   leg->AddEntry(gr0,"udsg-jet misid.","P");
-//   leg->Draw();
-  
-  if ( nfiles != 2 ) leg = new TLegend(0.62,0.14,0.85,0.30);
-  else               leg = new TLegend(0.62,0.14,0.85,0.26);
+  if ( nfiles != 2 ) leg = new TLegend(0.14,0.62,0.37,0.85);
+  else               leg = new TLegend(.14,0.62,0.37,0.85);
   leg->SetBorderSize(0);
   leg->SetFillColor(kWhite);
   leg->SetTextFont(42);
   leg->SetTextSize(0.028);
   if ( nfiles == 2 ) leg->SetTextSize(0.035);
-//   leg->AddEntry(gr1,"DeepCSV","P");
-//   leg->AddEntry(gr2,"DeepJet","P");
-//   if ( nfiles >= 3 ) leg->AddEntry(gr3,"2018","P");
+
   leg->SetHeader("Data");
-  leg->AddEntry(gr1,"dr","P");
-  leg->AddEntry(gr2,"drSig","P");
-  // leg->AddEntry(gr10,"dr not","P");
-  // leg->AddEntry(gr20,"drSig not","P");
-  if ( nfiles >= 3 ) leg->AddEntry(gr3,"Run3 2023","P");
-  if ( nfiles >= 4 ) leg->AddEntry(gr4,"Run3 2024","P");
-//   leg->SetHeader("DeepJet 2018");
-//   leg->AddEntry(gr1,"<PU>=35","P");
-//   leg->AddEntry(gr2,"<PU>=59","P");
+  leg->AddEntry(gr1,"bgctau70","P");
+  leg->AddEntry(gr2,"bgctau50","P");
+  leg->AddEntry(gr3,"bgctau30","P");
+  leg->AddEntry(gr4,"bgctau10","P");
+
   leg->Draw();
-/*  
-  float EB1 = (EBD1+EBU1)/2.;
-  float EB2 = (EBD2+EBU2)/2.;
-  float EB3 = (EBD3+EBU3)/2.;
-//   float ww = 1./EB1/EB1 + 1./EB2/EB2 + 1./EB3/EB3;
-//   B4 = (B1/EB1/EB1 + B2/EB2/EB2 + B3/EB3/EB3) / ww;
-//   EB4 = 1. / TMath::Sqrt( ww );  
 
-   float WP1 =  kWP1 / 1000.;
-   float WP2 =  kWP2 / 1000.;
-   
-   float gain = B3 / B2;
-   float alpha = (B3 -B2) / (B1 - B2);
-
-  cout << endl;
-  cout << " working point " << WP << " gain " << gain << " alpha " << alpha << endl;
-  cout << "DeepCSV " << B1 << "+_" << EB1 << "	WP " << kWP1 << " " << WP1 << endl;
-  cout << "DeepJET " << B2 << "+_" << EB2 << "	WP " << kWP2 << " " << WP2 << endl;
-//   cout << "PU300 " << B3 << "+_" << EB3 << endl;
-  cout << endl;
-*/
-//   cout << "cMVAv2  " << B3 << "+_" << EB3 << endl;
-// //   cout << "rho=0      " << B1 << "+_" << EB1 << "   WP " << kWP1 << " " << WP1 << endl;
-// //   cout << "rho=1      " << B2 << "+_" << EB2 << "   WP " << kWP2 << " " << WP2 << endl;
-// //   cout << "rho=2      " << B3 << "+_" << EB3 << endl;
-// //   cout << "rho=3      " << B1 << "+_" << EB1 << endl;
-// //   cout << "rho=4      " << B2 << "+_" << EB2 << endl;
-// //   cout << "rho=5      " << B3 << "+_" << EB3 << endl;
-//   cout << "z<2cm      " << B1 << "+_" << EB1 << endl;
-//   cout << "2<z<4      " << B2 << "+_" << EB2 << endl;
-//   cout << "4<z<6      " << B3 << "+_" << EB3 << endl;
-//##################################################################"//
 
 c1->Update();
 

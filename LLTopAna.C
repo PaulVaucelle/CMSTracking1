@@ -17,7 +17,8 @@ void SetSebStyle()
  gStyle->SetTitleFont(1);
  gStyle->SetStatColor(29);
  gStyle->SetCanvasColor(25);   
- gStyle->SetOptStat(1111111);
+ //gStyle->SetOptStat(1111111);
+ gStyle->SetOptStat(002110010);
  gStyle->SetHistFillColor(5);
 }
 
@@ -70,12 +71,40 @@ TH1F* hTopFromNeutralino = new TH1F("hTopFromNeutralino","GenTop From Neutralino
 TH1F* hQuarksFromTops = new TH1F("hQuarksFromTops","GenQuarksFromNeutralino",9,-5,5);
 TH1F* hTracksCharge = new TH1F("hTracksCharge","TracksCharge",9,-5,5);
 TH1F* hIsFromLLPid = new TH1F("hIsFromLLPid","hIsFromLLPid",39,-20,20);
-TH1F* hr1_etasup1_5 = new TH1F("hr1_etasup1_5","r1_etasup1_5",200,0.,100.);
-TH1F* hz1_etainf1_5 = new TH1F("hz1_etainf1_5","z1_etainf1_5",200,0.,100.);
-TH2F* hr1_f_z1= new TH2F("hr1_f_z1","hr1_f_z1",200,0.,100.,200,0.,100.);
-TH3F* h_x1_y1_z1 = new TH3F("h_x1_y1_z1","h_x1_y1_z1",200,0.,100.,200,0.,100.,200,0.,100.);
+TH1F* hr1_etasup1_5_isFromLLP = new TH1F("hr1_etasup1_5_isFromLLP","hr1_etasup1_5_isFromLLP",200,0.,100.);
+TH1F* hr1_etasup1_5_NotFromLLP = new TH1F("hr1_etasup1_5_NotFromLLP","hr1_etasup1_5_NotFromLLP",200,0.,100.);
+TH1F* hz1_etainf1_5_isFromLLP = new TH1F("hz1_etainf1_5_isFromLLP","z1_etainf1_5_isFromLLP",200,0.,200.);
+TH1F* hz1_etainf1_5_NotFromLLP = new TH1F("hz1_etainf1_5_NotFromLLP","z1_etainf1_5_NotFromLLP",200,0.,200.);
+TH2F* hr1_f_z1= new TH2F("hr1_f_z1","hr1_f_z1",200,0.,100.,200,0.,200.);
+TH3F* h_x1_y1_z1 = new TH3F("h_x1_y1_z1","h_x1_y1_z1",200,0.,100.,200,0.,100.,200,0.,200.);
+TH1F* htree_track_algoIs = new TH1F("htree_track_algoIs","htree_track_algoIs",200,0.,100.);
+TH1F* htree_track_algoNot = new TH1F("htree_track_algoNot","htree_track_algoIs",200,0.,100.);
+TH1F* htree_track_ogalgoIs = new TH1F("htree_track_ogalgoIs","htree_track_ogalgoIs",200,0.,100.);
+TH1F* htree_track_ogalgoNot = new TH1F("htree_track_ogalgoNot","htree_track_ogalgoIs",200,0.,100.);
 
 
+TH1F* hValPixHitIs = new TH1F("hValPixHitIs","hValPixHitIs",15,0,15);
+TH1F* hValPixHitNot = new TH1F("hValPixHitNot","hValPixHitNot",15,0,15);
+TH1F* hValStripHitIs = new TH1F("hValStripHitIs","hValStripHitIs",30,0,30);
+TH1F* hValStripHitNot  = new TH1F("hValStripHitNot","hValStripHitNot",30,0,30);
+TH1F* hValTIBHitIs = new TH1F("hValTIBHitIs","hValTIBHitIs",15,0,15);
+TH1F* hValTIBHitNot = new TH1F("hValTIBHitNot","hValTIBHitNot",15,0,15);
+TH1F* hValTIDHitIs = new TH1F("hValTIDHitIs","hValTIDHitIs",15,0,15);
+TH1F* hValTIDHitNot = new TH1F("hValTIDHitNot","hValTIDHitNot",15,0,15);
+TH1F* hValTOBHitIs = new TH1F("hValTOBHitIs","hValTOBHitIs",20,0,20);
+TH1F* hValTOBHitNot = new TH1F("hValTOBHitNot","hValTOBHitNot",20,0,20);
+TH1F* hValTECHHitIs = new TH1F("hValTECHHitIs","hValTECHHitIs",25,0,25);
+TH1F* hValTECHHitNot = new TH1F("hValTECHHitNot","hValTECHHitNot",25,0,25);
+TH1F* hValPixBarHitIs = new TH1F("hValPixBarHitIs","hValPixBarHitIs",10,0,10);
+TH1F* hValPixBarHitNot = new TH1F("hValPixBarHitNot","hValPixBarHitNot",10,0,10);
+TH1F* hValPixEndCHitIs = new TH1F("hValPixEndCHitIs","hValPixEndCHitIs",10,0,10);
+TH1F* hValPixEndCHitNot = new TH1F("hValPixEndCHitNot","hValPixEndCHitNot",10,0,10);
+TH1F* hHQIs = new TH1F("hHQIs","hHQIs",2,0,2);
+TH1F* hHQNot = new TH1F("hHQNot","hHQNot",2,0,2);
+TH1F* hLooseIs = new TH1F("hLooseIs","hLooseIs",3,0,3);
+TH1F* hLooseNot = new TH1F("hLooseNot","hLooseNot",3,0,3);
+TH1F* hTightIs = new TH1F("hTightIs","hTightIs",2,0,2);
+TH1F* hTightNot = new TH1F("hTightNot","hTightNot",2,0,2);
 ////////////////////////////////
 
  TH1F* hDataAll_nZMu     = new TH1F("hDataAll_nZMu","",11,-0.5,10.5);
@@ -202,36 +231,41 @@ TH3F* h_x1_y1_z1 = new TH3F("h_x1_y1_z1","h_x1_y1_z1",200,0.,100.,200,0.,100.,20
  TH1F* hTkSim_dr         = new TH1F("hTkSim_dr","",200,0.,10.);
  TH1F* hTkSim_dz         = new TH1F("hTkSim_dz","",200,0.,50.);
  TH1F* hTkSim_dd         = new TH1F("hTkSim_dd","",200,0.,50.);
- TH1F* hTkSim_drSig      = new TH1F("hTkSim_drSig","",200,0.,1000.);
- TH1F* hTkSim_dzSig      = new TH1F("hTkSim_dzSig","",200,0.,1000.);
- TH1F* hTkSim_ddSig      = new TH1F("hTkSim_ddSig","",200,0.,1000.);
+ TH1F* hTkSim_drSig      = new TH1F("hTkSim_drSig","",200,0.,1050.);
+ TH1F* hTkSim_dzSig      = new TH1F("hTkSim_dzSig","",200,0.,1050.);
+ TH1F* hTkSim_ddSig      = new TH1F("hTkSim_ddSig","",200,0.,1050.);
  TH1F* hTkSim_inJet      = new TH1F("hTkSim_inJet","",2,-0.5,1.5);
  TH1F* hTkSim_pix        = new TH1F("hTkSim_pix","",30,-0.5,29.5);
- TH1F* hTkSim_hit        = new TH1F("hTkSim_hit","",30,-0.5,29.5);
+ TH1F* hTkSim_hit        = new TH1F("hTkSim_hit","",36,-0.5,35.5);
  TH1F* hTkSim_chi        = new TH1F("hTkSim_chi","",50,0.,50.);
  TH1F* hTkSim_r1         = new TH1F("hTkSim_r1","",200,0.,100.);
- TH1F* hTkSim_z1         = new TH1F("hTkSim_z1","",200,0.,100.);
+ TH1F* hTkSim_z1         = new TH1F("hTkSim_z1","",200,0.,200.);
  
  
  TH1F* hTkSim_at10       = new TH1F("hTkSim_at10","",101,-0.5,100.5);
+ TH1F* hTkSim_at1020       = new TH1F("hTkSim_at1020","",101,-0.5,100.5);
  TH1F* hTkSim_at20       = new TH1F("hTkSim_at20","",101,-0.5,100.5);
+ TH1F* hTkSim_at2030       = new TH1F("hTkSim_at2030","",101,-0.5,100.5);
  TH1F* hTkSim_at30       = new TH1F("hTkSim_at30","",101,-0.5,100.5);
+ TH1F* hTkSim_at3040       = new TH1F("hTkSim_at3040","",101,-0.5,100.5);
  TH1F* hTkSim_at40       = new TH1F("hTkSim_at40","",101,-0.5,100.5);
+ TH1F* hTkSim_at40XX       = new TH1F("hTkSim_at40XX","",101,-0.5,100.5);
+ TH1F* hTkSim_dist       = new TH1F("hTkSim_dist","",101,-0.5,100.5);
 //plot added by paul
 TH1F* hTk_eta        = new TH1F("hTk_eta","",50,-2.5,2.5);
 TH1F* hTk_pt         = new TH1F("hTk_pt","",100,0.,100.);
 TH1F* hTk_dr         = new TH1F("hTk_dr","",200,0.,10.);
 TH1F* hTk_dz         = new TH1F("hTk_dz","",200,0.,50.);
 TH1F* hTk_dd         = new TH1F("hTk_dd","",200,0.,50.);
-TH1F* hTk_drSig      = new TH1F("hTk_drSig","",200,0.,1000.);
-TH1F* hTk_dzSig      = new TH1F("hTk_dzSig","",200,0.,1000.);
-TH1F* hTk_ddSig      = new TH1F("hTk_ddSig","",200,0.,1000.);
+TH1F* hTk_drSig      = new TH1F("hTk_drSig","",200,0.,1050.);
+TH1F* hTk_dzSig      = new TH1F("hTk_dzSig","",200,0.,1050.);
+TH1F* hTk_ddSig      = new TH1F("hTk_ddSig","",200,0.,1050.);
 TH1F* hTk_inJet      = new TH1F("hTk_inJet","",2,-0.5,1.5);
 TH1F* hTk_pix        = new TH1F("hTk_pix","",30,-0.5,29.5);
-TH1F* hTk_hit        = new TH1F("hTk_hit","",30,-0.5,29.5);
+TH1F* hTk_hit        = new TH1F("hTk_hit","",36,-0.5,35.5);
 TH1F* hTk_chi        = new TH1F("hTk_chi","",50,0.,50.);
 TH1F* hTk_r1         = new TH1F("hTk_r1","",200,0.,100.);
-TH1F* hTk_z1         = new TH1F("hTk_z1","",200,0.,100.);
+TH1F* hTk_z1         = new TH1F("hTk_z1","",200,0.,200.);
 TH1F* hTk_at10       = new TH1F("hTk_at10","",101,-0.5,100.5);
 TH1F* hTk_at20       = new TH1F("hTk_at20","",101,-0.5,100.5);
 TH1F* hTk_at30       = new TH1F("hTk_at30","",101,-0.5,100.5);
@@ -243,19 +277,26 @@ TH1F* hTk_at40       = new TH1F("hTk_at40","",101,-0.5,100.5);
  TH1F* hTkOth_dr	 = new TH1F("hTkOth_dr","",200,0.,10.);
  TH1F* hTkOth_dz	 = new TH1F("hTkOth_dz","",200,0.,50.);
  TH1F* hTkOth_dd	 = new TH1F("hTkOth_dd","",200,0.,50.);
- TH1F* hTkOth_drSig      = new TH1F("hTkOth_drSig","",200,0.,1000.);
- TH1F* hTkOth_dzSig      = new TH1F("hTkOth_dzSig","",200,0.,1000.);
- TH1F* hTkOth_ddSig      = new TH1F("hTkOth_ddSig","",200,0.,1000.);
+ TH1F* hTkOth_drSig      = new TH1F("hTkOth_drSig","",200,0.,1050.);
+ TH1F* hTkOth_dzSig      = new TH1F("hTkOth_dzSig","",200,0.,1050.);
+ TH1F* hTkOth_ddSig      = new TH1F("hTkOth_ddSig","",200,0.,1050.);
  TH1F* hTkOth_inJet      = new TH1F("hTkOth_inJet","",2,-0.5,1.5);
  TH1F* hTkOth_pix        = new TH1F("hTkOth_pix","",30,-0.5,29.5);
  TH1F* hTkOth_hit        = new TH1F("hTkOth_hit","",30,-0.5,29.5);
  TH1F* hTkOth_chi        = new TH1F("hTkOth_chi","",50,0.,50.);
  TH1F* hTkOth_r1	 = new TH1F("hTkOth_r1","",200,0.,100.);
- TH1F* hTkOth_z1	 = new TH1F("hTkOth_z1","",200,0.,100.);
+ TH1F* hTkOth_z1	 = new TH1F("hTkOth_z1","",200,0.,200.);
+ TH1F* hTkOth_dist       = new TH1F("hTkSim_Oth","",101,-0.5,100.5);
+
+
  TH1F* hTkOth_at10       = new TH1F("hTkOth_at10","",101,-0.5,100.5);
+ TH1F* hTkOth_at1020     = new TH1F("hTkOth_at1020","",101,-0.5,100.5);
  TH1F* hTkOth_at20       = new TH1F("hTkOth_at20","",101,-0.5,100.5);
+ TH1F* hTkOth_at2030     = new TH1F("hTkOth_at2030","",101,-0.5,100.5);
  TH1F* hTkOth_at30       = new TH1F("hTkOth_at30","",101,-0.5,100.5);
+ TH1F* hTkOth_at3040     = new TH1F("hTkOth_at3040","",101,-0.5,100.5);
  TH1F* hTkOth_at40       = new TH1F("hTkOth_at40","",101,-0.5,100.5);
+ TH1F* hTkOth_at40XX     = new TH1F("hTkOth_at40XX","",101,-0.5,100.5);
 
  TH1F* hData_Jet_njet      = new TH1F("hData_Jet_njet","",20,-0.5,19.5);
  TH1F* hData_Jet_pt        = new TH1F("hData_Jet_pt","",100,0.,1000.);
@@ -828,7 +869,7 @@ TH1F* hTk_at40       = new TH1F("hTk_at40","",101,-0.5,100.5);
    {
      track_isfromLLP[i] = -1;
      int iV = -1;
-     int ntrk10 = 0, ntrk20 = 0, ntrk30 = 0, ntrk40 = 0;
+     int ntrk10 = 0, ntrk20 = 0, ntrk30 = 0, ntrk40 = 0,ntrk1020=0,ntrk2030=0, nrtk1020=0, ntrk3040=0, ntrk40XX=0;
      track_SEL40[i] = 0;//ça n'sert à rien 
      track_SELEC[i] = false;
     //variables used for the GBT are here : #############################################
@@ -850,9 +891,29 @@ TH1F* hTk_at40       = new TH1F("hTk_at40","",101,-0.5,100.5);
      float y1 = tree_track_firsthit_Y->at(i);
      float z1 = abs(tree_track_firsthit_Z->at(i));
      float r1 = TMath::Sqrt( x1*x1 + y1*y1 );
+
+     ///Test de potentiels variables pour le GBT///
+     int nValPixHit = tree_track_numberOfValidPixelHits->at(i);
+     int nValStripHit = tree_track_numberOfValidStripHits->at(i);
+     int nValTIBHit = tree_track_numberOfValidStripTIBHits->at(i);
+     int nValTIDHit = tree_track_numberOfValidStripTIDHits->at(i);
+     int nValTOBHit = tree_track_numberOfValidStripTOBHits->at(i);
+     int nValTECHHit = tree_track_numberOfValidStripTECHits->at(i);
+     int nValPixBarHit = tree_track_numberOfValidPixelBarrelHits->at(i);
+     int nValPixEndCHit = tree_track_numberOfValidPixelEndcapHits->at(i);
+
+     bool HQ = tree_track_isHighQuality->at(i);
+     bool Loose = tree_track_isLoose->at(i);
+     bool Tight = tree_track_isTight->at(i);
+
+     unsigned int algo = tree_track_algo->at(i);
+     unsigned int ogalgo = tree_track_originalAlgo->at(i);
+     /////////////////////////////////////////////////////////
+
      int inJet = 0;
      int jet = tree_track_recoAK4SlimmedJet_idx->at(i);
      //End of Variables used for GBT ####################################################
+
      if ( jet >= 0 ) inJet = 1;
 
      if ( pt >= 1. && chi <= 5. && drSig >= 5. ) track_SELEC[i] = true;//selection de potentielles traces secondaires
@@ -994,10 +1055,14 @@ TH1F* hTk_at40       = new TH1F("hTk_at40","",101,-0.5,100.5);
        float y2 = tree_track_firsthit_Y->at(k);
        float z2 = abs(tree_track_firsthit_Z->at(k));
        float dist = TMath::Sqrt( (x1-x2)*(x1-x2) + (y1-y2)*(y1-y2) + (z1-z2)*(z1-z2) );//pour chaque reconstuite, on regarde les autres tracks, 
-       if ( dist < 10. ) ntrk10++; 
-       if ( dist < 20. ) ntrk20++; 
+       if ( dist < 10. ) ntrk10++;
+       if (dist > 10 && dist < 20) ntrk1020++;
+       if ( dist < 20. ) ntrk20++;
+       if (dist > 20 && dist < 30) ntrk2030++; 
        if ( dist < 30. ) ntrk30++; 
+       if (dist > 30 && dist < 40) ntrk3040++; 
        if ( dist < 40. ) ntrk40++;//used in BDT, peut �tre une variable discriminante
+       if (dist > 40) ntrk40XX++; //dist>40
      }  // end Loop on other Tracks
 
     //added by Paul
@@ -1019,17 +1084,18 @@ TH1F* hTk_at40       = new TH1F("hTk_at40","",101,-0.5,100.5);
     hTk_at20       ->Fill(ntrk20);
     hTk_at30       ->Fill(ntrk30);
     hTk_at40       ->Fill(ntrk40);
+    hr1_f_z1->Fill(z1,r1);
+    h_x1_y1_z1->Fill(x1,y1,z1);
+
      if ( track_isfromLLP[i] > 0 ) {
      //Dans cette partie, les tracks simul�es sont associ�es � des tracks reconstruites qui sont potentiellement de tracks secondaires qui viennent d'un neutralino
        nTkSim++;
        
        hTkSim_pt->Fill( pt );
        hTkSim_eta->Fill( eta );
-       hTkSim_dr->Fill( dr );
-       hTkSim_dz->Fill( dz );
+
        hTkSim_dd->Fill( dd );
-       hTkSim_drSig->Fill( drSig );
-       hTkSim_dzSig->Fill( dzSig );
+
        hTkSim_ddSig->Fill( ddSig );
        hTkSim_inJet->Fill( inJet );
        hTkSim_pix->Fill( pix );
@@ -1040,28 +1106,51 @@ TH1F* hTk_at40       = new TH1F("hTk_at40","",101,-0.5,100.5);
        //fin de ce que prend en entr�e le BDT
        //efficace peu importe les valeurs: dur�e de vie du neutralino, distance avant decay 10-50 ==> indepednant des valeurs en entr�e
        hTkSim_at10->Fill( ntrk10 );
+       hTkSim_at1020->Fill(ntrk1020);
        hTkSim_at20->Fill( ntrk20 );
+       hTkSim_at2030->Fill(ntrk2030);
        hTkSim_at30->Fill( ntrk30 );
+       hTkSim_at3040->Fill(ntrk3040);
        hTkSim_at40->Fill( ntrk40 );
-       ///Implémentation Paul
-       hr1_f_z1->Fill(r1,z1);
-       h_x1_y1_z1->Fill(x1,y1,z1);
-       hTracksCharge->Fill(q);
-       if (eta>1.5)
-        {hr1_etasup1_5->Fill(r1);}
+       hTkSim_at40XX->Fill(ntrk40XX);
+
+      htree_track_algoIs->Fill(algo);
+      htree_track_ogalgoIs->Fill(ogalgo);
+
+      hTracksCharge->Fill(q);
+
+       if (abs(eta)<1.5)
+        {hr1_etasup1_5_isFromLLP->Fill(r1);
+        hTkSim_dr->Fill( dr );
+        hTkSim_drSig->Fill( drSig );}
        else
-        {hz1_etainf1_5->Fill(z1);}
+        {hz1_etainf1_5_isFromLLP->Fill(z1);
+        hTkSim_dz->Fill( dz );
+        hTkSim_dzSig->Fill( dzSig );}
+
+        hValPixHitIs->Fill(nValPixHit);
+        hValStripHitIs->Fill(nValStripHit);
+        hValTIBHitIs->Fill(nValTIBHit);
+        hValTIDHitIs->Fill(nValTIDHit);
+        hValTOBHitIs->Fill(nValTOBHit);
+        hValTECHHitIs->Fill(nValTECHHit);
+        hValPixBarHitIs->Fill(nValPixBarHit);
+        hValPixEndCHitIs->Fill(nValPixEndCHit);
+        hHQIs->Fill(HQ);
+        hLooseIs->Fill(Loose);
+        hTightIs->Fill(Tight);
+
      }
 //BDT, prend en entr�e les variables discriminantes, rend une proba d'�tre d'un neutralino ou non
      else {
        nTkOth++;
        hTkOth_pt->Fill( pt );
        hTkOth_eta->Fill( eta );
-       hTkOth_dr->Fill( dr );
-       hTkOth_dz->Fill( dz );
+       
+       
        hTkOth_dd->Fill( dd );
-       hTkOth_drSig->Fill( drSig );
-       hTkOth_dzSig->Fill( dzSig );
+       
+       
        hTkOth_ddSig->Fill( ddSig );
        hTkOth_inJet->Fill( inJet );
        hTkOth_pix->Fill( pix );
@@ -1070,9 +1159,35 @@ TH1F* hTk_at40       = new TH1F("hTk_at40","",101,-0.5,100.5);
        hTkOth_r1->Fill( r1 );
        hTkOth_z1->Fill( z1 );
        hTkOth_at10->Fill( ntrk10 );
+       hTkOth_at1020->Fill(ntrk1020);
        hTkOth_at20->Fill( ntrk20 );
+       hTkOth_at2030->Fill(ntrk2030);
        hTkOth_at30->Fill( ntrk30 );
+       hTkOth_at3040->Fill(ntrk3040);
        hTkOth_at40->Fill( ntrk40 );
+       hTkOth_at40XX->Fill(ntrk40XX);
+       if (abs(eta)<1.5)
+        {hr1_etasup1_5_NotFromLLP->Fill(r1);
+        hTkOth_dr->Fill( dr );
+        hTkOth_drSig->Fill( drSig );}
+       else
+        {hz1_etainf1_5_NotFromLLP->Fill(z1);
+        hTkOth_dz->Fill( dz );
+        hTkOth_dzSig->Fill( dzSig );}
+
+       htree_track_algoNot->Fill(algo);
+       htree_track_ogalgoNot->Fill(ogalgo);
+       hValPixHitNot->Fill(nValPixHit);
+       hValStripHitNot->Fill(nValStripHit);
+       hValTIBHitNot->Fill(nValTIBHit);
+       hValTIDHitNot->Fill(nValTIDHit);
+       hValTOBHitNot->Fill(nValTOBHit);
+       hValTECHHitNot->Fill(nValTECHHit);
+       hValPixBarHitNot->Fill(nValPixBarHit);
+       hValPixEndCHitNot->Fill(nValPixEndCHit);
+       hHQNot->Fill(HQ);
+       hLooseNot->Fill(Loose);
+       hTightNot->Fill(Tight);
      }
 
    }  // end Loop on Track or TrackSim
