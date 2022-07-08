@@ -109,26 +109,25 @@ public :
    vector<int>     *tree_track_recoAK4PFJet_idx;
    vector<int>     *tree_track_reco08Jet_idx;
    vector<int>     *tree_track_recoCaloJet_idx;
-   vector<double>  *tree_track_MVAval_FromDispTop;// simple BDT voir si d'autres algo sont pas meilleurs neural network and so on??
-   
+   // vector<double>  *tree_track_MVAval_FromDispTop;// simple BDT voir si d'autres algo sont pas meilleurs neural network and so on??
+   vector<double>  *tree_track_MVAval;
    //A utiliser par la suite
-   vector<float>   *tree_secondaryVtx_X;//A comparer avec l'information du vrai neutralino simul�e pour voir si on reconstruit bien lesv == vertx secondaires
-   vector<float>   *tree_secondaryVtx_Y;
+   vector<float>   *tree_secondaryVtx_X;//A comparer avec l'information du vrai neutralino simul�e pour voir si on reconstruit bien lesvertx secondaires
+   vector<float>   *tree_secondaryVtx_Y;//Kalman fitted vertex
    vector<float>   *tree_secondaryVtx_Z;
-   vector<float>   *tree_secondaryVtx_diff_X;//peut �tre �a mais � v�rifier
+   vector<float>   *tree_secondaryVtx_diff_X;//Kalman fitted- original position (gen)
    vector<float>   *tree_secondaryVtx_diff_Y;
    vector<float>   *tree_secondaryVtx_diff_Z;
    vector<int>     *tree_secondaryVtx_nTracks;
    vector<int>     *tree_secondaryVtx_isValid;
    vector<float>   *tree_secondaryVtx_NChi2;
-   ///
    
-   vector<float>   *tree_secondaryVtx_iterative_X;
-   vector<float>   *tree_secondaryVtx_iterative_Y;
-   vector<float>   *tree_secondaryVtx_iterative_Z;
-   vector<int>     *tree_secondaryVtx_iterative_nTracks;
-   vector<float>   *tree_secondaryVtx_iterative_NChi2;
-   vector<bool>    *tree_secondaryVtx_iterative_isSelected;
+   // vector<float>   *tree_secondaryVtx_iterative_X;
+   // vector<float>   *tree_secondaryVtx_iterative_Y;
+   // vector<float>   *tree_secondaryVtx_iterative_Z;
+   // vector<int>     *tree_secondaryVtx_iterative_nTracks;
+   // vector<float>   *tree_secondaryVtx_iterative_NChi2;
+   // vector<bool>    *tree_secondaryVtx_iterative_isSelected;
 
    //Not used yet
    vector<int>     *tree_simtrack_simtrack_charge;//efficacit�de reoncutrction de straces � recalculer
@@ -235,7 +234,64 @@ public :
    vector<bool>    *tree_slimmedmuon_CutBasedIdMediumPrompt;
    vector<bool>    *tree_slimmedmuon_CutBasedIdTight;
    
-   
+   //Added By Paul
+
+   float tree_LLP1_x;
+   float tree_LLP1_y;
+   float tree_LLP1_z;
+   float tree_LLP2_x;
+   float tree_LLP2_y;
+   float tree_LLP2_z;
+   float tree_LLP1_pt;
+   float tree_LLP1_eta;
+   float tree_LLP1_phi;
+   float tree_LLP2_pt;
+   float tree_LLP2_eta;
+   float tree_LLP2_phi;
+   int tree_nLLP;
+   // vector<float> *tree_simtrack_genVertexPosDiff_top1_X;
+   // vector<float> *tree_simtrack_genVertexPosDiff_top1_Y;
+   // vector<float> *tree_simtrack_genVertexPosDiff_top1_Z;
+   // vector<float> *tree_simtrack_genVertexPosDiff_top1_dV;
+   // vector<float> *tree_simtrack_genVertexPosDiff_top2_X;
+   // vector<float> *tree_simtrack_genVertexPosDiff_top2_Y;
+   // vector<float> *tree_simtrack_genVertexPosDiff_top2_Z;
+   // vector<float> *tree_simtrack_genVertexPosDiff_top2_dV;
+   // vector<int> *tree_NSimtoReco;
+   // vector<int> *tree_NSim;
+   // vector<float> *tree_Ratio_RecoEfficiency;
+   // vector<int> *tree_nTracks_ADsel;
+   // vector<int> *tree_nTracks_b4sel;
+   // vector<float> *tree_Ratio_b4ADsel;
+   // vector<float> *tree_displacedTTracks_pt;
+   // vector<float> *tree_simtrack_isRecoMatched_pt;
+
+   // vector<float> *tree_FakeRate = 0;
+   // vector<float> *tree_RecoVertex1_Eff = 0;
+   // vector<float> *tree_RecoVertex2_Eff = 0;
+   // vector<float> *tree_VtxReco_Eff = 0;
+   // //First top analysis
+
+   // vector<float> *tree_seedVtx_X_top1 = 0;
+   // vector<float> *tree_seedVtx_Y_top1 = 0;
+   // vector<float> *tree_seedVtx_Z_top1 = 0;
+   // vector<float> *tree_seedVtx_dd_top1 = 0;
+   // vector<float> *tree_seedVtx_dphi_top1 = 0;
+   // vector<float> *tree_seedVtx_distance2track_top1 = 0; 
+   // vector<float> *tree_seedVtx_normChi2_top1 = 0;
+   // vector<float> *tree_VtxReco_Eff_top1 = 0;
+
+   //Second top analysis
+
+   // vector<float> *tree_seedVtx_X_top2 = 0;
+   // vector<float> *tree_seedVtx_Y_top2 = 0;
+   // vector<float> *tree_seedVtx_Z_top2 = 0;
+   // vector<float> *tree_seedVtx_dd_top2 = 0;
+   // vector<float> *tree_seedVtx_dphi_top2 = 0;
+   // vector<float> *tree_seedVtx_distance2track_top2 = 0; 
+   // vector<float> *tree_seedVtx_normChi2_top2 = 0;
+   // vector<float> *tree_VtxReco_Eff_top2 = 0;
+
    //////////////////////////////////////
    TBranch        *b_runNumber;   //!
    TBranch        *b_eventNumber;   //!
@@ -315,7 +371,8 @@ public :
    TBranch        *b_tree_track_recoAK4PFJet_idx;   //!
    TBranch        *b_tree_track_reco08Jet_idx;   //!
    TBranch        *b_tree_track_recoCaloJet_idx;   //!
-   TBranch        *b_tree_track_MVAval_FromDispTop;   //!
+   // TBranch        *b_tree_track_MVAval_FromDispTop;   //!
+   TBranch        *b_tree_track_MVAval;
    TBranch        *b_tree_secondaryVtx_X;   //!
    TBranch        *b_tree_secondaryVtx_Y;   //!
    TBranch        *b_tree_secondaryVtx_Z;   //!
@@ -325,12 +382,12 @@ public :
    TBranch        *b_tree_secondaryVtx_nTracks;   //!
    TBranch        *b_tree_secondaryVtx_isValid;   //!
    TBranch        *b_tree_secondaryVtx_NChi2;   //!
-   TBranch        *b_tree_secondaryVtx_iterative_X;   //!
-   TBranch        *b_tree_secondaryVtx_iterative_Y;   //!
-   TBranch        *b_tree_secondaryVtx_iterative_Z;   //!
-   TBranch        *b_tree_secondaryVtx_iterative_nTracks;   //!
-   TBranch        *b_tree_secondaryVtx_iterative_NChi2;   //!
-   TBranch        *b_tree_secondaryVtx_iterative_isSelected;   //!
+   // TBranch        *b_tree_secondaryVtx_iterative_X;   //!
+   // TBranch        *b_tree_secondaryVtx_iterative_Y;   //!
+   // TBranch        *b_tree_secondaryVtx_iterative_Z;   //!
+   // TBranch        *b_tree_secondaryVtx_iterative_nTracks;   //!
+   // TBranch        *b_tree_secondaryVtx_iterative_NChi2;   //!
+   // TBranch        *b_tree_secondaryVtx_iterative_isSelected;   //!
    TBranch        *b_tree_simtrack_simtrack_charge;   //!
    TBranch        *b_tree_simtrack_simtrack_pt;   //!
    TBranch        *b_tree_simtrack_simtrack_eta;   //!
@@ -426,6 +483,65 @@ public :
    TBranch        *b_tree_slimmedmuon_CutBasedIdMediumPrompt;   //!
    TBranch        *b_tree_slimmedmuon_CutBasedIdTight;   //!
 
+   //Added byPaul
+   TBranch *b_tree_LLP1_x;
+   TBranch *b_tree_LLP1_y;
+   TBranch *b_tree_LLP1_z;
+   TBranch *b_tree_LLP2_x;
+   TBranch *b_tree_LLP2_y;
+   TBranch *b_tree_LLP2_z;
+   TBranch *b_tree_LLP1_pt;
+   TBranch *b_tree_LLP1_eta;
+   TBranch *b_tree_LLP1_phi;
+   TBranch *b_tree_LLP2_pt;
+   TBranch *b_tree_LLP2_eta;
+   TBranch *b_tree_LLP2_phi;
+   TBranch *b_tree_nLLP;
+   // TBranch *b_tree_simtrack_genVertexPosDiff_top1_X;
+   // TBranch *b_tree_simtrack_genVertexPosDiff_top1_Y;
+   // TBranch *b_tree_simtrack_genVertexPosDiff_top1_Z;
+   // TBranch *b_tree_simtrack_genVertexPosDiff_top1_dV;
+   // TBranch *b_tree_simtrack_genVertexPosDiff_top2_X;
+   // TBranch *b_tree_simtrack_genVertexPosDiff_top2_Y;
+   // TBranch *b_tree_simtrack_genVertexPosDiff_top2_Z;
+   // TBranch *b_tree_simtrack_genVertexPosDiff_top2_dV;
+   // TBranch *b_tree_NSimtoReco;
+   // TBranch *b_tree_NSim;
+   // TBranch *b_tree_Ratio_RecoEfficiency;
+   // TBranch *b_tree_nTracks_ADsel;
+   // TBranch *b_tree_nTracks_b4sel;
+   // TBranch *b_tree_Ratio_b4ADsel;
+   // TBranch *b_tree_displacedTTracks_pt;
+   // TBranch *b_tree_simtrack_isRecoMatched_pt;
+
+
+   // TBranch *b_tree_FakeRate;
+   // TBranch *b_tree_RecoVertex1_Eff;
+   // TBranch *b_tree_RecoVertex2_Eff;
+
+   // //First top analysis
+
+   // TBranch *b_tree_seedVtx_X_top1;
+   // TBranch *b_tree_seedVtx_Y_top1;
+   // TBranch *b_tree_seedVtx_Z_top1;
+   // TBranch *b_tree_seedVtx_dd_top1;
+   // TBranch *b_tree_seedVtx_dphi_top1;
+   // TBranch *b_tree_seedVtx_distance2track_top1; 
+   // TBranch *b_tree_seedVtx_normChi2_top1;
+   // TBranch *b_tree_VtxReco_Eff_top1;
+
+   // //Second top analysis
+
+   // TBranch *b_tree_seedVtx_X_top2;
+   // TBranch *b_tree_seedVtx_Y_top2;
+   // TBranch *b_tree_seedVtx_Z_top2;
+   // TBranch *b_tree_seedVtx_dd_top2;
+   // TBranch *b_tree_seedVtx_dphi_top2;
+   // TBranch *b_tree_seedVtx_distance2track_top2; 
+   // TBranch *b_tree_seedVtx_normChi2_top2;
+   // TBranch *b_tree_VtxReco_Eff_top2;
+   // TBranch *b_tree_VtxReco_Eff;
+
    LLTopTree(TTree *tree=0);
    virtual ~LLTopTree();
    virtual Int_t    Cut(Long64_t entry);
@@ -456,17 +572,22 @@ LLTopTree::LLTopTree(TTree *tree) : fChain(0)
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("UDD_bgctau30_smu300_snu250.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("UDD_bgctau50_smu275_snu225.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("UDD_bgctau30_smu300_snu250.root");
+         f = new TFile("UDD_bgctau50_smu275_snu225.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("UDD_bgctau30_smu300_snu250.root:/trackingPerf");
+      TDirectory * dir = (TDirectory*)f->Get("UDD_bgctau50_smu275_snu225.root:/trackingPerf");
       dir->GetObject("ttree",tree);
 
    }
    Init(tree);
 }
-
+/*
+UDD_bgctau10_smu250_snu200
+UDD_bgctau30_smu300_snu250
+UDD_bgctau50_smu275_snu225
+UDD_bgctau70_smu250_snu200
+*/
 LLTopTree::~LLTopTree()
 {
    if (!fChain) return;
@@ -501,7 +622,7 @@ void LLTopTree::Init(TTree *tree)
    // code, but the routine can be extended by the user if needed.
    // Init() will be called many times when running on PROOF
    // (once per file to be processed).
-
+   
    // Set object pointer
    tree_vtx_PosX = 0;
    tree_vtx_PosY = 0;
@@ -576,7 +697,8 @@ void LLTopTree::Init(TTree *tree)
    tree_track_recoAK4PFJet_idx = 0;
    tree_track_reco08Jet_idx = 0;
    tree_track_recoCaloJet_idx = 0;
-   tree_track_MVAval_FromDispTop = 0;
+   // tree_track_MVAval_FromDispTop = 0;
+   tree_track_MVAval=0;
    tree_secondaryVtx_X = 0;
    tree_secondaryVtx_Y = 0;
    tree_secondaryVtx_Z = 0;
@@ -586,12 +708,12 @@ void LLTopTree::Init(TTree *tree)
    tree_secondaryVtx_nTracks = 0;
    tree_secondaryVtx_isValid = 0;
    tree_secondaryVtx_NChi2 = 0;
-   tree_secondaryVtx_iterative_X = 0;
-   tree_secondaryVtx_iterative_Y = 0;
-   tree_secondaryVtx_iterative_Z = 0;
-   tree_secondaryVtx_iterative_nTracks = 0;
-   tree_secondaryVtx_iterative_NChi2 = 0;
-   tree_secondaryVtx_iterative_isSelected = 0;
+   // tree_secondaryVtx_iterative_X = 0;
+   // tree_secondaryVtx_iterative_Y = 0;
+   // tree_secondaryVtx_iterative_Z = 0;
+   // tree_secondaryVtx_iterative_nTracks = 0;
+   // tree_secondaryVtx_iterative_NChi2 = 0;
+   // tree_secondaryVtx_iterative_isSelected = 0;
    
    ///Not used tree_simtrack
    tree_simtrack_simtrack_charge = 0;
@@ -689,6 +811,67 @@ void LLTopTree::Init(TTree *tree)
    tree_slimmedmuon_CutBasedIdMedium = 0;
    tree_slimmedmuon_CutBasedIdMediumPrompt = 0;
    tree_slimmedmuon_CutBasedIdTight = 0;
+
+   //Added by Paul
+
+   // tree_LLP1_x = 0;
+   tree_LLP1_y = 0;
+   tree_LLP1_z = 0;
+   tree_LLP2_x = 0;
+   tree_LLP2_y = 0;
+   tree_LLP2_z = 0;
+   tree_LLP1_pt = 0;
+   tree_LLP1_eta = 0;
+   tree_LLP1_phi = 0;
+   tree_LLP2_pt = 0;
+   tree_LLP2_eta = 0;
+   tree_LLP2_phi = 0;
+   tree_nLLP = 0;
+   // tree_simtrack_genVertexPosDiff_top1_X = 0;
+   // tree_simtrack_genVertexPosDiff_top1_Y = 0;
+   // tree_simtrack_genVertexPosDiff_top1_Z = 0;
+   // tree_simtrack_genVertexPosDiff_top1_dV = 0;
+   // tree_simtrack_genVertexPosDiff_top2_X = 0;
+   // tree_simtrack_genVertexPosDiff_top2_Y = 0;
+   // tree_simtrack_genVertexPosDiff_top2_Z = 0;
+   // tree_simtrack_genVertexPosDiff_top2_dV = 0;
+   // tree_NSimtoReco = 0;
+   // tree_NSim = 0;
+   // tree_Ratio_RecoEfficiency = 0;
+   // tree_nTracks_ADsel = 0;
+   // tree_nTracks_b4sel = 0;
+   // tree_Ratio_b4ADsel = 0;
+   // tree_displacedTTracks_pt = 0;
+   // tree_simtrack_isRecoMatched_pt = 0;
+
+
+   // tree_FakeRate = 0;
+   // tree_RecoVertex1_Eff = 0;
+   // tree_RecoVertex2_Eff = 0;
+   // tree_VtxReco_Eff = 0;
+
+   // //First top analysis
+
+   // tree_seedVtx_X_top1 = 0;
+   // tree_seedVtx_Y_top1 = 0;
+   // tree_seedVtx_Z_top1 = 0;
+   // tree_seedVtx_dd_top1 = 0;
+   // tree_seedVtx_dphi_top1 = 0;
+   // tree_seedVtx_distance2track_top1 = 0; 
+   // tree_seedVtx_normChi2_top1 = 0;
+   // tree_VtxReco_Eff_top1 = 0;
+
+   // //Second top analysis
+
+   // tree_seedVtx_X_top2 = 0;
+   // tree_seedVtx_Y_top2 = 0;
+   // tree_seedVtx_Z_top2 = 0;
+   // tree_seedVtx_dd_top2 = 0;
+   // tree_seedVtx_dphi_top2 = 0;
+   // tree_seedVtx_distance2track_top2 = 0; 
+   // tree_seedVtx_normChi2_top2 = 0;
+   // tree_VtxReco_Eff_top2 = 0;
+
    // Set branch addresses and branch pointers
    if (!tree) return;
    fChain = tree;
@@ -773,7 +956,8 @@ void LLTopTree::Init(TTree *tree)
    fChain->SetBranchAddress("tree_track_recoAK4PFJet_idx", &tree_track_recoAK4PFJet_idx, &b_tree_track_recoAK4PFJet_idx);
    fChain->SetBranchAddress("tree_track_reco08Jet_idx", &tree_track_reco08Jet_idx, &b_tree_track_reco08Jet_idx);
    fChain->SetBranchAddress("tree_track_recoCaloJet_idx", &tree_track_recoCaloJet_idx, &b_tree_track_recoCaloJet_idx);
-   fChain->SetBranchAddress("tree_track_MVAval_FromDispTop", &tree_track_MVAval_FromDispTop, &b_tree_track_MVAval_FromDispTop);
+   // fChain->SetBranchAddress("tree_track_MVAval_FromDispTop", &tree_track_MVAval_FromDispTop, &b_tree_track_MVAval_FromDispTop);
+   fChain->SetBranchAddress("tree_track_MVAval",&tree_track_MVAval,&b_tree_track_MVAval);
    fChain->SetBranchAddress("tree_secondaryVtx_X", &tree_secondaryVtx_X, &b_tree_secondaryVtx_X);
    fChain->SetBranchAddress("tree_secondaryVtx_Y", &tree_secondaryVtx_Y, &b_tree_secondaryVtx_Y);
    fChain->SetBranchAddress("tree_secondaryVtx_Z", &tree_secondaryVtx_Z, &b_tree_secondaryVtx_Z);
@@ -783,12 +967,12 @@ void LLTopTree::Init(TTree *tree)
    fChain->SetBranchAddress("tree_secondaryVtx_nTracks", &tree_secondaryVtx_nTracks, &b_tree_secondaryVtx_nTracks);
    fChain->SetBranchAddress("tree_secondaryVtx_isValid", &tree_secondaryVtx_isValid, &b_tree_secondaryVtx_isValid);
    fChain->SetBranchAddress("tree_secondaryVtx_NChi2", &tree_secondaryVtx_NChi2, &b_tree_secondaryVtx_NChi2);
-   fChain->SetBranchAddress("tree_secondaryVtx_iterative_X", &tree_secondaryVtx_iterative_X, &b_tree_secondaryVtx_iterative_X);
-   fChain->SetBranchAddress("tree_secondaryVtx_iterative_Y", &tree_secondaryVtx_iterative_Y, &b_tree_secondaryVtx_iterative_Y);
-   fChain->SetBranchAddress("tree_secondaryVtx_iterative_Z", &tree_secondaryVtx_iterative_Z, &b_tree_secondaryVtx_iterative_Z);
-   fChain->SetBranchAddress("tree_secondaryVtx_iterative_nTracks", &tree_secondaryVtx_iterative_nTracks, &b_tree_secondaryVtx_iterative_nTracks);
-   fChain->SetBranchAddress("tree_secondaryVtx_iterative_NChi2", &tree_secondaryVtx_iterative_NChi2, &b_tree_secondaryVtx_iterative_NChi2);
-   fChain->SetBranchAddress("tree_secondaryVtx_iterative_isSelected", &tree_secondaryVtx_iterative_isSelected, &b_tree_secondaryVtx_iterative_isSelected);
+   // fChain->SetBranchAddress("tree_secondaryVtx_iterative_X", &tree_secondaryVtx_iterative_X, &b_tree_secondaryVtx_iterative_X);
+   // fChain->SetBranchAddress("tree_secondaryVtx_iterative_Y", &tree_secondaryVtx_iterative_Y, &b_tree_secondaryVtx_iterative_Y);
+   // fChain->SetBranchAddress("tree_secondaryVtx_iterative_Z", &tree_secondaryVtx_iterative_Z, &b_tree_secondaryVtx_iterative_Z);
+   // fChain->SetBranchAddress("tree_secondaryVtx_iterative_nTracks", &tree_secondaryVtx_iterative_nTracks, &b_tree_secondaryVtx_iterative_nTracks);
+   // fChain->SetBranchAddress("tree_secondaryVtx_iterative_NChi2", &tree_secondaryVtx_iterative_NChi2, &b_tree_secondaryVtx_iterative_NChi2);
+   // fChain->SetBranchAddress("tree_secondaryVtx_iterative_isSelected", &tree_secondaryVtx_iterative_isSelected, &b_tree_secondaryVtx_iterative_isSelected);
    fChain->SetBranchAddress("tree_simtrack_simtrack_charge", &tree_simtrack_simtrack_charge, &b_tree_simtrack_simtrack_charge);
    fChain->SetBranchAddress("tree_simtrack_simtrack_pt", &tree_simtrack_simtrack_pt, &b_tree_simtrack_simtrack_pt);
    fChain->SetBranchAddress("tree_simtrack_simtrack_eta", &tree_simtrack_simtrack_eta, &b_tree_simtrack_simtrack_eta);
@@ -883,6 +1067,69 @@ void LLTopTree::Init(TTree *tree)
    fChain->SetBranchAddress("tree_slimmedmuon_CutBasedIdMedium", &tree_slimmedmuon_CutBasedIdMedium, &b_tree_slimmedmuon_CutBasedIdMedium);
    fChain->SetBranchAddress("tree_slimmedmuon_CutBasedIdMediumPrompt", &tree_slimmedmuon_CutBasedIdMediumPrompt, &b_tree_slimmedmuon_CutBasedIdMediumPrompt);
    fChain->SetBranchAddress("tree_slimmedmuon_CutBasedIdTight", &tree_slimmedmuon_CutBasedIdTight, &b_tree_slimmedmuon_CutBasedIdTight);
+   
+   //Added By Paul
+   fChain->SetBranchAddress("tree_LLP1_x",&tree_LLP1_x,&b_tree_LLP1_x);
+   fChain->SetBranchAddress("tree_LLP1_y",&tree_LLP1_y,&b_tree_LLP1_y);
+   fChain->SetBranchAddress("tree_LLP1_z",&tree_LLP1_z,&b_tree_LLP1_z);    
+   fChain->SetBranchAddress("tree_LLP2_x",&tree_LLP2_x,&b_tree_LLP2_x);
+   fChain->SetBranchAddress("tree_LLP2_y",&tree_LLP2_y,&b_tree_LLP2_y);
+   fChain->SetBranchAddress("tree_LLP2_z",&tree_LLP2_z,&b_tree_LLP2_z);
+
+   fChain->SetBranchAddress("tree_LLP1_pt",&tree_LLP1_pt,&b_tree_LLP1_pt);
+   fChain->SetBranchAddress("tree_LLP1_eta",&tree_LLP1_eta,&b_tree_LLP1_eta);
+   fChain->SetBranchAddress("tree_LLP1_phi",&tree_LLP1_phi,&b_tree_LLP1_phi);
+
+   fChain->SetBranchAddress("tree_LLP2_pt",&tree_LLP2_pt,&b_tree_LLP2_pt);
+   fChain->SetBranchAddress("tree_LLP2_eta",&tree_LLP2_eta,&b_tree_LLP2_eta);
+   fChain->SetBranchAddress("tree_LLP2_phi",&tree_LLP2_phi,&b_tree_LLP2_phi);
+   fChain->SetBranchAddress("tree_nLLP",&tree_nLLP,&b_tree_nLLP);
+
+   // fChain->SetBranchAddress("tree_simtrack_genVertexPosDiff_top1_X",&tree_simtrack_genVertexPosDiff_top1_X,&b_tree_simtrack_genVertexPosDiff_top1_X);
+   // fChain->SetBranchAddress("tree_simtrack_genVertexPosDiff_top1_X",&tree_simtrack_genVertexPosDiff_top1_Y,&b_tree_simtrack_genVertexPosDiff_top1_Y);
+   // fChain->SetBranchAddress("tree_simtrack_genVertexPosDiff_top1_X",&tree_simtrack_genVertexPosDiff_top1_Z,&b_tree_simtrack_genVertexPosDiff_top1_Z);
+   // fChain->SetBranchAddress("tree_simtrack_genVertexPosDiff_top1_dV",&tree_simtrack_genVertexPosDiff_top1_dV,&b_tree_simtrack_genVertexPosDiff_top1_dV);
+   // fChain->SetBranchAddress("tree_simtrack_genVertexPosDiff_top2_X",&tree_simtrack_genVertexPosDiff_top2_X,&b_tree_simtrack_genVertexPosDiff_top2_X);
+   // fChain->SetBranchAddress("tree_simtrack_genVertexPosDiff_top2_Y",&tree_simtrack_genVertexPosDiff_top2_Y,&b_tree_simtrack_genVertexPosDiff_top2_Y);
+   // fChain->SetBranchAddress("tree_simtrack_genVertexPosDiff_top2_Z",&tree_simtrack_genVertexPosDiff_top2_Z,&b_tree_simtrack_genVertexPosDiff_top2_Z);
+   // fChain->SetBranchAddress("tree_simtrack_genVertexPosDiff_top2_dV",&tree_simtrack_genVertexPosDiff_top2_dV,&b_tree_simtrack_genVertexPosDiff_top2_dV);
+
+   // fChain->SetBranchAddress("tree_NSimtoReco",&tree_NSimtoReco,&b_tree_NSimtoReco);
+   // fChain->SetBranchAddress("tree_NSim",&tree_NSim,&b_tree_NSim);
+   // fChain->SetBranchAddress("tree_Ratio_RecoEfficiency",&tree_Ratio_RecoEfficiency,&b_tree_Ratio_RecoEfficiency);
+   // fChain->SetBranchAddress("tree_nTracks_ADsel",&tree_nTracks_ADsel,&b_tree_nTracks_ADsel);
+   // fChain->SetBranchAddress("tree_nTracks_b4sel",&tree_nTracks_b4sel,&b_tree_nTracks_b4sel);
+   // fChain->SetBranchAddress("tree_Ratio_b4ADsel",&tree_Ratio_b4ADsel,&b_tree_Ratio_b4ADsel);
+   // fChain->SetBranchAddress("tree_displacedTTracks_pt",&tree_displacedTTracks_pt,&b_tree_displacedTTracks_pt);
+   // fChain->SetBranchAddress("tree_simtrack_isRecoMatched_pt",&tree_simtrack_isRecoMatched_pt,&b_tree_simtrack_isRecoMatched_pt);
+   
+   // fChain->SetBranchAddress("tree_FakeRate",&tree_FakeRate,&b_tree_FakeRate);
+   // fChain->SetBranchAddress("tree_RecoVertex1_Eff",&tree_RecoVertex1_Eff,&b_tree_RecoVertex1_Eff);
+   // fChain->SetBranchAddress("tree_RecoVertex2_Eff",&tree_RecoVertex2_Eff,&b_tree_RecoVertex2_Eff);
+
+   // //First top analysis
+
+   // fChain->SetBranchAddress("                tree_seedVtx_X_top1",&tree_seedVtx_X_top1,&b_tree_seedVtx_X_top1);
+   // fChain->SetBranchAddress("                tree_seedVtx_Y_top1",&tree_seedVtx_Y_top1,&b_tree_seedVtx_Y_top1);
+   // fChain->SetBranchAddress("                tree_seedVtx_Z_top1",&tree_seedVtx_Z_top1,&b_tree_seedVtx_Z_top1);
+   // fChain->SetBranchAddress("                tree_seedVtx_dd_top1",&tree_seedVtx_dd_top1,&b_tree_seedVtx_dd_top1);
+   // fChain->SetBranchAddress("                tree_seedVtx_dphi_top1",&tree_seedVtx_dphi_top1,&b_tree_seedVtx_dphi_top1);
+   // fChain->SetBranchAddress("                tree_seedVtx_distance2track_top1",&tree_seedVtx_distance2track_top1,&b_tree_seedVtx_distance2track_top1); 
+   // fChain->SetBranchAddress("                tree_seedVtx_normChi2_top1",&tree_seedVtx_normChi2_top1,&b_tree_seedVtx_normChi2_top1);
+   // fChain->SetBranchAddress("                tree_VtxReco_Eff_top1",&tree_VtxReco_Eff_top1,&b_tree_VtxReco_Eff_top1);
+
+   // //Second top analysis
+
+   // fChain->SetBranchAddress("                tree_seedVtx_X_top2",&tree_seedVtx_X_top2,&b_tree_seedVtx_X_top2);
+   // fChain->SetBranchAddress("                tree_seedVtx_Y_top2",&tree_seedVtx_Y_top2,&b_tree_seedVtx_Y_top2);
+   // fChain->SetBranchAddress("                tree_seedVtx_Z_top2",&tree_seedVtx_Z_top2,&b_tree_seedVtx_Z_top2);
+   // fChain->SetBranchAddress("                tree_seedVtx_dd_top2",&tree_seedVtx_dd_top2,&b_tree_seedVtx_dd_top2);
+   // fChain->SetBranchAddress("                tree_seedVtx_dphi_top2",&tree_seedVtx_dphi_top2,&b_tree_seedVtx_dphi_top2);
+   // fChain->SetBranchAddress("                tree_seedVtx_distance2track_top2",&tree_seedVtx_distance2track_top2,&b_tree_seedVtx_distance2track_top2); 
+   // fChain->SetBranchAddress("                tree_seedVtx_normChi2_top2",&tree_seedVtx_normChi2_top2,&b_tree_seedVtx_normChi2_top2);
+   // fChain->SetBranchAddress("                tree_VtxReco_Eff_top2",&tree_VtxReco_Eff_top2,&b_tree_VtxReco_Eff_top2);
+   // fChain->SetBranchAddress("                tree_VtxReco_Eff",&tree_VtxReco_Eff,&b_tree_VtxReco_Eff);
+   
    Notify();
 }
 
