@@ -326,6 +326,12 @@ TH1F *hData_Mu_Axis_dR = new TH1F("hData_Mu_Axis_dR","hData_Mu_Axis_dR",100,0.,5
 TH1F *hData_Matched_bdtvalue = new TH1F("hData_Matched_bdtvalue","hData_Matched_bdtvalue",51,-1.,1.);
 TH1F *hData_NotMatched_bdtvalue = new TH1F("hData_NotMatched_bdtvalue","hData_NotMatched_bdtvalue",51,-1.,1.);
 TH1F *h_DataHSCP = new TH1F("h_DataHSCP","h_DataHSCP",101,0.,100.);
+
+
+//Daniel more compact code for event axis
+ TH1F* hData_Jet_njet1     = new TH1F("hData_Jet_njet1","",21,-0.5,20.5);
+ TH1F* hData_Jet_njet2     = new TH1F("hData_Jet_njet2","",21,-0.5,20.5);
+ TH1F* hDataGen_jetseed_dR     = new TH1F("hDataGen_jetseed_dR","",50,0.,5.);
 ///////////////////////////////////////////////////////////////////
 
  if (fChain == 0) return;
@@ -993,8 +999,9 @@ float nTrackingPerfBkg=0;
 // Jet
 
    int njet = 0, njet_forLLP = 0, ijet1 = -1, njet1 = 0, njet2 = 0;
-   bool isjet[99], isjet1[99];
-   TLorentzVector vaxis, vaxis2, vjet[99];
+   bool isjet1[99], isjet2[99];
+   TLorentzVector vaxis1, vaxis2, vjet[99];
+   TLorentzVector vseed_jet;
 
    int ntrack =  tree_track_pt->size();
    hData_nTk->Fill(ntrack);
@@ -1008,8 +1015,8 @@ float nTrackingPerfBkg=0;
      float jet_pt  = tree_AK4Slimmedjet_pt->at(i);
      float jet_eta = tree_AK4Slimmedjet_eta->at(i);
      float jet_phi = tree_AK4Slimmedjet_phi->at(i);
-     isjet[i] = false;//first neutralino jets
-     isjet1[i] = false;//second neutralino jets
+     isjet1[i] = false;//first neutralino jets
+     isjet2[i] = false;//second neutralino jets
      v.SetPtEtaPhiM( jet_pt, jet_eta, jet_phi, 0. );//set the axis
 
    if ( jet_pt < PtMin ) continue;
@@ -1061,20 +1068,20 @@ float nTrackingPerfBkg=0;
 //      }	   // end Loop on Track in jet
 //      hData_Jet_ntrksel->Fill( ntrksel );
 //      if ( njet == 1 || ntrksel > 0 ) {
-//        isjet[i] = true;
+//        isjet1[i] = true;
 //        njet_forLLP++;
 //      }
 //$$
      njet_forLLP++;//same as njet
-     isjet[i] = true;
+     isjet1[i] = true;
 //$$
 
      vjet[i] = v;//Only jet data (with  possible muons being removed)
      if ( njet_forLLP == 1 ) {
-       vaxis = v;
+       vaxis1 = v;
        ijet1 = i;
        njet1 = 1;
-       isjet1[i] = true;//are we sure about it? and why not isjet[i]//LOOKAT
+       isjet2[i] = true;//are we sure about it? and why not isjet1[i]//LOOKAT
      }
 
      if ( njet == 1 ) {//met pas si évident à utilisre, reste assez faible
@@ -1115,20 +1122,20 @@ float nTrackingPerfBkg=0;
 ///////////////////////
 // Event axis
 
-   int iLLPrec1 = 0, iLLPrec2 = 1;
+   int iLLPrec1 = 1, iLLPrec2 = 2;
    float dR, dR1 = 10., dR2 = 10., deta, dphi;
    float dRcut = 1.5;//subjectif choice: pi/2
 
    if ( ijet1 >= 0 && ijet1 < njetall ) {
      for (int i=ijet1+1; i<njetall; i++) {   // Loop on jet
-     if ( !isjet[i] ) continue;
-       float jet_eta = vjet[i].Eta();//vjet is a vector of LorentzVector
+     if ( !isjet1[i] ) continue;
+       float jet_eta = vjet[i].Eta();
        float jet_phi = vjet[i].Phi();
-       deltaR = DeltaR( jet_eta, jet_phi, vaxis.Eta(), vaxis.Phi() );//check if the jets belong to the same "hemispehre"...
+       deltaR = DeltaR( jet_eta, jet_phi, vaxis1.Eta(), vaxis1.Phi() );//check if the jets belong to the same "hemispehre"...
      if ( deltaR > dRcut ) continue;
        njet1++;
-       vaxis += vjet[i];//... if so, the axis is modified including the new jet
-       isjet1[i] = true;
+       vaxis1 += vjet[i];//... if so, the axis is modified including the new jet
+       isjet2[i] = true;
      }	   // end Loop on jet
    }
    hData_Jet1->Fill( njet1 );
@@ -1153,11 +1160,11 @@ float nTrackingPerfBkg=0;
 //        }
 //      }	   // end Loop on jet
 //      if ( isIsoMu ) {
-//        deltaR = DeltaR( mu_eta, mu_phi, vaxis.Eta(), vaxis.Phi() );
+//        deltaR = DeltaR( mu_eta, mu_phi, vaxis1.Eta(), vaxis1.Phi() );
 //        hData_muaxis_dR->Fill( deltaR );
 //        if ( deltaR < dRcut ) {
 //          vmu.SetPtEtaPhiM( mu_pt, mu_eta, mu_phi, 0. );
-//          vaxis += vmu; 
+//          vaxis1 += vmu; 
 //          isWithMu = true;
 //        }
 //      }
@@ -1182,11 +1189,11 @@ float nTrackingPerfBkg=0;
 //        }
 //      }	   // end Loop on jet
 //      if ( isIsoEl ) {
-//        deltaR = DeltaR( el_eta, el_phi, vaxis.Eta(), vaxis.Phi() );
+//        deltaR = DeltaR( el_eta, el_phi, vaxis1.Eta(), vaxis1.Phi() );
 //        hData_elaxis_dR->Fill( deltaR );
 //        if ( deltaR < dRcut ) {
 //          vel.SetPtEtaPhiM( el_pt, el_eta, el_phi, 0. );
-//          vaxis += vel; 
+//          vaxis1 += vel; 
 //          isWithEl = true;
 //        }
 //      }
@@ -1195,27 +1202,27 @@ float nTrackingPerfBkg=0;
 //ATTENTIOn peut être tuilse mais pour l'instant détériore
 // // add MET
 //    if ( nMET > 0. && (isWithEl || isWithMu) ) {
-//      dphi = abs(DeltaPhi( vaxis.Phi(), METphi ));
+//      dphi = abs(DeltaPhi( vaxis1.Phi(), METphi ));
 //      hData_METaxis_dphi->Fill( dphi );
 //      if ( dphi < dRcut ) {
 //        vmet.SetPtEtaPhiM( MET, 0., METphi, 0. );
-//        vaxis += vmet; 
+//        vaxis1 += vmet; 
 //      }     
 //    }     
      
 // compare with neutralino axis //prevousi axis is built with jets and not MET
-   float axis_eta = vaxis.Eta();
-   float axis_phi = vaxis.Phi();
+   float axis_eta = vaxis1.Eta();
+   float axis_phi = vaxis1.Phi();
    if ( ijet1 >= 0 ) {
      if ( neu[0] >= 0 ) dR1 = DeltaR( axis_eta, axis_phi, Gen_neu1_eta, Gen_neu1_phi );//dR between reco axis of jets and gen neutralino
      if ( neu[1] >= 0 ) dR2 = DeltaR( axis_eta, axis_phi, Gen_neu2_eta, Gen_neu2_phi );
      dR = dR1;
      if ( dR2 < dR1 ) {//make sure that the reco axis defined meshes well with the axis of the gen neutralino, if not it is swapped
-       iLLPrec1 = 1;
-       iLLPrec2 = 0;
+       iLLPrec1 = 2;
+       iLLPrec2 = 1;
        dR = dR2;
      }
-     if ( iLLPrec1 == 0 ) {
+     if ( iLLPrec1 == 1 ) {
        dphi = abs(DeltaPhi( axis_phi, Gen_neu1_phi ));
        deta = abs(axis_eta - Gen_neu1_eta);
      }
@@ -1238,7 +1245,7 @@ float nTrackingPerfBkg=0;
      //Thisis a first assessment on the axis of the other neutralino wrt the first one
      float axis1sym_phi = axis2_phi;
      
-     if ( iLLPrec2 == 0 ) {
+     if ( iLLPrec2 == 1 ) {
        dR = DeltaR( axis_eta, axis2_phi, Gen_neu1_eta, Gen_neu1_phi );//reco vs gen
        dphi = abs(DeltaPhi( axis2_phi, Gen_neu1_phi ));//check if the neutralino is within the axis previously defined, we would like dR<0.4
        //with the assumption that both neutralinos are back to back
@@ -1254,8 +1261,8 @@ float nTrackingPerfBkg=0;
 
 
      for (int i=ijet1+1; i<njetall; i++) {   // Loop on jet to build second axis
-     if ( !isjet[i] ) continue;
-     if ( isjet1[i] ) continue;
+     if ( !isjet1[i] ) continue;
+     if ( isjet2[i] ) continue;
        if ( njet2 == 0 ) {
          vaxis2 = vjet[i];//define second axis
 	 njet2 = 1;
@@ -1276,7 +1283,7 @@ float nTrackingPerfBkg=0;
        float axis2_eta = vaxis2.Eta();
        float axis2_phi = vaxis2.Phi();
        float dRsym, dphisym;
-       if ( iLLPrec2 == 0 ) {
+       if ( iLLPrec2 == 1) {
          dR = DeltaR( axis2_eta, axis2_phi, Gen_neu1_eta, Gen_neu1_phi );
          dphi = abs(DeltaPhi( axis2_phi, Gen_neu1_phi ));
          deta = abs(axis2_eta - Gen_neu1_eta);
@@ -1304,7 +1311,7 @@ float nTrackingPerfBkg=0;
    }
 //regarder comment se comporte les traces par rapport aux acxes consutris précédemment
 //axe dR trace et axis avec dr plsu petit(done below)
-//dR entre les deux vaxis(done above)
+//dR entre les deux vaxis1(done above)
 //caractéristique de straces par raport à l'association aux neutralions
 //code sans bdt, réudction du bdf?? signal?? perte de traces (later)
       //CHeck if the muon is inside of one of the cone defined by the axis
@@ -1317,8 +1324,8 @@ float nTrackingPerfBkg=0;
             // float mupt = tree_slimmedmuon_pt->at(i);
 	          float mueta = tree_slimmedmuon_eta->at(j);
 			      float muphi = tree_slimmedmuon_phi->at(j);
-            float eta1 = vaxis.Eta();
-            float phi1 = vaxis.Phi();
+            float eta1 = vaxis1.Eta();
+            float phi1 = vaxis1.Phi();
             float eta2 = vaxis2.Eta();
             float phi2 = vaxis2.Phi();
             float dR_Mu_Axis1 = DeltaR( mueta, muphi, eta1, phi1);
@@ -1372,10 +1379,10 @@ for (int i=0; i<ntrack; i++)
       
 ///////////////////////
 // Track or TrackSim + Track data wrt the two axis
-      int nMatch_0=0;
-      int nMatch_1=0;
-      int nMatch_2=0;
-      int nMissMatch=0;
+      // int nMatch_0=0;
+      // int nMatch_1=0;
+      // int nMatch_2=0;
+      // int nMissMatch=0;
 
    int nTkSim = 0, nTkOth = 0;
    int ntracksim = tree_track_simtrack_pt->size();
@@ -1419,7 +1426,6 @@ for (int i=0; i<ntrack; i++)
 
     float dR=0;
     int Tracks_axis=0;//flag to check which axis is the closest from the track
-   //check the dR between the tracks and the first axis (without any selection on the tracks)
     float dR1  = DeltaR( eta, phi, axis_eta, axis_phi);//axis_phi and axis_eta for the first axis
     float axis2_eta = -10;
     float axis2_phi = -10;
@@ -1428,169 +1434,158 @@ for (int i=0; i<ntrack; i++)
     // std::cout<<"nbre jet2= "<<njet2<<" has to be >=1"<<std::endl;
     // if ( njet2 >= 1 ) 
       // {
-        axis2_eta = vaxis2.Eta();
-        axis2_phi = vaxis2.Phi();
-        //check the dR between the tracks and the second axis (without any selection on the tracks)
-        float dR2  = DeltaR( eta, phi, axis2_eta, axis2_phi);
+    axis2_eta = vaxis2.Eta();
+    axis2_phi = vaxis2.Phi();
+    //check the dR between the tracks and the second axis (without any selection on the tracks)
+    float dR2  = DeltaR( eta, phi, axis2_eta, axis2_phi);
 
-      if (dR1>dR2)//a restriction could be added on the value of dR to assign the value Tracks_axis  since 50% of the association is wrongly made
+    if (dR1>dR2)//a restriction could be added on the value of dR to assign the value Tracks_axis  (avoid some background???)
+      //++ you could have a track that belongs to the two hemispheres ...
         {
           dR=dR2;
           Tracks_axis=2;//belongs to second axis (second neutralino)
         }
-
-      else
+    else
         {
           dR=dR1;
           Tracks_axis=1;//belongs to first axis (first neutralino)
         }
       // }
-
       // std::cout<<"dR1= "<<dR1<<";dR2= "<<dR2<<";Track_axis= "<<Tracks_axis<<std::endl;
-      float bdtcut=-0.0401;//optimal value w/o track association to axis: -0.0401
+    float bdtcut=-0.0401;//optimal value w/o track association to axis: -0.0401
 
-      
-      //Check if the hemisphere association matches the ntuple assosication with neutralinos 1 and 2
-      if(track_SELEC[i] == true)//apply cut to reduce bkg by 90%
+    //Check if the hemisphere association matches the ntuple assosication with neutralinos 1 and 2
+    if(track_SELEC[i] == true)//apply pre-cut to reduce bkg by 90%
         {
-
-
          hData_Jet_Track_dR->Fill( dR );//LOOKAT : gap between tracks and the axis (both of them)  /^\\ pi/2-peak
          hData_Tracks_repart->Fill(Tracks_axis);//LOOKAT : repartition of the tracks wrt to each axis //ok 50/50 between the two neutralinos
-          if ( iLLPrec1==0)
-          {
+          if ( iLLPrec1==1)
+            {
+              if (Tracks_axis==1 && isFromLLP==1 )//belongs to first hemisphere//1-1
+                {
+                  // nMatch_1++;
+                  hData_isMatched_dR_1->Fill(dR);//nMatch_1
+                  nSignalTracks++;
+                  nTrackingPerfSignal++;
+                  hData_Matched_bdtvalue->Fill(bdtval);
+                  if ( bdtval > bdtcut )//signal selection
+                    {
+                      hData_isMVA_Matched_dR_1->Fill(dR);//nMatch_1
+                      n_Mva_SignalTracks++;
+                    }
+                }
+              else if(Tracks_axis==2 && isFromLLP==2)//belongs to second hemisphere//2-2
+                {
+                  // nMatch_2++;
+                  hData_isMatched_dR_2->Fill(dR);//nMatch_2
+                  nSignalTracks++;
+                  nTrackingPerfSignal++;
+                  hData_Matched_bdtvalue->Fill(bdtval);
+                  if ( bdtval > bdtcut )//signal selection
+                    {
+                      hData_isMVA_Matched_dR_2->Fill(dR);//nMatch_2
+                      n_Mva_SignalTracks++;
+                    }
+                }
+              else if( isFromLLP==0)//does not belong to a displaced track (not from neutralino)//2-0 or 1-0
+                {//since all tracks are asigned to an hemisphere and considered as signal(Tracks_Axis=1 or 2), some of them could be in reality be not asigned to an 
+                  //hemisphere (Tracks_Axis=0 not included yet) and IsFromLLP:: This would be truly reconstructed background.
+                  //A distinction should be made between 0-0 (true reco bkg) and (2-0)/(1-0) which are misidentified tracks (next "else") but IsFromLLP=0 give 
+                  //them the status of bkg. H/e, all the tracks are well-distinguished atm. Therefore,  precautions sould be taken for this part when changing the 
+                  //association between tracks and axis (Track_axis=0 possibility)
+                  //CARE: For a 100% Signal Efficiency of the BDT (0%Bkg eff), the missmatch after applying the bdt is between real signal tracks 
+                  //(Tracks_axis=0 does not exist hypothetically). Since it is not the case, 0-0 has a probability of happening. This is  where the signal(bkg) efficiency
+                  //of the BDT is important.
+                    // nMatch_0++;
+                    hData_isMatched_dR_0->Fill(dR);////nMatch_0
+                    nBkgTracks++;
+                    nTrackingPerfBkg++;
+                    hData_Matched_bdtvalue->Fill(bdtval);
+                    if ( bdtval > bdtcut )//signal selection
+                      {
+                        hData_isMVA_Matched_dR_0->Fill(dR);//nMatch_0
+                        n_Mva_BkgTracks++;
+                      }
+                }
+              else//miss-association of signal: tracks lost for reco?2-1/1-2/
+                {
+                  // nMissMatch++;
+                  hData_dR_isMissMatched->Fill(dR);//nMissMatch
+                  nBkgTracks++;
+                  nTrackingPerfSignal++;
+                  if ( bdtval > bdtcut )//signal selection
+                    {
+                      hData_isMVA_dR_MissMatched->Fill(dR);//nMissMatch
+                      n_Mva_BkgTracks++;
+                      hData_NotMatched_bdtvalue->Fill(bdtval);//follows signal BDT distribution
+                    } // end if (bdt cut)
+                } //  end else
+            } // end if illPrec1
 
-          
-         if (Tracks_axis==1 && isFromLLP==1 )//belongs to first hemisphere//1-1//testre avec illp1 ou 2
-          {
-            // nMatch_1++;
-            hData_isMatched_dR_1->Fill(dR);//nMatch_1
-            nSignalTracks++;
-            nTrackingPerfSignal++;
-            hData_Matched_bdtvalue->Fill(bdtval);
-            if ( bdtval > bdtcut )//signal selection
-              {
-                hData_isMVA_Matched_dR_1->Fill(dR);//nMatch_1
-                n_Mva_SignalTracks++;
-              }
-          }
-         else if(Tracks_axis==2 && isFromLLP==2)//belongs to second hemisphere//2-2
-          {
-            // nMatch_2++;
-            hData_isMatched_dR_2->Fill(dR);//nMatch_2
-            nSignalTracks++;
-            nTrackingPerfSignal++;
-            hData_Matched_bdtvalue->Fill(bdtval);
-            if ( bdtval > bdtcut )//signal selection
-              {
-                hData_isMVA_Matched_dR_2->Fill(dR);//nMatch_2
-                n_Mva_SignalTracks++;
-              }
-          }
-         else if( isFromLLP==0)//does not belong to a displaced track (not from neutralino)//2-0 or 1-0
-          {//since all tracks are asigned to an hemisphere and considered as signal(Tracks_Axis=1 or 2), some of them could be in reality be not asigned to an 
-          //hemisphere (Tracks_Axis=0 not included yet) and IsFromLLP:: This would be truly reconstructed background.
-          //A distinction should be made between 0-0 (true reco bkg) and (2-0)/(1-0) which are misidentified tracks (next "else") but IsFromLLP=0 give 
-          //them the status of bkg. H/e, all the tracks are well-distinguished atm. Therefore,  precautions sould be taken for this part when changing the 
-          //association between tracks and axis (Track_axis=0 possibility)
-          //CARE: For a 100% Signal Efficiency of the BDT (0%Bkg eff), the missmatch after applying the bdt is between real signal tracks 
-          //(Tracks_axis=0 does not exist hypothetically). Since it is not the case, 0-0 has a probability of happening. This is  where the signal(bkg) efficiency
-          //of the BDT is important.
-            // nMatch_0++;
-            hData_isMatched_dR_0->Fill(dR);////nMatch_0
-            nBkgTracks++;
-             nTrackingPerfBkg++;
-            hData_Matched_bdtvalue->Fill(bdtval);
-            if ( bdtval > bdtcut )//signal selection
-              {
-                hData_isMVA_Matched_dR_0->Fill(dR);//nMatch_0
-                n_Mva_BkgTracks++;
-              }
-          }
-         else//miss-association of signal: tracks lost for reco?2-1/1-2/
-          {
-            // nMissMatch++;
-            hData_dR_isMissMatched->Fill(dR);//nMissMatch
-            nBkgTracks++;
-            nTrackingPerfSignal++;
-            if ( bdtval > bdtcut )//signal selection
-              {
-                hData_isMVA_dR_MissMatched->Fill(dR);//nMissMatch
-                n_Mva_BkgTracks++;
-                hData_NotMatched_bdtvalue->Fill(bdtval);//follows signal BDT distribution
-              } // end if (bdt cut)
-          } //  end else
-          } // end if illPrec1
+          if ( iLLPrec1==2)
+            {
+              if (Tracks_axis==2 && isFromLLP==1 )//belongs to first hemisphere//1-1//testre avec illp1 ou 2
+                {
+                  // nMatch_1++;
+                  hData_isMatched_dR_1->Fill(dR);//nMatch_1
+                  nSignalTracks++;
+                  nTrackingPerfSignal++;
+                  hData_Matched_bdtvalue->Fill(bdtval);
+                  if ( bdtval > bdtcut )//signal selection
+                    {
+                      hData_isMVA_Matched_dR_1->Fill(dR);//nMatch_1
+                      n_Mva_SignalTracks++;
+                    }
+                }
+              else if(Tracks_axis==1 && isFromLLP==2)//belongs to second hemisphere//2-2
+                {
+                  // nMatch_2++;
+                  hData_isMatched_dR_2->Fill(dR);//nMatch_2
+                  nSignalTracks++;
+                  nTrackingPerfSignal++;
+                  hData_Matched_bdtvalue->Fill(bdtval);
+                  if ( bdtval > bdtcut )//signal selection
+                    {
+                      hData_isMVA_Matched_dR_2->Fill(dR);//nMatch_2
+                      n_Mva_SignalTracks++;
+                    }
+                }
+              else if( isFromLLP==0)//does not belong to a displaced track (not from neutralino)//2-0 or 1-0
+                {//since all tracks are asigned to an hemisphere and considered as signal(Tracks_Axis=1 or 2), some of them could be in reality be not asigned to an 
+                  //hemisphere (Tracks_Axis=0 not included yet) and IsFromLLP:: This would be truly reconstructed background.
+                  //A distinction should be made between 0-0 (true reco bkg) and (2-0)/(1-0) which are misidentified tracks (next "else") but IsFromLLP=0 give 
+                  //them the status of bkg. H/e, all the tracks are well-distinguished atm. Therefore,  precautions sould be taken for this part when changing the 
+                  //association between tracks and axis (Track_axis=0 possibility)
+                  //CARE: For a 100% Signal Efficiency of the BDT (0%Bkg eff), the missmatch after applying the bdt is between real signal tracks 
+                  //(Tracks_axis=0 does not exist hypothetically). Since it is not the case, 0-0 has a probability of happening. This is  where the signal(bkg) efficiency
+                  //of the BDT is important.
+                  // nMatch_0++;
+                  hData_isMatched_dR_0->Fill(dR);////nMatch_0
+                  nBkgTracks++;
+                  nTrackingPerfBkg++;
+                  hData_Matched_bdtvalue->Fill(bdtval);
+                  if ( bdtval > bdtcut )//signal selection
+                    {
+                      hData_isMVA_Matched_dR_0->Fill(dR);//nMatch_0
+                      n_Mva_BkgTracks++;
+                    }
+                }
+              else//miss-association of signal: tracks lost for reco?1-1/2-2/
+                {
+                  // nMissMatch++;
+                  hData_dR_isMissMatched->Fill(dR);//nMissMatch
+                  nBkgTracks++;
+                  nTrackingPerfSignal++;
+                  if ( bdtval > bdtcut )//signal selection
+                    {
+                      hData_isMVA_dR_MissMatched->Fill(dR);//nMissMatch
+                      n_Mva_BkgTracks++;
+                      hData_NotMatched_bdtvalue->Fill(bdtval);//follows signal BDT distribution
+                    } // end if (bdt cut)
+                } //  end else
+            } // end if illPrec1
 
-                    if ( iLLPrec1==1)
-          {
-
-          
-         if (Tracks_axis==2 && isFromLLP==1 )//belongs to first hemisphere//1-1//testre avec illp1 ou 2
-          {
-            // nMatch_1++;
-            hData_isMatched_dR_1->Fill(dR);//nMatch_1
-            nSignalTracks++;
-            nTrackingPerfSignal++;
-            hData_Matched_bdtvalue->Fill(bdtval);
-            if ( bdtval > bdtcut )//signal selection
-              {
-                hData_isMVA_Matched_dR_1->Fill(dR);//nMatch_1
-                n_Mva_SignalTracks++;
-              }
-          }
-         else if(Tracks_axis==1 && isFromLLP==2)//belongs to second hemisphere//2-2
-          {
-            // nMatch_2++;
-            hData_isMatched_dR_2->Fill(dR);//nMatch_2
-            nSignalTracks++;
-            nTrackingPerfSignal++;
-            hData_Matched_bdtvalue->Fill(bdtval);
-            if ( bdtval > bdtcut )//signal selection
-              {
-                hData_isMVA_Matched_dR_2->Fill(dR);//nMatch_2
-                n_Mva_SignalTracks++;
-              }
-          }
-         else if( isFromLLP==0)//does not belong to a displaced track (not from neutralino)//2-0 or 1-0
-          {//since all tracks are asigned to an hemisphere and considered as signal(Tracks_Axis=1 or 2), some of them could be in reality be not asigned to an 
-          //hemisphere (Tracks_Axis=0 not included yet) and IsFromLLP:: This would be truly reconstructed background.
-          //A distinction should be made between 0-0 (true reco bkg) and (2-0)/(1-0) which are misidentified tracks (next "else") but IsFromLLP=0 give 
-          //them the status of bkg. H/e, all the tracks are well-distinguished atm. Therefore,  precautions sould be taken for this part when changing the 
-          //association between tracks and axis (Track_axis=0 possibility)
-          //CARE: For a 100% Signal Efficiency of the BDT (0%Bkg eff), the missmatch after applying the bdt is between real signal tracks 
-          //(Tracks_axis=0 does not exist hypothetically). Since it is not the case, 0-0 has a probability of happening. This is  where the signal(bkg) efficiency
-          //of the BDT is important.
-            // nMatch_0++;
-            hData_isMatched_dR_0->Fill(dR);////nMatch_0
-            nBkgTracks++;
-             nTrackingPerfBkg++;
-            hData_Matched_bdtvalue->Fill(bdtval);
-            if ( bdtval > bdtcut )//signal selection
-              {
-                hData_isMVA_Matched_dR_0->Fill(dR);//nMatch_0
-                n_Mva_BkgTracks++;
-              }
-          }
-         else//miss-association of signal: tracks lost for reco?1-1/2-2/
-          {
-            // nMissMatch++;
-            hData_dR_isMissMatched->Fill(dR);//nMissMatch
-            nBkgTracks++;
-            nTrackingPerfSignal++;
-            if ( bdtval > bdtcut )//signal selection
-              {
-                hData_isMVA_dR_MissMatched->Fill(dR);//nMissMatch
-                n_Mva_BkgTracks++;
-                hData_NotMatched_bdtvalue->Fill(bdtval);//follows signal BDT distribution
-              } // end if (bdt cut)
-          } //  end else
-          } // end if illPrec1
-
-        }// end Track Selec loop
- //signal selection
-        
-
+        }// end Track Selec loop  
 
 // sim tracks associated to reco tracks
      float ptSim  = -1.;
@@ -1661,8 +1656,6 @@ for (int i=0; i<ntrack; i++)
          }
        }
      }
-
-
 
    if ( !track_SELEC[i] ) continue;
 
@@ -1762,14 +1755,14 @@ for (int i=0; i<ntrack; i++)
        if ( tree_track_numberOfValidStripTECHits->at(i) > 0 && tree_track_numberOfValidStripTIDHits->at(i) == 0 ) hTkSim_z1_TEC->Fill( abs(z1) );
 
        float deltaR_neu, deltaPhi_neu;
-       deltaR   = DeltaR( eta, phi, vaxis.Eta(), vaxis.Phi() );//eta phi from the reco tracks, vaxis from the first axis defined by reco jets w/o muons in it
-       deltaPhi = DeltaPhi( phi, vaxis.Phi() );
+       deltaR   = DeltaR( eta, phi, vaxis1.Eta(), vaxis1.Phi() );//eta phi from the reco tracks, vaxis1 from the first axis defined by reco jets w/o muons in it
+       deltaPhi = DeltaPhi( phi, vaxis1.Phi() );
        float deltaRop   = DeltaR( eta, phi, vaxis2.Eta(), vaxis2.Phi() );//same for the other axis
        float deltaPhiop = DeltaPhi( phi, vaxis2.Phi() );
        if ( track_isfromLLP[i] == 1 ) {
          deltaR_neu = DeltaR( eta, phi, vneu[0].Eta(), vneu[0].Phi() );
          deltaPhi_neu = DeltaPhi( phi, vneu[0].Phi() );
-	 if ( -vaxis*vneu[0] > 0 ) {//track could/couldnot be from LLP
+	 if ( -vaxis1*vneu[0] > 0 ) {//track could/couldnot be from LLP
            hTkSim_tkjet_ok_DR->Fill( deltaR );
            hTkSim_tkjet_ok_dphi->Fill( abs(deltaPhi) );
 	 }
@@ -1781,7 +1774,7 @@ for (int i=0; i<ntrack; i++)
        else {//track isfromLLP
          deltaR_neu = DeltaR( eta, phi, vneu[1].Eta(), vneu[1].Phi() );
          deltaPhi_neu = DeltaPhi( phi, vneu[1].Phi() );
-	 if ( -vaxis*vneu[1] > 0 ) {//memberwise product:pt{axis}*pt{neu}-eta{axis}*eta{neu}-phi{axis}*phi{neu}>0
+	 if ( -vaxis1*vneu[1] > 0 ) {//memberwise product:pt{axis}*pt{neu}-eta{axis}*eta{neu}-phi{axis}*phi{neu}>0
       // check if the neutralino and axis (jet defined) are close are not depending on the sign
       // compute -(-dR)
            hTkSim_tkjet_ok_DR->Fill( deltaR );//LOOKAT
@@ -1819,8 +1812,8 @@ for (int i=0; i<ntrack; i++)
        hTkOth_at30->Fill( ntrk30 );
        hTkOth_at40->Fill( ntrk40 );
 
-       deltaR = DeltaR( eta, phi, vaxis.Eta(), vaxis.Phi() );
-       deltaPhi = DeltaPhi( phi, vaxis.Phi() );
+       deltaR = DeltaR( eta, phi, vaxis1.Eta(), vaxis1.Phi() );
+       deltaPhi = DeltaPhi( phi, vaxis1.Phi() );
        hTkOth_tkjet_DR->Fill( deltaR );
        hTkOth_tkjet_dphi->Fill( abs(deltaPhi) );
      }
@@ -1848,8 +1841,8 @@ for (int i=0; i<ntrack; i++)
   hData_FakeRate_vs_pt->Divide(h1);
   // hData_FakeRate_vs_pt->Draw();
   h1->SetTitle("Blue: isSimMatched / Red:All tracks// Cuts applied");
-  h1->Draw();
-  h_DataHSCP->Draw("SAME");
+  // h1->Draw();
+  // h_DataHSCP->Draw("SAME");
 //   c->Print("output.ps(");
 
 
