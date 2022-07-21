@@ -134,7 +134,6 @@ void LLTopTree::Loop(int aNN, float aTagCut, float aPtMin, float aPtMax,
  TH1F* hGen_neusq_dphi  = new TH1F("hGen_neusq_dphi","",33,0.,3.3);
  TH1F* hGen_neusq_deta  = new TH1F("hGen_neusq_deta","",50,0.,5.);
 
-
  TH1F* hGen_top         = new TH1F("hGen_top","",5,-0.5,4.5);
  TH1F* hGen_top_r       = new TH1F("hGen_top_r","",100,0.,100.);
  TH1F* hGen_top_z       = new TH1F("hGen_top_z","",100,0.,200.);
@@ -148,7 +147,6 @@ void LLTopTree::Loop(int aNN, float aTagCut, float aPtMin, float aPtMax,
  TH1F* hGen_toptop_DR   = new TH1F("hGen_toptop_DR","",100,0.,5.);
  TH1F* hGen_toptop_dV   = new TH1F("hGen_toptop_dV","",100,0.,200.);
  TH1F* hGen_toptop_dVphi = new TH1F("hGen_toptop_dVphi","",33,0.,3.3);
-
 
  TH1F* hGen_qtop	= new TH1F("hGen_qtop","",10,-0.5,9.5);
  TH1F* hGen_qtop_pt     = new TH1F("hGen_qtop_pt","",50,0.,500.);
@@ -311,27 +309,52 @@ void LLTopTree::Loop(int aNN, float aTagCut, float aPtMin, float aPtMax,
 
  //ADDED by Paul
 
+
 TH1F* hData_FakeRate_vs_pt= new TH1F("hData_FakeRate_vs_pt","1-FakeRate_vs_pt",101,0.,100.);
-TH1F* hData_isMatched_dR_0= new TH1F("hData_isMatched_dR_0","hData_isMatched_dR_0",101,0.,5.);
-TH1F* hData_isMatched_dR_1= new TH1F("hData_isMatched_dR_1","hData_isMatched_dR_1",100,0.,5.);
-TH1F* hData_isMatched_dR_2= new TH1F("hData_isMatched_dR_2","hData_isMatched_dR_2",100,0.,5.);
-TH1F* hData_isMVA_Matched_dR_0= new TH1F("hData_isMVA_Matched_dR_0","hData_isMVA_Matched_dR_0",100,0.,5.);
-TH1F* hData_isMVA_Matched_dR_1= new TH1F("hData_isMVA_Matched_dR_1","hData_isMVA_Matched_dR_1",100,0.,5.);
-TH1F* hData_isMVA_Matched_dR_2= new TH1F("hData_isMVA_Matched_dR_2","hData_isMVA_Matched_dR_2",100,0.,5.);
-TH1F* hData_dR_isMissMatched= new TH1F("hData_dR_isMissMatched","hData_dR_isMissMatched",100,0.,5.);
-TH1F* hData_isMVA_dR_MissMatched= new TH1F("hData_isMVA_dR_MissMatched","hData_isMVA_dR_MissMatched",100,0.,5.);
+TH1F* hData_isMatched_dR_0= new TH1F("hData_isMatched_dR_0","dR BkgTracks_Axis",101,0.,5.);
+TH1F* hData_isMatched_dR_1= new TH1F("hData_isMatched_dR_1","dR SignalTracks_Axis1",100,0.,5.);
+TH1F* hData_isMatched_dR_2= new TH1F("hData_isMatched_dR_2","dR SignalTracks_Axis2",100,0.,5.);
+TH1F* hData_isMVA_Matched_dR_0= new TH1F("hData_isMVA_Matched_dR_0","dR_MVA_BkgTracks_Axis",100,0.,5.);
+TH1F* hData_isMVA_Matched_dR_1= new TH1F("hData_isMVA_Matched_dR_1","dR_IsMVA_SignalTracks_Axis1",100,0.,5.);
+TH1F* hData_isMVA_Matched_dR_2= new TH1F("hData_isMVA_Matched_dR_2","dR_IsMVA_SignalTracks_Axis2",100,0.,5.);
+TH1F* hData_dR_isMissMatched= new TH1F("hData_dR_isMissMatched","dR_Signal_isMissMatched",100,0.,5.);
+TH1F* hData_isMVA_dR_MissMatched= new TH1F("hData_isMVA_dR_MissMatched","dR_IsMVA_Signal_isMissMatched",100,0.,5.);
+hData_isMatched_dR_0->SetXTitle("dR");
+hData_isMatched_dR_1->SetXTitle("dR");
+hData_isMatched_dR_2->SetXTitle("dR");
+hData_dR_isMissMatched->SetXTitle("dR");
+hData_isMVA_Matched_dR_0->SetXTitle("dR");
+hData_isMVA_Matched_dR_1->SetXTitle("dR");
+hData_isMVA_Matched_dR_2->SetXTitle("dR");
+hData_isMVA_dR_MissMatched->SetXTitle("dR");  
+
+
+
 TH1F *h1 = new TH1F("h1","Blue: isSimMatched / Red:All tracks// Cuts applied",101,0.,100.);
 // TH2F *hData_FakeRate = new TH2F("hData_FakeRate","hData_FakeRate",51,0.,50.,100,0.,1.);
 TH1F *hData_Mu_Axis_dR = new TH1F("hData_Mu_Axis_dR","hData_Mu_Axis_dR",100,0.,5.);
 TH1F *hData_Matched_bdtvalue = new TH1F("hData_Matched_bdtvalue","hData_Matched_bdtvalue",51,-1.,1.);
 TH1F *hData_NotMatched_bdtvalue = new TH1F("hData_NotMatched_bdtvalue","hData_NotMatched_bdtvalue",51,-1.,1.);
 TH1F *h_DataHSCP = new TH1F("h_DataHSCP","h_DataHSCP",101,0.,100.);
+TH1F *hData_NTracks_1 = new TH1F("hData_NTracks_1","hData_NTracks_1",101,0.,100.);
+TH1F *hData_NTracks_2 = new TH1F("hData_NTracks_2","hData_NTracks_2",101,0.,100.);
 
 
+
+TH1F *hData_BothHemi_SB_dR = new TH1F("hData_BothHemi_SB_dR","dR_Hemis /S&B/2Hemis",100,0.,5.);
+TH1F *hData_SB_isMissMatched = new TH1F("hData_SB_isMissMatched","hData_SB_isMissMatched",100,0.,5.);
+TH1F *hData_BothHemi_S_dR = new TH1F("hData_BothHemi_S_dR","dR_Hemis /S/2Hemis",100,0.,5.);
+TH1F *hData_S_isMissMatched = new TH1F("hData_S_isMissMatched","dR_S_isMissMatched/2Hemis",100,0.,5.);
+hData_BothHemi_SB_dR->SetXTitle("dR");
+hData_SB_isMissMatched->SetXTitle("dR");
+hData_BothHemi_S_dR->SetXTitle("dR");
+hData_S_isMissMatched->SetXTitle("dR");
+
+       
 //Daniel more compact code for event axis
- TH1F* hData_Jet_njet1     = new TH1F("hData_Jet_njet1","",21,-0.5,20.5);
- TH1F* hData_Jet_njet2     = new TH1F("hData_Jet_njet2","",21,-0.5,20.5);
- TH1F* hDataGen_jetseed_dR     = new TH1F("hDataGen_jetseed_dR","",50,0.,5.);
+//  TH1F* hData_Jet_njet1     = new TH1F("hData_Jet_njet1","",21,-0.5,20.5);
+//  TH1F* hData_Jet_njet2     = new TH1F("hData_Jet_njet2","",21,-0.5,20.5);
+//  TH1F* hDataGen_jetseed_dR     = new TH1F("hDataGen_jetseed_dR","",50,0.,5.);
 ///////////////////////////////////////////////////////////////////
 
  if (fChain == 0) return;
@@ -374,7 +397,7 @@ float nTrackingPerfBkg=0;
 //   itest++;
 //   if ( itest > 10 ) break;
 //  std::cout << " " << std::endl;
-//  std::cout << " Event " << eventNumber << std::endl; //quand on d�passe 10 , �a s'arrete!!!
+//  std::cout << " Event " << eventNumber << std::endl;
 // //$$
 
 ///////////////////////
@@ -487,6 +510,7 @@ float nTrackingPerfBkg=0;
      hData_Mu_dVz->Fill( dVz );
    if ( dVr > 0.1 || abs(dVz) > 0.2 ) continue;// on veut un bon fit pour nos PV d'ou un seuil maximum sur les distances
      //pas forcémetn dasntracking perf
+
      mueta1 = tree_slimmedmuon_eta->at(i);
      muphi1 = tree_slimmedmuon_phi->at(i);
      hData_Mu_pt->Fill( mupt1 );
@@ -581,7 +605,7 @@ float nTrackingPerfBkg=0;
 
 //  std::cout << std::endl; 
 
-   int ntop=0, nstoq=0, nqtop=0, nlepW=0;
+   int ntop=0, nstoq=0, nqtop=0, nlepW=0, lep1=0, lep2=0;
    float Gen_neu1_pt, Gen_neu1_eta, Gen_neu1_phi, Gen_neu1_m; 
    float Gen_neu2_pt, Gen_neu2_eta, Gen_neu2_phi, Gen_neu2_m; 
    float Gen_top1_pt, Gen_top1_eta, Gen_top1_phi, Gen_top1_x, Gen_top1_y, Gen_top1_z, Gen_top1_r=-1., Gen_top1_d, Gen_top1_Vphi; 
@@ -660,10 +684,8 @@ float nTrackingPerfBkg=0;
 
 // top quark from neutralino
      if ( abs(pdgId) == 6 && abs(mother_pdgId) == 1000023 ) {
-
        if ( top[0] < 0 ) {
          top[0] = i;
-
 	 vtop[0].SetPtEtaPhiM( Gen_pt, Gen_eta, Gen_phi, Gen_m );
          Gen_top1_id  = abs(pdgId);
          Gen_top1_pt  = tree_genParticle_pt->at(i);
@@ -712,6 +734,7 @@ float nTrackingPerfBkg=0;
 //            << "  pt eta phi " << tree_genParticle_pt->at(i) << " " << tree_genParticle_eta->at(i) << " " << tree_genParticle_phi->at(i)
 //            << "  x y z " << tree_genParticle_vx->at(i) << " " << tree_genParticle_vy->at(i) << " " << tree_genParticle_vz->at(i)
 //            << std::endl;
+
        }
        hGen_top_z->Fill( abs(Vz) );
        hGen_top_r->Fill( Vr );
@@ -780,6 +803,8 @@ float nTrackingPerfBkg=0;
          hGen_neulepW_dphi->Fill( abs(deltaPhi) );
          hGen_neulepW_deta->Fill( abs( Gen_eta - vneu[iLLP].Eta() ) );
          nlepW++;
+         	 if ( iLLP == 0 ) lep1 = abs(pdgId);
+	       if ( iLLP == 1 ) lep2 = abs(pdgId);
        }
      }
 
@@ -996,13 +1021,15 @@ float nTrackingPerfBkg=0;
 
 
 ///////////////////////
-// Jet
-
-   int njet = 0, njet_forLLP = 0, ijet1 = -1, njet1 = 0, njet2 = 0;
-   bool isjet1[99], isjet2[99];
+// Jets for axis reco
+   int njet_forLLP = 0,ijet1 = -1;
+   int njet = 0, njet1 = 0, njet2 = 0;
+   bool isjet[99], isjet1[99], isjet2[99];
    TLorentzVector vaxis1, vaxis2, vjet[99];
-   TLorentzVector vseed_jet;
+   float PtMin = 20; //GeV 
+   float EtaMax = 2.4;
 
+ // int njetall = ak4slimmedJets->size();
    int ntrack =  tree_track_pt->size();
    hData_nTk->Fill(ntrack);
    
@@ -1015,14 +1042,17 @@ float nTrackingPerfBkg=0;
      float jet_pt  = tree_AK4Slimmedjet_pt->at(i);
      float jet_eta = tree_AK4Slimmedjet_eta->at(i);
      float jet_phi = tree_AK4Slimmedjet_phi->at(i);
-     isjet1[i] = false;//first neutralino jets
-     isjet2[i] = false;//second neutralino jets
-     v.SetPtEtaPhiM( jet_pt, jet_eta, jet_phi, 0. );//set the axis
+//$$
+     isjet[i]  = false;
+ //$$    
+     isjet1[i] = false; //first neutralino jets
+     isjet2[i] = false; //second neutralino jets
+     v.SetPtEtaPhiM( jet_pt, jet_eta, jet_phi, 0. ); //set the axis
 
    if ( jet_pt < PtMin ) continue;
    if ( abs(jet_eta) > EtaMax ) continue;
 
-     if ( i>=0 && i<njetall-1 ) hData_Jet_pt_test->Fill( jet_pt - tree_AK4Slimmedjet_pt->at(i+1) );//check if the first jet has the highest pt
+   if ( i>=0 && i<njetall-1 ) hData_Jet_pt_test->Fill( jet_pt - tree_AK4Slimmedjet_pt->at(i+1) );//check if the first jet has the highest pt
       
 // look if prompt muon inside
      float deltaR1 = 1000., deltaR2 = 1000.;
@@ -1043,7 +1073,7 @@ float nTrackingPerfBkg=0;
 			  tree_slimmedmuon_phi->at(imu2), 0 );
 	 v -= v2;
        }
-       jet_pt  = v.Pt(); //Update jet data by removing the mouns information (muons that could be in the jet)
+       jet_pt  = v.Pt(); //Update jet data by removing the muons information (muons that could be in the jet)
        jet_eta = v.Eta(); //+ we do not want muons data to build the two axis since they come from the PV
        jet_phi = v.Phi(); 
      }  
@@ -1053,47 +1083,24 @@ float nTrackingPerfBkg=0;
      hData_Jet_phi->Fill( jet_phi );//FInal jet datawithout muons
      
      njet++;
-     int ntrksel = 0;
-     
-//$$
-//      for (int k=0; k<ntrack; k++)    // Loop on Track in jet
-//      {
-//      if ( tree_track_recoAK4SlimmedJet_idx->at(k) != i ) continue;
-//        float pt  = tree_track_pt->at(k);
-//        float dr = abs(tree_track_dxy->at(k));
-//        float drSig = -1.;
-//        if ( tree_track_dxyError->at(k) > 0 ) drSig = dr / tree_track_dxyError->at(k);
-//        float chi = tree_track_NChi2->at(k);
-//        if ( pt >= 1. && chi <= 5. && drSig >= 5. ) ntrksel++;
-//      }	   // end Loop on Track in jet
-//      hData_Jet_ntrksel->Fill( ntrksel );
-//      if ( njet == 1 || ntrksel > 0 ) {
-//        isjet1[i] = true;
-//        njet_forLLP++;
-//      }
 //$$
      njet_forLLP++;//same as njet
-     isjet1[i] = true;
-//$$
+    //  isjet1[i] = true;
+      isjet[i] = true;
+      vjet[i] = v; //Only jet data (with  possible muons being removed)
 
-     vjet[i] = v;//Only jet data (with  possible muons being removed)
-     if ( njet_forLLP == 1 ) {
-       vaxis1 = v;
-       ijet1 = i;
-       njet1 = 1;
-       isjet2[i] = true;//are we sure about it? and why not isjet1[i]//LOOKAT
-     }
+        //$$
 
-     if ( njet == 1 ) {//met pas si évident à utilisre, reste assez faible
+    //  if ( njet_forLLP == 1 ) {
+    //    vaxis1 = v;//////////////////////////
+    //    ijet1 = i;//////////////////////////
+    //    njet1 = 1;//////////////////////////
+    //    isjet2[i] = true;//LOOKAT
+    //  }
 
-      //   hData_Jet1_METpt->Fill( jet_pt / MET );
-      //  deltaPhi = DeltaPhi( jet_phi, METphi );
- 
-      //  hData_Jet1_METdphi->Fill( abs(deltaPhi) );
-       hData_Jet1_ntrksel->Fill( ntrksel );//à vérifier
-     }
-     if ( njet == 1 ) hData_Jet_pt1->Fill( jet_pt );
-     if ( njet == 2 ) hData_Jet_pt2->Fill( jet_pt );
+
+    //  if ( njet == 1 ) hData_Jet_pt1->Fill( jet_pt );
+    //  if ( njet == 2 ) hData_Jet_pt2->Fill( jet_pt );
 
      bool isMatched = false;
      for (int j=0; j<ngenjet; j++)    // Loop on genJet
@@ -1113,145 +1120,124 @@ float nTrackingPerfBkg=0;
        hDataGen_Jet_pt->Fill( jet_pt );
        hDataGen_Jet_eta->Fill( jet_eta );
      }
+     	if ( njet1 == 0 && jet_pt > PtMin && abs(jet_eta) < EtaMax ) 
+        {
+            njet1 = 1;
+            isjet1[i] = true;
+            vaxis1 = v;
+        }
    }	   // end Loop on jet
 
    hData_Jet_njet->Fill( njet );//njet being the number of jets to go trough the conditions defined line 1000
    hData_Jet_njet_forLLP->Fill( njet_forLLP );//both should be the same
 
 
-///////////////////////
-// Event axis
+  //////////////////
+  //------------------------------
+  //Event Axis
+  //------------------------------
+  //////////////////
 
+  //$$
    int iLLPrec1 = 1, iLLPrec2 = 2;
    float dR, dR1 = 10., dR2 = 10., deta, dphi;
-   float dRcut = 1.5;//subjectif choice: pi/2
 
-   if ( ijet1 >= 0 && ijet1 < njetall ) {
-     for (int i=ijet1+1; i<njetall; i++) {   // Loop on jet
-     if ( !isjet1[i] ) continue;
+   float dRcut = 1;//subjectif choice: pi/2
+
+  //  if ( ijet1 >= 0 && ijet1 < njetall ) {
+  for (int i=0; i<njetall; i++) // Loop on jet
+    { 
+     if ( !isjet[i] ) continue;//verifies the pt and eta cuts on jets
+       // float jet_pt  = vjet[i].Pt();
        float jet_eta = vjet[i].Eta();
        float jet_phi = vjet[i].Phi();
-       deltaR = DeltaR( jet_eta, jet_phi, vaxis1.Eta(), vaxis1.Phi() );//check if the jets belong to the same "hemispehre"...
-     if ( deltaR > dRcut ) continue;
-       njet1++;
-       vaxis1 += vjet[i];//... if so, the axis is modified including the new jet
-       isjet2[i] = true;
+       if ( njet1 > 0 ) dR1 = DeltaR( jet_eta, jet_phi, vaxis1.Eta(), vaxis1.Phi() );
+       if ( njet2 > 0 ) dR2 = DeltaR( jet_eta, jet_phi, vaxis2.Eta(), vaxis2.Phi() );
+// axis 1
+          if ( njet1 > 0 && !isjet2[i] && dR1 < dRcut ) {          //
+          njet1++;
+          vaxis1 += vjet[i];
+          isjet1[i] = true;
+        }      
+// axis 2
+        if (   njet2 == 0 && !isjet1[i] ) {
+          njet2 = 1;
+          vaxis2 = vjet[i];
+          isjet2[i] = true;
+        }
+        else if ( njet2 > 0 && !isjet1[i] && !isjet2[i] && dR2 < dRcut ) {//
+          njet2++;
+          vaxis2 += vjet[i];
+          isjet2[i] = true;
+        }
+        //std::cout<<"njet1 "<< njet1 <<"njet2 "<< njet2 <<"isjet1[i] "<< isjet1[i] <<"isjet2[i] "<<isjet2[i] <<std::endl;
      }	   // end Loop on jet
-   }
    hData_Jet1->Fill( njet1 );
+   hData_Jet2->Fill( njet2 );
+   //std::cout<<"vaxis2.pt "<< vaxis2.Pt() <<"vaxis2.eta "<<vaxis2.Eta()  <<"vaxis2.phi "<< vaxis2.Phi()<<std::endl;
+   
+  /////////////////////////////// 
+  // compare with neutralino axis
+  /////////////////////////////// 
 
-// // look for isolated muons
-//    TLorentzVector vel, vmu, vmet;
-//    bool isWithMu = false;
-//    for (int m=0; m<nmu; m++) {	     // Loop on reco muons
-//    if ( m == imu1 || m == imu2 ) continue;
-//      bool isIsoMu = true;
-//      float mu_pt  = tree_slimmedmuon_pt->at(m);
-//      float mu_eta = tree_slimmedmuon_eta->at(m);
-//      float mu_phi = tree_slimmedmuon_phi->at(m);
-//      for (int i=1; i<njetall; i++) {   // Loop on jet
-//        float jet_eta = tree_AK4Slimmedjet_eta->at(i);
-//        float jet_phi = tree_AK4Slimmedjet_phi->at(i);
-//        deltaR = DeltaR( mu_eta, mu_phi, jet_eta, jet_phi );
-//        hData_mujet_dR->Fill( deltaR );
-//        if ( deltaR < 0.4 ) {
-//          isIsoMu = false;
-// 	 break;
-//        }
-//      }	   // end Loop on jet
-//      if ( isIsoMu ) {
-//        deltaR = DeltaR( mu_eta, mu_phi, vaxis1.Eta(), vaxis1.Phi() );
-//        hData_muaxis_dR->Fill( deltaR );
-//        if ( deltaR < dRcut ) {
-//          vmu.SetPtEtaPhiM( mu_pt, mu_eta, mu_phi, 0. );
-//          vaxis1 += vmu; 
-//          isWithMu = true;
-//        }
-//      }
-//    }	 // end Loop on reco muons
-// 
-// // look for isolated electrons
-//    int nel =  tree_electron_pt->size();
-//    bool isWithEl = false;
-//    for (int k=0; k<nel; k++) {	     // Loop on reco electrons
-//      bool isIsoEl = true;
-//      float el_pt  = tree_electron_pt->at(k);
-//      float el_eta = tree_electron_eta->at(k);
-//      float el_phi = tree_electron_phi->at(k);
-//      for (int i=1; i<njetall; i++) {   // Loop on jet
-//        float jet_eta = tree_AK4Slimmedjet_eta->at(i);
-//        float jet_phi = tree_AK4Slimmedjet_phi->at(i);
-//        deltaR = DeltaR( el_eta, el_phi, jet_eta, jet_phi );
-//        hData_eljet_dR->Fill( deltaR );
-//        if ( deltaR < 0.4 ) {
-//          isIsoEl = false;
-// 	 break;
-//        }
-//      }	   // end Loop on jet
-//      if ( isIsoEl ) {
-//        deltaR = DeltaR( el_eta, el_phi, vaxis1.Eta(), vaxis1.Phi() );
-//        hData_elaxis_dR->Fill( deltaR );
-//        if ( deltaR < dRcut ) {
-//          vel.SetPtEtaPhiM( el_pt, el_eta, el_phi, 0. );
-//          vaxis1 += vel; 
-//          isWithEl = true;
-//        }
-//      }
-//    }	 // end Loop on reco electrons
-// 
-//ATTENTIOn peut être tuilse mais pour l'instant détériore
-// // add MET
-//    if ( nMET > 0. && (isWithEl || isWithMu) ) {
-//      dphi = abs(DeltaPhi( vaxis1.Phi(), METphi ));
-//      hData_METaxis_dphi->Fill( dphi );
-//      if ( dphi < dRcut ) {
-//        vmet.SetPtEtaPhiM( MET, 0., METphi, 0. );
-//        vaxis1 += vmet; 
-//      }     
-//    }     
-     
-// compare with neutralino axis //prevousi axis is built with jets and not MET
-   float axis_eta = vaxis1.Eta();
-   float axis_phi = vaxis1.Phi();
-   if ( ijet1 >= 0 ) {
-     if ( neu[0] >= 0 ) dR1 = DeltaR( axis_eta, axis_phi, Gen_neu1_eta, Gen_neu1_phi );//dR between reco axis of jets and gen neutralino
-     if ( neu[1] >= 0 ) dR2 = DeltaR( axis_eta, axis_phi, Gen_neu2_eta, Gen_neu2_phi );
+//$$
+   float axis1_eta = vaxis1.Eta();
+   float axis1_phi = vaxis1.Phi();
+     if ( neu[0] >= 0 ) dR1 = DeltaR( axis1_eta, axis1_phi, Gen_neu1_eta, Gen_neu1_phi );//dR between reco axis of jets and gen neutralino
+     if ( neu[1] >= 0 ) dR2 = DeltaR( axis1_eta, axis1_phi, Gen_neu2_eta, Gen_neu2_phi );
      dR = dR1;
-     if ( dR2 < dR1 ) {//make sure that the reco axis defined meshes well with the axis of the gen neutralino, if not it is swapped
+     if ( dR2 < dR1 ) 
+     { //make sure that the reco axis defined meshes well with the axis of the gen neutralino, if not it is swapped
        iLLPrec1 = 2;
        iLLPrec2 = 1;
        dR = dR2;
      }
+    float axis1_dR = dR;
+    float axis2_eta = vaxis2.Eta();
+    float axis2_phi = vaxis2.Phi();
+    if ( njet2 == 0 ) 
+    {  // compute an axis 2 even without jet, by taking the opposite in phi to axis 1
+      axis2_eta = axis1_eta;
+      axis2_phi = axis1_phi - 3.14159;
+      if ( axis1_phi < 0 ) axis2_phi = axis1_phi + 3.14159;
+      // vaxis2.SetPtEtaPhiM( vaxis1.Pt(), axis2_eta, axis2_phi, 0 );
+    }
+  if ( iLLPrec2 == 1 ) dR = DeltaR( axis2_eta, axis2_phi, Gen_neu1_eta, Gen_neu1_phi );
+  else                 dR = DeltaR( axis2_eta, axis2_phi, Gen_neu2_eta, Gen_neu2_phi ); 
+
+
      if ( iLLPrec1 == 1 ) {
-       dphi = abs(DeltaPhi( axis_phi, Gen_neu1_phi ));
-       deta = abs(axis_eta - Gen_neu1_eta);
+       dphi = abs(DeltaPhi( axis1_phi, Gen_neu1_phi ));
+       deta = abs(axis1_eta - Gen_neu1_eta);
      }
      else {
-       dphi = abs(DeltaPhi( axis_phi, Gen_neu2_phi ));
-       deta = abs(axis_eta - Gen_neu2_eta);
+       dphi = abs(DeltaPhi( axis1_phi, Gen_neu2_phi ));
+       deta = abs(axis1_eta - Gen_neu2_eta);
      }
      hDataGen_LLPrec1_dR->Fill( dR );//si on ajoute met, on dégrade <2
      hDataGen_LLPrec1_deta->Fill( deta );//comparison between reco and gen <0.5
      hDataGen_LLPrec1_dphi->Fill( dphi );  // <1.5, association works well
-   }
+  //  }
 
 
-  
+  ////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
    if ( dRneuneu > dRcut && ijet1 >= 0 && ijet1 < njetall ) {
      float axis2_phi = 0.;
      //Hypothesis: both neutralinos are back to back
-     if ( axis_phi >= 0 ) axis2_phi = axis_phi - 3.14159;//phi has to be between (-pi/+pi)
-     else                 axis2_phi = axis_phi + 3.14159;//phi has to be between (-pi/+pi)
+     if ( axis1_phi >= 0 ) axis2_phi = axis1_phi - 3.14159;//phi has to be between (-pi/+pi)
+     else                 axis2_phi = axis1_phi + 3.14159;//phi has to be between (-pi/+pi)
      //Thisis a first assessment on the axis of the other neutralino wrt the first one
      float axis1sym_phi = axis2_phi;
      
      if ( iLLPrec2 == 1 ) {
-       dR = DeltaR( axis_eta, axis2_phi, Gen_neu1_eta, Gen_neu1_phi );//reco vs gen
+       dR = DeltaR( axis1_eta, axis2_phi, Gen_neu1_eta, Gen_neu1_phi );//reco vs gen
        dphi = abs(DeltaPhi( axis2_phi, Gen_neu1_phi ));//check if the neutralino is within the axis previously defined, we would like dR<0.4
        //with the assumption that both neutralinos are back to back
      }
      else {
-       dR = DeltaR( axis_eta, axis2_phi, Gen_neu2_eta, Gen_neu2_phi );//reco vs gen
+       dR = DeltaR( axis1_eta, axis2_phi, Gen_neu2_eta, Gen_neu2_phi );//reco vs gen
        dphi = abs(DeltaPhi( axis2_phi, Gen_neu2_phi ));//check if the neutralino is within the axis previously defined, we would like dR<0.4
        //with the assumption that both neutralinos are back to back
      }
@@ -1259,26 +1245,10 @@ float nTrackingPerfBkg=0;
      hDataGen_LLPrec2_sym_dphi->Fill( dphi );//LOOKAT: neutralions are back to back
     //############################"END OF Hypothesis: both neutralinos are back to back##################################
 
+	
 
-     for (int i=ijet1+1; i<njetall; i++) {   // Loop on jet to build second axis
-     if ( !isjet1[i] ) continue;
-     if ( isjet2[i] ) continue;
-       if ( njet2 == 0 ) {
-         vaxis2 = vjet[i];//define second axis
-	 njet2 = 1;
-       }
-       else {
-         float jet_eta = vjet[i].Eta();
-         float jet_phi = vjet[i].Phi();
-         deltaR = DeltaR( jet_eta, jet_phi, vaxis2.Eta(), vaxis2.Phi() );//modificiation of the axis is the new jet belongs to dR<dRCut
-         if ( deltaR < dRcut ) {
-           vaxis2 += vjet[i];
-	   njet2++;
-	 }
-       }
-     }	   // end Loop on jet
 
-     hData_Jet2->Fill( njet2 );
+     
      if ( njet2 >= 1 ) {
        float axis2_eta = vaxis2.Eta();
        float axis2_phi = vaxis2.Phi();
@@ -1298,8 +1268,8 @@ float nTrackingPerfBkg=0;
          dphisym = abs(DeltaPhi( axis1sym_phi, Gen_neu2_phi ));
        }
        //look at the dR between the two reconstructed axis
-       float dRaxis1_2 = DeltaR( axis_eta, axis_phi, axis_eta, axis2_phi);
-      //  std::cout<<"dR between the two axis is computed"<<std::endl;
+       float dRaxis1_2 = DeltaR( axis1_eta, axis1_phi, axis2_eta, axis2_phi);
+       std::cout<<"dR between the two axis is computed"<<std::endl;
        hData_Jetaxis_dR->Fill(dRaxis1_2);// pi-peak
 
        hDataGen_LLPrec2_dR->Fill( dR );//this should be a better axis2 reco //LOOKAT (true)
@@ -1315,7 +1285,6 @@ float nTrackingPerfBkg=0;
 //caractéristique de straces par raport à l'association aux neutralions
 //code sans bdt, réudction du bdf?? signal?? perte de traces (later)
       //CHeck if the muon is inside of one of the cone defined by the axis
-
           //  std::cout<<"nmu per event : "<<nmu<<std::endl;
         for (int j=0; j<nmu; j++) //loop on reco muons
           {	   
@@ -1333,7 +1302,7 @@ float nTrackingPerfBkg=0;
             hData_Mu_Axis_dR->Fill(dR_Mu_Axis1);
             hData_Mu_Axis_dR->Fill(dR_Mu_Axis2);
             // std::cout<<"dR_Mu_Axis1: "<<dR_Mu_Axis1<<" & dR_Mu_Axis2: "<<dR_Mu_Axis2<<std::endl;
-            if (dR_Mu_Axis1 < 0.4 || dR_Mu_Axis2  < 0.4)//the 0.4 limit is arbitrary
+            if (dR_Mu_Axis1 < dRcut || dR_Mu_Axis2  < dRcut)//the 0.4 limit is arbitrary
               {
                 IsInside=1;
               }
@@ -1380,8 +1349,8 @@ for (int i=0; i<ntrack; i++)
 ///////////////////////
 // Track or TrackSim + Track data wrt the two axis
       // int nMatch_0=0;
-      // int nMatch_1=0;
-      // int nMatch_2=0;
+      int nMatch_1=0;
+      int nMatch_2=0;
       // int nMissMatch=0;
 
    int nTkSim = 0, nTkOth = 0;
@@ -1422,16 +1391,16 @@ for (int i=0; i<ntrack; i++)
      int jet = tree_track_recoAK4SlimmedJet_idx->at(i);
      if ( jet >= 0 ) inJet = 1;
 
-     if ( pt >= 1. && chi <= 5. && drSig >= 5. ) track_SELEC[i] = true;//cut included in the Ntuple code generator
+     if ( pt > 1. && chi < 5. && drSig > 5. ) track_SELEC[i] = true;//cut included in the Ntuple code generator
 
     float dR=0;
     int Tracks_axis=0;//flag to check which axis is the closest from the track
-    float dR1  = DeltaR( eta, phi, axis_eta, axis_phi);//axis_phi and axis_eta for the first axis
+    float dR1  = DeltaR( eta, phi, axis1_eta, axis1_phi);//axis1_phi and axis1_eta for the first axis
     float axis2_eta = -10;
     float axis2_phi = -10;
     int isFromLLP=tree_track_simtrack_isFromLLP->at(i);
     float bdtval=tree_track_MVAval->at(i);
-    // std::cout<<"nbre jet2= "<<njet2<<" has to be >=1"<<std::endl;
+    //std::cout<<"nbre jet2= "<<njet2<<" has to be >=1"<<std::endl;
     // if ( njet2 >= 1 ) 
       // {
     axis2_eta = vaxis2.Eta();
@@ -1443,12 +1412,19 @@ for (int i=0; i<ntrack; i++)
       //++ you could have a track that belongs to the two hemispheres ...
         {
           dR=dR2;
-          Tracks_axis=2;//belongs to second axis (second neutralino)
+          if (dR < dRcut)
+            {
+              Tracks_axis=2;//belongs to second axis (second neutralino)
+            }
+
         }
     else
         {
           dR=dR1;
-          Tracks_axis=1;//belongs to first axis (first neutralino)
+          if (dR < dRcut)
+            {
+              Tracks_axis=1;//belongs to second axis (second neutralino)
+            }
         }
       // }
       // std::cout<<"dR1= "<<dR1<<";dR2= "<<dR2<<";Track_axis= "<<Tracks_axis<<std::endl;
@@ -1470,20 +1446,24 @@ for (int i=0; i<ntrack; i++)
                   hData_Matched_bdtvalue->Fill(bdtval);
                   if ( bdtval > bdtcut )//signal selection
                     {
+                      nMatch_1++;
                       hData_isMVA_Matched_dR_1->Fill(dR);//nMatch_1
                       n_Mva_SignalTracks++;
+                      hData_NTracks_1->Fill(nMatch_1);
                     }
                 }
               else if(Tracks_axis==2 && isFromLLP==2)//belongs to second hemisphere//2-2
                 {
-                  // nMatch_2++;
+                  
                   hData_isMatched_dR_2->Fill(dR);//nMatch_2
                   nSignalTracks++;
                   nTrackingPerfSignal++;
                   hData_Matched_bdtvalue->Fill(bdtval);
                   if ( bdtval > bdtcut )//signal selection
                     {
+                      nMatch_2++;
                       hData_isMVA_Matched_dR_2->Fill(dR);//nMatch_2
+                      hData_NTracks_2->Fill(nMatch_2);
                       n_Mva_SignalTracks++;
                     }
                 }
@@ -1532,7 +1512,8 @@ for (int i=0; i<ntrack; i++)
                   nTrackingPerfSignal++;
                   hData_Matched_bdtvalue->Fill(bdtval);
                   if ( bdtval > bdtcut )//signal selection
-                    {
+                    { nMatch_1++;
+                      hData_NTracks_1->Fill(nMatch_1);
                       hData_isMVA_Matched_dR_1->Fill(dR);//nMatch_1
                       n_Mva_SignalTracks++;
                     }
@@ -1546,6 +1527,8 @@ for (int i=0; i<ntrack; i++)
                   hData_Matched_bdtvalue->Fill(bdtval);
                   if ( bdtval > bdtcut )//signal selection
                     {
+                      nMatch_2++;
+                      hData_NTracks_2->Fill(nMatch_2);
                       hData_isMVA_Matched_dR_2->Fill(dR);//nMatch_2
                       n_Mva_SignalTracks++;
                     }
@@ -1583,7 +1566,22 @@ for (int i=0; i<ntrack; i++)
                       hData_NotMatched_bdtvalue->Fill(bdtval);//follows signal BDT distribution
                     } // end if (bdt cut)
                 } //  end else
-            } // end if illPrec1
+            } // end if illPrec2
+    if(dR1<dRcut && dR2<dRcut)//The considreed track could be associated to both hemis.
+      {
+        float dRaxis = DeltaR( axis1_eta, axis1_phi, axis2_eta, axis2_phi);
+        hData_BothHemi_SB_dR->Fill(dRaxis);//dR between the axis in such a case
+	//hData_SB_isMissMatched->Fill(dR);
+        if ( iLLPrec1==1 || iLLPrec1==2)
+          {
+            if( isFromLLP!=0 && (isFromLLP != iLLPrec1 || isFromLLP != iLLPrec2) )
+              {
+                hData_S_isMissMatched->Fill(dR);
+		hData_BothHemi_S_dR->Fill(dRaxis);
+              }
+            
+          }
+      }
 
         }// end Track Selec loop  
 
@@ -1856,7 +1854,7 @@ float Significance=nSignalTracks/sqrt(nSignalTracks+nBkgTracks);//nBkgTracks con
 float MVA_Significance=n_Mva_SignalTracks/sqrt(n_Mva_SignalTracks+n_Mva_BkgTracks);//n_Mva_BkgTracks contains the mismacth of signal tracks
  std::cout << "n_Mva_SignalTracks  "<< n_Mva_SignalTracks << std::endl; 
  std::cout << "nTrackingPerfSignal "<<nTrackingPerfSignal << std::endl; 
-  std::cout << "n_Mva_BkgTracks  "<< n_Mva_BkgTracks << std::endl; 
+ std::cout << "n_Mva_BkgTracks  "<< n_Mva_BkgTracks << std::endl; 
  std::cout << "nTrackingPerfBkg  "<< nTrackingPerfBkg << std::endl; 
  std::cout << "Mva_SignalEff  "<< Mva_SignalEff << std::endl; //86
  std::cout << "Mva_BkgEff  "<< Mva_BkgEff << std::endl; //21
