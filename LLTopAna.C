@@ -1570,7 +1570,7 @@ for (int i=0; i<ntrack; i++)
                     } // end if (bdt cut)
                 } //  end else
             } // end if illPrec2
-          if(dR1<dRcut_tracks && dR2<dRcut_tarcks)//The considreed track could be associated to both hemis.
+          if(dR1<dRcut_tracks && dR2<dRcut_tracks)//The considreed track could be associated to both hemis.
             {
               float dRaxis = DeltaR( axis1_eta, axis1_phi, axis2_eta, axis2_phi);
               hData_BothHemi_SB_dR->Fill(dRaxis);//dR between the axis in such a case
