@@ -1139,11 +1139,12 @@ float nTrackingPerfBkg=0;
   //////////////////
 
   //$$
-   int iLLPrec1 = 1, iLLPrec2 = 2;
-   float dR, dR1 = 10., dR2 = 10., deta, dphi;
+  int iLLPrec1 = 1, iLLPrec2 = 2;
+  float dR, dR1 = 10., dR2 = 10., deta, dphi;
 
-   float dRcut = 1;//subjectif choice: pi/2
-
+  float dRcut_hemis = (TMath::Pi())/2; //subjectif choice: pi/2 //iffrentiarte the cts pi/2 for this one the other could be changed
+  float dRcut_tracks = (TMath::Pi())/2; //1 or (TMath::Pi())/2 or 2.2
+  float dRcut_muon = 0.4; //subjective value
   //  if ( ijet1 >= 0 && ijet1 < njetall ) {
   for (int i=0; i<njetall; i++) // Loop on jet
     { 
@@ -1154,7 +1155,7 @@ float nTrackingPerfBkg=0;
        if ( njet1 > 0 ) dR1 = DeltaR( jet_eta, jet_phi, vaxis1.Eta(), vaxis1.Phi() );
        if ( njet2 > 0 ) dR2 = DeltaR( jet_eta, jet_phi, vaxis2.Eta(), vaxis2.Phi() );
 // axis 1
-          if ( njet1 > 0 && !isjet2[i] && dR1 < dRcut ) {          //
+          if ( njet1 > 0 && !isjet2[i] && dR1 < dRcut_hemis ) {          //
           njet1++;
           vaxis1 += vjet[i];
           isjet1[i] = true;
@@ -1165,7 +1166,7 @@ float nTrackingPerfBkg=0;
           vaxis2 = vjet[i];
           isjet2[i] = true;
         }
-        else if ( njet2 > 0 && !isjet1[i] && !isjet2[i] && dR2 < dRcut ) {//
+        else if ( njet2 > 0 && !isjet1[i] && !isjet2[i] && dR2 < dRcut_hemis ) {//
           njet2++;
           vaxis2 += vjet[i];
           isjet2[i] = true;
@@ -1221,9 +1222,9 @@ float nTrackingPerfBkg=0;
 
 
   ////////////////////////////////////////////////////////////
-  /////////////////////////////////////////////////
+  ////////////////////////does not work atm//////////////////////////
   ////////////////////////////////////////////////////////////
-   if ( dRneuneu > dRcut && ijet1 >= 0 && ijet1 < njetall ) {
+   if ( dRneuneu > dRcut_hemis && ijet1 >= 0 && ijet1 < njetall ) {
      float axis2_phi = 0.;
      //Hypothesis: both neutralinos are back to back
      if ( axis1_phi >= 0 ) axis2_phi = axis1_phi - 3.14159;//phi has to be between (-pi/+pi)
@@ -1302,7 +1303,7 @@ float nTrackingPerfBkg=0;
             hData_Mu_Axis_dR->Fill(dR_Mu_Axis1);
             hData_Mu_Axis_dR->Fill(dR_Mu_Axis2);
             // std::cout<<"dR_Mu_Axis1: "<<dR_Mu_Axis1<<" & dR_Mu_Axis2: "<<dR_Mu_Axis2<<std::endl;
-            if (dR_Mu_Axis1 < dRcut || dR_Mu_Axis2  < dRcut)//the 0.4 limit is arbitrary
+            if (dR_Mu_Axis1 < dRcut_muon || dR_Mu_Axis2  < dRcut_muon)//the 0.4 limit is arbitrary
               {
                 IsInside=1;
               }
@@ -1412,7 +1413,7 @@ for (int i=0; i<ntrack; i++)
       //++ you could have a track that belongs to the two hemispheres ...
         {
           dR=dR2;
-          if (dR < dRcut)
+          if (dR < dRcut_tracks)
             {
               Tracks_axis=2;//belongs to second axis (second neutralino)
             }
@@ -1421,7 +1422,7 @@ for (int i=0; i<ntrack; i++)
     else
         {
           dR=dR1;
-          if (dR < dRcut)
+          if (dR < dRcut_tracks)
             {
               Tracks_axis=1;//belongs to second axis (second neutralino)
             }
@@ -1521,6 +1522,8 @@ for (int i=0; i<ntrack; i++)
               else if(Tracks_axis==1 && isFromLLP==2)//belongs to second hemisphere//2-2
                 {
                   // nMatch_2++;
+                  
+                  
                   hData_isMatched_dR_2->Fill(dR);//nMatch_2
                   nSignalTracks++;
                   nTrackingPerfSignal++;
@@ -1567,23 +1570,24 @@ for (int i=0; i<ntrack; i++)
                     } // end if (bdt cut)
                 } //  end else
             } // end if illPrec2
-    if(dR1<dRcut && dR2<dRcut)//The considreed track could be associated to both hemis.
-      {
-        float dRaxis = DeltaR( axis1_eta, axis1_phi, axis2_eta, axis2_phi);
-        hData_BothHemi_SB_dR->Fill(dRaxis);//dR between the axis in such a case
-	//hData_SB_isMissMatched->Fill(dR);
-        if ( iLLPrec1==1 || iLLPrec1==2)
-          {
-            if( isFromLLP!=0 && (isFromLLP != iLLPrec1 || isFromLLP != iLLPrec2) )
-              {
-                hData_S_isMissMatched->Fill(dR);
-		hData_BothHemi_S_dR->Fill(dRaxis);
-              }
-            
-          }
-      }
+          if(dR1<dRcut_tracks && dR2<dRcut_tarcks)//The considreed track could be associated to both hemis.
+            {
+              float dRaxis = DeltaR( axis1_eta, axis1_phi, axis2_eta, axis2_phi);
+              hData_BothHemi_SB_dR->Fill(dRaxis);//dR between the axis in such a case
+	            //hData_SB_isMissMatched->Fill(dR);
+              if ( iLLPrec1==1 || iLLPrec1==2)
+                {
+                  if( isFromLLP!=0 && (isFromLLP != iLLPrec1 || isFromLLP != iLLPrec2) )
+                    {
+                      hData_S_isMissMatched->Fill(dR);
+		                  hData_BothHemi_S_dR->Fill(dRaxis);
+                    }
+                }
+            }
 
         }// end Track Selec loop  
+
+
 
 // sim tracks associated to reco tracks
      float ptSim  = -1.;
